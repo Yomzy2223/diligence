@@ -1,6 +1,6 @@
 import React from 'react'
 import searchIcon from '@/assets/svg/searchIcon.svg'
-import { Input } from "@/components/ui/input"
+import { Input } from '@/components/ui/input'
 import Image from 'next/image'
 
 interface SearchProps {
@@ -12,7 +12,7 @@ const Search = ({ placeholderValue = 'Search for anything' }: SearchProps) => {
     <div className="w-full h-14 rounded-lg border border-[#EDF1F6] flex justify-between items-center px-4 py-4">
       <Input
         placeholder={placeholderValue}
-        className="w-[90%]  text-sm not-italic font-normal leading-5 text-gray-700 border border-none outline outline-none bg-transparent placeholder-shown:text-red"
+        className="w-[90%]focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0  text-sm not-italic font-normal leading-5 text-gray-700  border-none outline outline-none bg-transparent placeholder-shown:text-red"
       />
 
       <div className="w-10 h-10 rounded-full cursor-pointer bg-[#DE4A09] flex justify-center item-center">
