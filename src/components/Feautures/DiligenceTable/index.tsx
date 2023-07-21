@@ -1,4 +1,14 @@
 import React from 'react'
+import {
+  Table,
+  TableBody,
+  
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 
 type Obj = { [key: string | number]: string }
 interface TableProps {
@@ -14,7 +24,7 @@ interface TableProps {
   status?: string
 }
 
-const Table = ({
+const DiligenceTable = ({
   header,
   body,
 
@@ -38,32 +48,32 @@ TableProps) => {
   //   if (onClick) onClick(bodyFullData[row], row + 1, column + 1)
   // }
   return (
-    <table className="bg-gray-100 min-w-full border-spacing-0">
-      <thead
+    <Table className="bg-gray-100 min-w-full border-spacing-0">
+      <TableHeader
         className="w-full bg-gray-100 text-gray-900 text-base"
         style={headerStyle}
       >
-        <tr className="w-full ">
+        <TableRow className="w-full ">
           {header?.map((text, index) => (
-            <th
+            <TableHead
               className="text-sm leading-5 text-left px-6 py-5 text-gray-900 font-medium max-w-max"
               key={index}
             >
               {text}
-            </th>
+            </TableHead>
           ))}
-        </tr>
-      </thead>
-      <tbody className="w-full" style={bodyStyle}>
+        </TableRow>
+      </TableHeader>
+      <TableBody className="w-full" style={bodyStyle}>
         {body?.map((each, row) => (
-          <tr
+          <TableRow
             className="w-full"
             key={row}
             // onClick={(e) => handleRowClick(e, row)}
             style={{ cursor: rowCursor || '' }}
           >
             {each?.map((el: any, column) => (
-              <td
+              <TableCell
                 className={`text-sm leading-5 text-left px-6 py-5 m-0 font-normal overflow-hidden max-w-max ${
                   each[each.length - 1] === 'Under review' &&
                   column === each.length - 1
@@ -81,13 +91,13 @@ TableProps) => {
                 //onClick={(e) => handleCellClick(e, row, column)}
               >
                 {el}
-              </td>
+              </TableCell>
             ))}
-          </tr>
+          </TableRow>
         ))}
-      </tbody>
-    </table>
+      </TableBody>
+    </Table>
   )
 }
 
-export default Table
+export default DiligenceTable

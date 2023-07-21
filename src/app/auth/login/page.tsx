@@ -1,16 +1,16 @@
 import Search from '@/components/Feautures/Search'
-import Table from '@/components/Feautures/Tables'
+import DiligenceTable from '@/components/Feautures/DiligenceTable'
 import {
   bodyFullData,
   dataBody,
   header,
-} from '@/components/Feautures/Tables/constant'
+} from '@/components/Feautures/DiligenceTable/constant'
 import React from 'react'
 
 const Login = () => {
   return (
     <div>
-     <Table
+     <DiligenceTable
        header={header}
       bodyFullData={bodyFullData}
       body={dataBody}
