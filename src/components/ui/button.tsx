@@ -27,6 +27,7 @@ const buttonVariants = cva(
 				lg: "h-11 rounded-md px-8",
 				icon: "h-10 w-10",
 				slim: "h-fit w-fit p-1",
+				link: "h-fit w-fit",
 			},
 		},
 		defaultVariants: {
@@ -54,10 +55,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 				className={cn(buttonVariants({ variant, size, className }))}
 				style={
 					color
-						? {
-								backgroundColor: color,
-								color: luminence > 0.3 ? "#242627" : "#fff",
-						  }
+						? variant === "outline"
+							? { borderColor: color, color: color }
+							: {
+									backgroundColor: color,
+									color: luminence > 0.3 ? "#242627" : "#fff",
+							  }
 						: {}
 				}
 				ref={ref}
