@@ -50,13 +50,13 @@ TableProps) => {
   return (
     <Table className="bg-gray-100 min-w-full border-spacing-0">
       <TableHeader
-        className="w-full bg-gray-100 text-gray-900 text-base"
+        className="w-full  border-none bg-gray-100 text-gray-900 text-base"
         style={headerStyle}
       >
         <TableRow className="w-full ">
           {header?.map((text, index) => (
             <TableHead
-              className="text-sm leading-5 text-left px-6 py-5 text-gray-900 font-medium max-w-max"
+              className="text-sm border-b-0 leading-5 text-left px-6 py-5 text-gray-900 font-medium max-w-max "
               key={index}
             >
               {text}
@@ -74,7 +74,7 @@ TableProps) => {
           >
             {each?.map((el: any, column) => (
               <TableCell
-                className={`text-sm leading-5 text-left px-6 py-5 m-0 font-normal overflow-hidden max-w-max ${
+                className={`text-sm  border-b-0 leading-5 text-left px-6 py-5 m-0 font-normal overflow-hidden max-w-max ${
                   each[each.length - 1] === 'Under review' &&
                   column === each.length - 1
                     ? 'text-[#0082AA]'
