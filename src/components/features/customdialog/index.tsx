@@ -105,3 +105,5 @@ export const Dialog = ({
 		</>
 	);
 };
+
+export default Dialog;
