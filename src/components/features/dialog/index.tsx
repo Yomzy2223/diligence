@@ -48,7 +48,7 @@ export const Dialog = ({
 						showClose={showCloseButton}
 					>
 						<DialogHeader className="space-y-[24px] mb-4">
-							<DialogTitle className="text-2xl leading-[1.3]">
+							<DialogTitle className="text-2xl leading-[1.3] text-foreground-dark">
 								{title}
 							</DialogTitle>
 							<DialogDescription className="text-lg leading-[1.3]">
