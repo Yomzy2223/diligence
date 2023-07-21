@@ -4,7 +4,6 @@ import { EmptyList } from "./index";
 
 const meta: Meta<typeof EmptyList> = {
 	component: EmptyList,
-	tags: ["autodocs"],
 };
 
 export default meta;
@@ -12,5 +11,7 @@ export default meta;
 type Story = StoryObj<typeof EmptyList>;
 
 export const Primary: Story = {
-	render: () => <EmptyList />,
+	args: {
+		description: "Onboarded banks will appear here when you onboard one",
+	},
 };
