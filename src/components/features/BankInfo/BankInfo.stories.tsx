@@ -5,13 +5,14 @@ import { BankInfo } from "./index";
 
 const meta: Meta<typeof BankInfo> = {
 	component: BankInfo,
+	tags: ["autodocs"],
 };
 
 export default meta;
 
 type Story = StoryObj<typeof BankInfo>;
 
-export const Primary: Story = {
+export const Admin: Story = {
 	args: {
 		image: Gtbank.src,
 		name: "Guaranty Trust Bank",
@@ -21,4 +22,8 @@ export const Primary: Story = {
 		regUrl: "https://www.sidebrief.diligence/gtbank.com",
 		brandColor: "#DE4A09",
 	},
+};
+
+export const BranchAdmin: Story = {
+	args: { ...Admin.args, branch: true },
 };

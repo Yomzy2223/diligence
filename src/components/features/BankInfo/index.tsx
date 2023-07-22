@@ -10,6 +10,7 @@ interface BankInfoProps {
 	adminEmail: string;
 	regUrl: string;
 	brandColor?: string;
+	branch?: boolean;
 }
 
 export const BankInfo = ({
@@ -20,6 +21,7 @@ export const BankInfo = ({
 	adminName,
 	regUrl,
 	brandColor,
+	branch = false,
 }: BankInfoProps) => {
 	return (
 		<div className="space-y-4">
@@ -53,27 +55,29 @@ export const BankInfo = ({
 				</div>
 				<div className="flex justify-end grow">
 					<div className="flex flex-col items-start">
-						<div className="space-y-2">
-							<p className="text-base font-medium leading-snug text-foreground-dark tracking-[0.32px]">
-								Registration
-							</p>
-							<Link
-								href={regUrl}
-								className={buttonVariants({
-									variant: "link",
-									size: "link",
-								})}
-							>
-								{regUrl}
-							</Link>
-						</div>
-						<Button
+						{!branch && (
+							<div className="space-y-2">
+								<p className="text-base font-medium leading-snug text-foreground-dark tracking-[0.32px]">
+									Registration
+								</p>
+								<Link
+									href={regUrl}
+									className={buttonVariants({
+										variant: "link",
+										size: "link",
+									})}
+								>
+									{regUrl}
+								</Link>
+							</div>
+						)}
+						{/* <Button
 							variant={"outline"}
 							color={brandColor}
 							className="mt-auto"
 						>
 							Edit
-						</Button>
+						</Button> */}
 					</div>
 				</div>
 			</div>
