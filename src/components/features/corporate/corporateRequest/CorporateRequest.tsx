@@ -15,6 +15,7 @@ const CorporateRequest = () => {
     resolver: zodResolver(corporateSearchSchema),
     defaultValues: {
       regName: "",
+      regNumber: "",
     },
   });
 
@@ -70,21 +71,3 @@ const CorporateRequest = () => {
 };
 
 export default CorporateRequest;
-// <FormDescription className="flex align-middle gap-1 text-xs "></FormDescription>;
-
-// <Card className=" bg-transparent text-white border-none w-4/5 ">
-//     <CardHeader className="p-0  ">Request Corporate Search</CardHeader>
-//     <CardContent className="bg-white p-0 rounded-lg border-1 ">
-//       <Input
-//         placeholder="Enter business name"
-//         className="bg-transparent text-black p-6 focus-visible:ring-0 focus-visible:ring-offset-0 border-t-0 border-x-0 border-b border-[#EFEFEF] border-solid rounded-none  "
-//       />
-//       <Input
-//         placeholder="Enter business registration number"
-//         className="bg-transparent text-black p-6 focus-visible:ring-0 focus-visible:ring-offset-0 border-none rounded-none "
-//       />
-//     </CardContent>
-//     <CardFooter className="flex justify-end p-0 ">
-//       <Button className="text-white " label="Search" />
-//     </CardFooter>
-//   </Card>

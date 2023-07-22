@@ -2,10 +2,21 @@ import * as z from "zod";
 
 export const corporateSearchSchema = z.object({
   regName: z.string().nonempty("Registration name is required"),
-  regNumber: z.number({ required_error: "Registration number is required" }),
+  // regNumber: z.number({ required_error: "Registration number is required" }),
+  regNumber: z
+    .string()
+    .refine((val) => !isNaN(+val), {
+      message: "Registration number must be a valid number",
+      path: ["regNumber"],
+    })
+    .transform((val) => +val),
 });
 
-export type corpSearchType = z.infer<typeof corporateSearchSchema>;
+// export type corpSearchType = z.infer<typeof corporateSearchSchema>;
+export type corpSearchType = {
+  regName: string;
+  regNumber: number | string;
+};
 
 export interface propType {
   form: any;
