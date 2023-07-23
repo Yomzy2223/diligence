@@ -7,59 +7,99 @@ import { cn, convertToOneSignificantFigure } from "@/lib/utils";
 import numeral from "numeral";
 import { ArrowUp } from "@/assets/icons";
 
+type BranchProps = {
+	branch: true;
+	branchAdminName: string;
+	branchAdminEmail: string;
+	brandColor: string;
+};
+
+type NoBranchProps = {
+	branch: false;
+	numberOfOnboardedBranches: number;
+};
+
 type BankInfoProps = {
 	image: string;
 	name: string;
-	numberOfOnboardedBranches: number;
 	numberOfBusinesssVerified: number;
 	totalAmountSpent: number;
 	branch: boolean;
-	branchAdminName: string;
-	branchAdminEmail: string;
-} & ({} | {});
+} & (BranchProps | NoBranchProps);
 
-export const BankInfo = ({
-	image,
-	name,
-	numberOfOnboardedBranches,
-	numberOfBusinesssVerified,
-	totalAmountSpent,
-}: BankInfoProps) => {
+export const BankInfo = (props: BankInfoProps) => {
 	return (
 		<div className="flex gap-6">
 			<div className="relative w-[200px] h-[200px] rounded-sm overflow-hidden">
-				<Image src={image} alt={`${name}-image`} fill />
+				<Image src={props.image} alt={`${props.name}-image`} fill />
 			</div>
-			<div className="flex flex-1 gap-6 p-6 border rounded">
-				<TheBox>
-					<p className="text-sm leading-4">ONBOARDED BRANCHES</p>
-					<p className="text-3xl font-semibold leading-10 text-foreground-dark">
-						{numberOfOnboardedBranches}
-					</p>
+			{props.branch && (
+				<div className="flex flex-col">
+					<div className="flex flex-col flex-1 px-6 divide-y">
+						<Detail
+							detailName="Account admin name"
+							detail={props.branchAdminName}
+						/>
+						<Detail
+							detailName="Account admin email"
+							detail={props.branchAdminEmail}
+						/>
+					</div>
 					<Link
-						href={"#boarded"}
+						href="#"
 						className={cn(
 							buttonVariants({
 								variant: "link",
 								size: "slim",
 							}),
-							"text-foreground text-sm leading-4 flex items-center h-5"
+							"px-6 underline"
 						)}
+						style={
+							props.brandColor
+								? {
+										color: props.brandColor,
+								  }
+								: {}
+						}
 					>
-						See list <ChevronRight height={18} width={18} />
+						Edit
 					</Link>
-				</TheBox>
+				</div>
+			)}
+			<div className="flex flex-1 gap-6 p-6 border rounded">
+				{!props.branch && (
+					<TheBox>
+						<p className="text-sm leading-4">ONBOARDED BRANCHES</p>
+						<p className="text-3xl font-semibold leading-10 text-foreground-dark">
+							{props.numberOfOnboardedBranches}
+						</p>
+						<Link
+							href={"#boarded"}
+							className={cn(
+								buttonVariants({
+									variant: "link",
+									size: "slim",
+								}),
+								"text-foreground text-sm leading-4 flex items-center h-5"
+							)}
+						>
+							See list <ChevronRight height={18} width={18} />
+						</Link>
+					</TheBox>
+				)}
 				<RealBox
 					title="BUSINESSES VERIFIED"
 					number={`${numeral(
-						convertToOneSignificantFigure(numberOfBusinesssVerified)
+						convertToOneSignificantFigure(
+							props.numberOfBusinesssVerified
+						)
 					).format("0,0")}+`}
 					percentThisMonth={25}
 				/>
 				<RealBox
 					title="AMOUNT SPENT"
 					number={`#${numeral(
-						convertToOneSignificantFigure(totalAmountSpent)
+						convertToOneSignificantFigure(props.totalAmountSpent)
 					).format("0,0")}+`}
 					percentThisMonth={25}
 				/>
@@ -97,5 +137,24 @@ const RealBox = ({
 				<p className="text-sm leading-5">This month</p>
 			</div>
 		</TheBox>
+	);
+};
+
+const Detail = ({
+	detail,
+	detailName,
+}: {
+	detailName: string;
+	detail: string;
+}) => {
+	return (
+		<div className="flex flex-col justify-center space-y-2 grow">
+			<p className="text-base font-medium leading-snug text-foreground-dark tracking-[0.32px]">
+				{detailName}
+			</p>
+			<p className="text-base leading-relaxed text-foreground-light">
+				{detail}
+			</p>
+		</div>
 	);
 };
