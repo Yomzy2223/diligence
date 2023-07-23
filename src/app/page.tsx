@@ -1,4 +1,4 @@
-import CorporateRequest from "@/components/features/corporate/corporateRequest/CorporateRequest";
+import CorporateRequest from "@/components/features/corporateRequest/CorporateRequest";
 import Image from "next/image";
 
 export default function Home() {
