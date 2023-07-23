@@ -1,4 +1,4 @@
-export const header = [
+export const headers = [
     'S/N',
     'Date ',
     'Business name',

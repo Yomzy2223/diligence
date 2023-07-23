@@ -2,32 +2,29 @@ import React from 'react'
 import {
   Table,
   TableBody,
-  
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-
+} from '@/components/ui/table'
+import { cn } from '@/lib/utils'
 
 type Obj = { [key: string | number]: string }
 interface TableProps {
   header: string[]
-  body?: (string | number)[][]
-  // onRowClick?: (bodyFullData?: any) => void
-  // onClick?: (bodyFullData?: any, row?: number, column?: number) => void
+  body: (string | number)[][]
   bodyFullData?: any
-
   rowCursor?: string
   headerStyle?: Obj
   bodyStyle?: Obj
   status?: string
+  // onRowClick?: (bodyFullData?: any) => void
+  // onClick?: (bodyFullData?: any, row?: number, column?: number) => void
 }
 
-const DiligenceTable = ({
+export const DiligenceTable = ({
   header,
   body,
-
   bodyFullData,
   rowCursor,
   headerStyle,
@@ -35,11 +32,6 @@ const DiligenceTable = ({
 }: // onRowClick,
 // onClick
 TableProps) => {
-  // let statusStyle = {
-  //   backgroundColor: status === 'Under review'  ? "#0082AA" : "##DE4A09",
-  //   borderRadius: "10px",
-  //   padding: "5px 10px",
-  // };
   // const handleRowClick = (e: any, index: number) => {
   //   if (onRowClick) onRowClick(bodyFullData[index])
   // }
@@ -74,18 +66,20 @@ TableProps) => {
           >
             {each?.map((el: any, column) => (
               <TableCell
-                className={`text-sm  border-b-0 leading-5 text-left px-6 py-5 m-0 font-normal overflow-hidden max-w-max ${
-                  each[each.length - 1] === 'Under review' &&
-                  column === each.length - 1
-                    ? 'text-[#0082AA]'
-                    : each[each.length - 1] === 'Completed' &&
-                      column === each.length - 1
-                    ? 'text-[#DE4A09]'
-                    : each[each.length - 1] === 'Paid' &&
-                      column === each.length - 1
-                    ? 'text-[#00D448]'
-                    : 'text-gray-900'
-                }`}
+                className={cn(
+                  'text-sm text-gray-900 border-b-0 leading-5 text-left px-6 py-5 m-0 font-normal overflow-hidden max-w-max',
+                  {
+                    'text-[#0082AA]':
+                      each[each.length - 1] === 'Under review' &&
+                      column === each.length - 1,
+                    'text-[#DE4A09]':
+                      each[each.length - 1] === 'Completed' &&
+                      column === each.length - 1,
+                    'text-[#00D448]':
+                      each[each.length - 1] === 'Paid' &&
+                      column === each.length - 1,
+                  },
+                )}
                 key={column}
                 // style={statusStyle}
                 //onClick={(e) => handleCellClick(e, row, column)}
@@ -100,4 +94,3 @@ TableProps) => {
   )
 }
 
-export default DiligenceTable
