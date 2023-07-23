@@ -2,12 +2,10 @@ import * as z from "zod";
 
 export const corporateSearchSchema = z.object({
   regName: z.string().nonempty("Registration name is required"),
-  // regNumber: z.number({ required_error: "Registration number is required" }),
   regNumber: z
     .string()
-    .refine((val) => !isNaN(+val), {
-      message: "Registration number must be a valid number",
-      path: ["regNumber"],
+    .refine((val) => !isNaN(+val) && val !== "", {
+      message: "Registration number is required",
     })
     .transform((val) => +val),
 });
@@ -28,7 +26,6 @@ export interface propType {
   classNames?: {
     formItem?: string;
     formItemT?: string;
-    formItemTL?: string;
     formLabel?: string;
     toolTipTr?: string;
     toolTipCo?: string;

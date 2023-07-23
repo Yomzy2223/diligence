@@ -31,12 +31,14 @@ export const Button = ({
   label,
   className,
   type,
+  onClick,
   ...props
 }: {
   label: any;
   size: any;
   primary?: any;
   type?: string;
+  onClick?: () => void;
   className?: string;
 }) => {
   const computedClasses = useMemo(() => {
@@ -50,6 +52,7 @@ export const Button = ({
     <button
       type="button"
       className={`${BASE_BUTTON_CLASSES} ${computedClasses} ${className} `}
+      onClick={onClick}
       {...props}
     >
       {label}

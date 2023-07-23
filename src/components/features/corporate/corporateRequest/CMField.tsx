@@ -22,10 +22,6 @@ const CMField = ({
   classNames,
 }: propType) => {
   const [value, setvalue] = useState("");
-  const { getFieldState, formState } = useFormContext();
-
-  const fieldState = getFieldState(name, formState);
-  const err = fieldState.error?.message;
 
   const handleChange = (e: any, onChange: (e: any[]) => void) => {
     const val = e.target.value;
@@ -33,55 +29,60 @@ const CMField = ({
     onChange(e);
   };
 
+  const Tooltip = (
+    <CMToolTip
+      content={
+        <p className={`text-xs text-cm-black-400 ${classNames?.toolTipCo} `}>
+          {tipText}
+        </p>
+      }
+      trigger={
+        <BsInfoCircle
+          className={`relative text-cm-black-400 ${classNames?.toolTipTr} `}
+        />
+      }
+    />
+  );
+
   return (
     <FormField
       control={form.control}
       name={name}
       render={({ field }) => (
         <FormItem
-          className={`!mt-0 relative px-6 min-h-[60px]  ${classNames?.formItem} `}
+          className={`flex flex-col justify-center !mt-0 relative px-6 min-h-[60px]  ${classNames?.formItem} `}
         >
-          <div
-            className={`flex align-middle justify-between ${classNames?.formItemT} `}
-          >
-            {(err || value) && (
-              <div
-                className={`flex justify-start align-middle gap-2 text-xs ${classNames?.formItemTL} `}
+          {value && (
+            <div
+              className={`flex justify-start align-middle gap-2 text-xs ${classNames?.formItemT} `}
+            >
+              <FormLabel
+                className={`text-xs leading-3 font-normal text-cm-black-400 ${classNames?.formLabel} `}
               >
-                <FormLabel
-                  className={`text-xs leading-3 font-normal text-cm-black-400 ${classNames?.formLabel} `}
-                >
-                  {label}
-                </FormLabel>
-                <CMToolTip
-                  content={
-                    <p
-                      className={`text-xs text-cm-black-400 ${classNames?.toolTipCo} `}
-                    >
-                      {tipText}
-                    </p>
-                  }
-                  trigger={
-                    <BsInfoCircle
-                      className={`relative text-cm-black-400 ${classNames?.toolTipTr} `}
-                    />
-                  }
-                />
-              </div>
-            )}
-            <FormMessage
-              className={` text-xs leading-3 font-normal ${classNames?.formMessage} `}
-            />
-          </div>
+                {label}
+              </FormLabel>
+              {Tooltip}
+            </div>
+          )}
           <FormControl>
-            <Input
-              type={type}
-              placeholder={placeholder}
-              variant="transparent"
-              {...field}
-              onChange={(e) => handleChange(e, field.onChange)}
-              className={classNames?.input}
-            />
+            <div className="flex items-center !mt-0 ">
+              <Input
+                type={type}
+                placeholder={placeholder}
+                variant="transparent"
+                {...field}
+                onChange={(e) => handleChange(e, field.onChange)}
+                className={classNames?.input}
+              />
+              {!value && (
+                <div className="flex items-center gap-1 text-xs ">
+                  <FormMessage
+                    className={`min-w-max text-xs leading-3 font-normal ${classNames?.formMessage} `}
+                  />
+                  {Tooltip}
+                </div>
+              )}
+            </div>
           </FormControl>
         </FormItem>
       )}
