@@ -58,6 +58,9 @@ module.exports = {
 					success: "hsl(var(--status-green))",
 					error: "hsl(var(--status-red))",
 				},
+				grey: {
+					DEFAULT: "hsl(var(--grey))",
+				},
 			},
 			borderRadius: {
 				lg: "var(--radius)",

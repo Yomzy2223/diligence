@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ReactNode } from "react";
 
-export interface IdialogProps {
+export type IdialogProps = {
 	open?: boolean;
 	showCloseButton?: boolean;
 	title: string;
@@ -22,7 +22,7 @@ export interface IdialogProps {
 	actionText?: string;
 	brandColor?: string;
 	triggerText?: string;
-}
+};
 
 export const Dialog = ({
 	open,

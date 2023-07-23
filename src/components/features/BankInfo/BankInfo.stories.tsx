@@ -5,25 +5,18 @@ import { BankInfo } from "./index";
 
 const meta: Meta<typeof BankInfo> = {
 	component: BankInfo,
-	tags: ["autodocs"],
 };
 
 export default meta;
 
 type Story = StoryObj<typeof BankInfo>;
 
-export const Admin: Story = {
+export const Primary: Story = {
 	args: {
 		image: Gtbank.src,
-		name: "Guaranty Trust Bank",
-		address: "No, 51 West side street",
-		adminName: "Mr. Oluwole",
-		adminEmail: "Oluwole@gmail.com",
-		regUrl: "https://www.sidebrief.diligence/gtbank.com",
-		brandColor: "#DE4A09",
+		name: "Gtbank",
+		numberOfOnboardedBranches: 32,
+		numberOfBusinesssVerified: 12198,
+		totalAmountSpent: 289323,
 	},
-};
-
-export const BranchAdmin: Story = {
-	args: { ...Admin.args, branch: true },
 };
