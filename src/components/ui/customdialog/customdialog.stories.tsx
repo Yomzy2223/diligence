@@ -25,6 +25,7 @@ export const NormalDialog: Story = {
 		actionText: "Done",
 		brandColor: "#DE4A09",
 		triggerText: "Trigger Dialog",
+		dialogType: "normal",
 	},
 };
 
@@ -67,6 +68,7 @@ const DialogWithTrigger = ({ brandColor, children, ...args }: IdialogProps) => {
 			</Button>
 			<Dialog
 				{...args}
+				dialogType="state"
 				open={openDialog}
 				cancel={toggleDialog}
 				brandColor={brandColor}
