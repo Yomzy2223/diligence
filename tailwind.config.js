@@ -53,6 +53,7 @@ module.exports = {
         "cm-black": {
           DEFAULT: "#242627",
           400: "#727474",
+          500: "#4E5152",
         },
         "cm-orange": {
           DEFAULT: "#DE4A09",

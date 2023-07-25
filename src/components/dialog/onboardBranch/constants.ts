@@ -1,0 +1,14 @@
+import * as z from "zod";
+
+export const bankBranchSchema = z.object({
+  branch: z.string().nonempty("Branch name is required"),
+  branchState: z.string().nonempty("Branch state is required"),
+  managerEmail: z
+    .string()
+    .email("Enter a valid email")
+    .nonempty("Branch admin email is required"),
+});
+
+export type bankBranchType = z.infer<typeof bankBranchSchema>;
+
+export interface propType {}
