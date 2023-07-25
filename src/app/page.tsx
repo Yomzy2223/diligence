@@ -1,4 +1,4 @@
-import BranchOnboard from "@/components/dialog/onboardBranch";
+import BranchOnboard from "@/components/features/dialog/onboardBranch";
 import CorporateRequest from "@/components/features/corporateRequest/CorporateRequest";
 import Image from "next/image";
 

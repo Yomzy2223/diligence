@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { Button } from "@/components/ui/button";
+import React, { useState } from "react";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { bankBranchSchema, bankBranchType } from "./constants";
 import CMField from "./CMField";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 
 interface propType {
   buttonVariant?: "default";
@@ -65,7 +66,6 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
                 placeholder="Enter branch name"
                 tipText="Must be the registrered name"
               />
-
               <CMField
                 form={form}
                 name="branchState"
@@ -73,7 +73,6 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
                 placeholder="Enter branch state"
                 tipText="The state where the branch is located"
               />
-
               <CMField
                 form={form}
                 name="managerEmail"
@@ -82,18 +81,19 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
                 tipText="Mailing list email is not supported"
               />
             </div>
-            <div className="flex flex-col gap-4">
-              <Button type="submit" size="full" className="self-end ">
-                Submit
+
+            <div className="flex flex-col gap-2">
+              <Button type="submit" size="full">
+                Onboard
               </Button>
-              <Button
-                type="button"
-                size="full"
-                variant="transparent"
-                className="self-end "
+              <DialogPrimitive.Close
+                className={buttonVariants({
+                  size: "full",
+                  variant: "transparent",
+                })}
               >
                 Cancel
-              </Button>
+              </DialogPrimitive.Close>
             </div>
           </form>
         </Form>
