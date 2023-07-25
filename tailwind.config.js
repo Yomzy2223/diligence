@@ -58,6 +58,10 @@ module.exports = {
         "cm-orange": {
           DEFAULT: "#DE4A09",
         },
+        "cm-blue": {
+          DEFAULT: "hsl(194, 100%, 42%)",
+          100: "hsla(194, 100%, 42%, 0.1)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
