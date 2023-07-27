@@ -85,6 +85,14 @@ const DialogFooter = ({
 );
 DialogFooter.displayName = "DialogFooter";
 
+const DialogClose = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Close>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Close>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Close ref={ref} className={cn("", className)} {...props} />
+));
+DialogClose.displayName = DialogPrimitive.Close.displayName;
+
 const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
@@ -120,4 +128,5 @@ export {
   DialogFooter,
   DialogTitle,
   DialogDescription,
+  DialogClose,
 };

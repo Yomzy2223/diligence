@@ -5,10 +5,13 @@
 @layer base {
   :root {
     --background: 0 0% 100%; /**/
-    --foreground: 200, 4%, 15%; /**/
+    --foreground: 200 4% 15%; /**/
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 76.9%;
+    --background-blue: 194, 100%, 42%, 0.1; /**/
+    --foreground-blue: 194 100% 42% /**/
+
+    --muted: 210 1% 59%; /**/
+    --muted-foreground: 200 2% 32%; /**/
 
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
@@ -16,8 +19,8 @@
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
 
-    --border: 213, 33%, 95%; /**/
-    --input: 213, 33%, 95%; /**/
+    --border: 213 33% 95%; /**/
+    --input: 213 33% 95%; /**/
 
     --primary: 194 100% 42%; /**/
     --primary-foreground: 0 0% 100%; /**/
@@ -36,6 +39,8 @@
     --radius: 0.5rem;
 
     --success: 140 100% 42%; /**/
+
+    --grey: 0, 0%, 95%; /**/
   }
 
   .dark {
@@ -94,7 +99,6 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
-  background-color: hsl(213, 33%, 95%);
 }
 
 /* Works for Firefox */

@@ -52,11 +52,13 @@ const Sidebar = () => {
               href={item.href}
               key={i}
               className={cn(
-                "group flex items-center gap-2 px-4 py-3 hover:text-cm-blue rounded-lg ",
-                pathname?.startsWith(item.href) && "bg-cm-blue-100"
+                "group flex items-center gap-2 px-4 py-3 hover:text-foreground-blue rounded-lg ",
+                pathname?.startsWith(item.href) && "bg-background-blue"
               )}
             >
-              <item.icon className={{ path: "group-hover:fill-cm-blue" }} />
+              <item.icon
+                className={{ path: "group-hover:fill-foreground-blue" }}
+              />
               {open && <span className="text-inherit">{item.text}</span>}
             </Link>
           ))}

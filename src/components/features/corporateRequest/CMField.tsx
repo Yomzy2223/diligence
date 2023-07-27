@@ -32,13 +32,15 @@ const CMField = ({
   const Tooltip = (
     <CMToolTip
       content={
-        <p className={`text-xs text-cm-black-400 ${classNames?.toolTipCo} `}>
+        <p
+          className={`text-xs text-muted-foreground ${classNames?.toolTipCo} `}
+        >
           {tipText}
         </p>
       }
       trigger={
         <BsInfoCircle
-          className={`relative text-cm-black-400 ${classNames?.toolTipTr} `}
+          className={`relative text-muted-foreground ${classNames?.toolTipTr} `}
         />
       }
     />
@@ -57,7 +59,7 @@ const CMField = ({
               className={`flex justify-start align-middle gap-2 text-xs ${classNames?.formItemT} `}
             >
               <FormLabel
-                className={`text-xs leading-3 font-normal text-cm-black-400 ${classNames?.formLabel} `}
+                className={`text-xs leading-3 font-normal text-muted-foreground ${classNames?.formLabel} `}
               >
                 {label}
               </FormLabel>

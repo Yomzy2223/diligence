@@ -51,7 +51,7 @@ const Login = () => {
             bottom={
               <Link
                 href="auth/forgot-password"
-                className="flex self-end text-sm text-cm-black-500"
+                className="flex self-end text-sm text-muted-foreground"
               >
                 Forgot password?
               </Link>

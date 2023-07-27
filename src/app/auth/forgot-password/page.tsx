@@ -28,7 +28,7 @@ const ForgotPassword = () => {
   return (
     <Form {...form}>
       <h1 className=" text-2xl mb-3 ">Forgot password?</h1>
-      <p className="tex-sm text-cm-black-500 mb-6">
+      <p className="tex-sm text--muted-foreground mb-6">
         Enter your work email to reset your password
       </p>
       <form
