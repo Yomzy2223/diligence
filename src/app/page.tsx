@@ -10,7 +10,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col  p-24">
       {/* <CorporateRequest /> */}
       <BranchOnboard>Onboard Branch</BranchOnboard>
-      {/* <Sidebar /> */}
+      <Sidebar />
       {/* <InvoiceHeader /> */}
     </main>
   );

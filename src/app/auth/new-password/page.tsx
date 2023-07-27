@@ -47,7 +47,7 @@ const ForgotPassword = () => {
             name="confirmPassword"
             label="Confirm new password"
             placeholder="Confirm new password"
-            tipText="Must be at least 6 characters"
+            tipText="Should match your new password"
             type="password"
           />
         </div>
