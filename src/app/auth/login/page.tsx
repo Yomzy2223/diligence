@@ -1,4 +1,4 @@
-import Search from '@/components/features/Search'
+import {Search}from '@/components/features/Search'
 import { DiligenceTable } from '@/components/features/DiligenceTable'
 import {
   bodyFullData,
@@ -6,19 +6,15 @@ import {
   headers,
 } from '@/components/features/DiligenceTable/constant'
 import React from 'react'
+import { AuthLayout } from '@/components/features/AuthLayout'
 
 const Login = () => {
   return (
-    <div>
-     <DiligenceTable
-       header={headers}
-      bodyFullData={bodyFullData}
-      body={dataBody}
-
-    />
-
-    <Search />
-    </div>
+    <AuthLayout >
+    <p>femi</p>
+    
+    
+  </AuthLayout>
   )
 }
 
