@@ -14,8 +14,8 @@ const ForgotPassword = () => {
   const form = useForm<forgotPasswordType>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
-      email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
@@ -28,7 +28,7 @@ const ForgotPassword = () => {
 
   return (
     <Form {...form}>
-      <h2 className="mb-6">Create account</h2>
+      <h2 className="mb-6 text-2xl">New password</h2>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-16  "
@@ -37,24 +37,24 @@ const ForgotPassword = () => {
           <InputWithLabel
             form={form}
             name="password"
-            label="Password"
-            placeholder="Enter password"
+            label="New password"
+            placeholder="Enter new password"
             tipText="Must be at least 6 characters"
             type="password"
-            bottom={
-              <Link
-                href="auth/forgot-password"
-                className="flex self-end text-sm"
-              >
-                Forgot password?
-              </Link>
-            }
+          />
+          <InputWithLabel
+            form={form}
+            name="confirmPassword"
+            label="Confirm new password"
+            placeholder="Confirm new password"
+            tipText="Must be at least 6 characters"
+            type="password"
           />
         </div>
 
         <div className="flex flex-col gap-2">
           <Button type="submit" variant="primary" size="full">
-            Create account
+            Reset password
           </Button>
         </div>
       </form>
