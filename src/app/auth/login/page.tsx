@@ -60,7 +60,7 @@ const Login = () => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Button type="submit" variant="primary" size="full">
+          <Button type="submit" variant="secondary" size="full">
             Login
           </Button>
         </div>

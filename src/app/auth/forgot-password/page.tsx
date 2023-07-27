@@ -47,7 +47,7 @@ const ForgotPassword = () => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Button type="submit" variant="primary" size="full">
+          <Button type="submit" variant="secondary" size="full">
             Send
           </Button>
         </div>
