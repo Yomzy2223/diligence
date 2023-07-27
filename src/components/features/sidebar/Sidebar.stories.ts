@@ -1,17 +1,17 @@
 import { Meta, StoryObj } from "@storybook/react";
-import CorporateRequest from "./CorporateRequest";
+import Sidebar from ".";
 
 const meta = {
-  title: "Corporate Request",
-  component: CorporateRequest,
+  title: "Sidebar",
+  component: Sidebar,
   parameters: {
-    // layout: "centered",
+    layout: "",
   },
   tags: ["autodocs"],
   //   argTypes: {
   //     backgroundColor: { control: "color" },
   //   },
-} satisfies Meta<typeof CorporateRequest>;
+} satisfies Meta<typeof Sidebar>;
 
 export default meta;
 

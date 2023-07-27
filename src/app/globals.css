@@ -4,8 +4,8 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 0 0% 100%; /**/
+    --foreground: 200, 4%, 15%; /**/
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 76.9%;
@@ -16,24 +16,26 @@
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
 
-    --border: 213, 33%, 95%;
-    --input: 213, 33%, 95%;
+    --border: 213, 33%, 95%; /**/
+    --input: 213, 33%, 95%; /**/
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 194 100% 42%; /**/
+    --primary-foreground: 0 0% 100%; /**/
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 18 92% 45%; /**/
+    --secondary-foreground: 0 0% 100%; /**/
 
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 7 61% 48%; /**/
     --destructive-foreground: 210 40% 98%;
 
-    --ring: 215 20.2% 65.1%;
+    --ring: 194 100% 42%; /**/
 
     --radius: 0.5rem;
+
+    --success: 140 100% 42%; /**/
   }
 
   .dark {
@@ -52,11 +54,11 @@
     --border: 213, 33%, 95%;
     --input: 213, 33%, 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 194 100% 42%; /**/
+    --primary-foreground: 0 0% 100%; /**/
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 18 92% 45%; /**/
+    --secondary-foreground: 0 0% 100%; /**/
 
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
@@ -64,14 +66,16 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 85.7% 97.3%;
 
-    --ring: 217.2 32.6% 17.5%;
+    --ring: 194, 100%, 42%; /**/
+
+    --success: 140, 100%, 42%; /**/
   }
 }
 
 @layer base {
   * {
     @apply border-border;
-    @apply text-cm-black;
+    @apply text-foreground;
   }
   body {
     @apply bg-background text-foreground;
@@ -90,6 +94,7 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+  background-color: hsl(213, 33%, 95%);
 }
 
 /* Works for Firefox */

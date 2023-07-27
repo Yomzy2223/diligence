@@ -1,27 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { bankBranchSchema, bankBranchType } from "./constants";
-import CMField from "./CMField";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import InputWithLabel from "@/components/input/inputWithLabel";
 
 interface propType {
-  buttonVariant?: "default";
+  buttonVariant?: "default" | "transparent";
   children?: string;
 }
 
@@ -48,7 +44,7 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
       <DialogTrigger asChild>
         <Button variant={buttonVariant}>{children}</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] md:max-w-[570px] py-14 ">
+      <DialogContent className="sm:max-w-[425px] md:max-w-[570px] py-14 bg-white ">
         <DialogHeader className="m-auto mb-6 ">
           <DialogTitle>Onboard a Branch</DialogTitle>
         </DialogHeader>
@@ -59,26 +55,29 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
             className="flex flex-col gap-16 w-[90%] m-auto "
           >
             <div className="flex flex-col gap-6 space-y-8 py-2 bg-white rounded-lg ">
-              <CMField
+              <InputWithLabel
                 form={form}
                 name="branch"
                 label="Branch Name"
                 placeholder="Enter branch name"
                 tipText="Must be the registrered name"
+                textSize="text-xs"
               />
-              <CMField
+              <InputWithLabel
                 form={form}
                 name="branchState"
                 label="Branch State"
                 placeholder="Enter branch state"
                 tipText="The state where the branch is located"
+                textSize="text-xs"
               />
-              <CMField
+              <InputWithLabel
                 form={form}
                 name="managerEmail"
                 label="Branch Manager Email"
                 placeholder="Enter branch manager email"
                 tipText="Mailing list email is not supported"
+                textSize="text-xs"
               />
             </div>
 

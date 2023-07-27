@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from "@storybook/react";
-import CorporateRequest from "./CorporateRequest";
+import InvoiceHeader from ".";
 
 const meta = {
-  title: "Corporate Request",
-  component: CorporateRequest,
+  title: "Invoice Header",
+  component: InvoiceHeader,
   parameters: {
     // layout: "centered",
   },
@@ -11,7 +11,7 @@ const meta = {
   //   argTypes: {
   //     backgroundColor: { control: "color" },
   //   },
-} satisfies Meta<typeof CorporateRequest>;
+} satisfies Meta<typeof InvoiceHeader>;
 
 export default meta;
 

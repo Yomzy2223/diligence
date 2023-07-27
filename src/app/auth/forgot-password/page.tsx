@@ -1,26 +1,25 @@
 "use client";
 
 import React from "react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputWithLabel from "@/components/input/inputWithLabel";
 import Link from "next/link";
-import { loginSchema, loginType } from "./constants";
+import { forgotPasswordSchema, forgotPasswordType } from "./constants";
 
-const Login = () => {
+const ForgotPassword = () => {
   // Form definition
-  const form = useForm<loginType>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<forgotPasswordType>({
+    resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
   // Submit handler
-  function onSubmit(values: loginType) {
+  function onSubmit(values: forgotPasswordType) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
@@ -28,7 +27,10 @@ const Login = () => {
 
   return (
     <Form {...form}>
-      <h1 className="mb-6 text-2xl">Login</h1>
+      <h1 className=" text-2xl mb-3 ">Forgot password?</h1>
+      <p className="tex-sm text-cm-black-500 mb-6">
+        Enter your work email to reset your password
+      </p>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-16  "
@@ -40,28 +42,13 @@ const Login = () => {
             label="Work email"
             placeholder="Enter your work email"
             type="email"
-          />
-          <InputWithLabel
-            form={form}
-            name="password"
-            label="Password"
-            placeholder="Enter password"
-            tipText="Must be at least 6 characters"
-            type="password"
-            bottom={
-              <Link
-                href="auth/forgot-password"
-                className="flex self-end text-sm text-cm-black-500"
-              >
-                Forgot password?
-              </Link>
-            }
+            tipText="The email of the accout to be reset"
           />
         </div>
 
         <div className="flex flex-col gap-2">
           <Button type="submit" variant="primary" size="full">
-            Login
+            Send
           </Button>
         </div>
       </form>
@@ -69,4 +56,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

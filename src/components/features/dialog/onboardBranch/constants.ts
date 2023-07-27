@@ -10,12 +10,3 @@ export const bankBranchSchema = z.object({
 });
 
 export type bankBranchType = z.infer<typeof bankBranchSchema>;
-
-export interface cmFieldPropType {
-  form: any;
-  name: string;
-  label?: string;
-  tipText?: string;
-  type?: string;
-  placeholder?: string;
-}

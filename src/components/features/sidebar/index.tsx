@@ -37,13 +37,6 @@ const Sidebar = () => {
       )}
       animate={open ? "open" : "closed"}
       variants={variants}
-      transition={{
-        duration: 0.3,
-        ease: "easeInOut",
-        bounce: 0,
-        bounceDamping: 0,
-        bounceStiffness: 100,
-      }}
     >
       <Button
         variant="transparent"
@@ -60,7 +53,7 @@ const Sidebar = () => {
               key={i}
               className={cn(
                 "group flex items-center gap-2 px-4 py-3 hover:text-cm-blue rounded-lg ",
-                pathname.startsWith(item.href) && "bg-cm-blue-100"
+                pathname?.startsWith(item.href) && "bg-cm-blue-100"
               )}
             >
               <item.icon className={{ path: "group-hover:fill-cm-blue" }} />
