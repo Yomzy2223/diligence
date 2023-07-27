@@ -20,8 +20,14 @@ module.exports = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        background: {
+          DEFAULT: "hsl(var(--background))",
+          blue: "hsl(var(--background-blue))",
+        },
+        foreground: {
+          DEFAULT: "hsla(var(--foreground))",
+          blue: "hsl(var(--foreground-blue))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -49,6 +55,13 @@ module.exports = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        success: "hsl(var(--success))",
+        "cm-orange": {
+          DEFAULT: "#DE4A09",
+        },
+        grey: {
+          DEFAULT: "hsl(var(--grey))",
         },
       },
       borderRadius: {
