@@ -1,26 +1,12 @@
 import CMToolTip from "@/components/cmTooltip";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { BsInfoCircle } from "react-icons/bs";
 import { propType } from "./constants";
 
-const CMField = ({
-  form,
-  name,
-  label,
-  tipText,
-  type,
-  placeholder,
-  classNames,
-}: propType) => {
+const CMField = ({ form, name, label, tipText, type, placeholder, classNames }: propType) => {
   const [value, setvalue] = useState("");
 
   const handleChange = (e: any, onChange: (e: any[]) => void) => {
@@ -32,16 +18,10 @@ const CMField = ({
   const Tooltip = (
     <CMToolTip
       content={
-        <p
-          className={`text-xs text-muted-foreground ${classNames?.toolTipCo} `}
-        >
-          {tipText}
-        </p>
+        <p className={`text-xs text-muted-foreground ${classNames?.toolTipCo} `}>{tipText}</p>
       }
       trigger={
-        <BsInfoCircle
-          className={`relative text-muted-foreground ${classNames?.toolTipTr} `}
-        />
+        <BsInfoCircle className={`relative text-muted-foreground ${classNames?.toolTipTr} `} />
       }
     />
   );
@@ -59,7 +39,7 @@ const CMField = ({
               className={`flex justify-start align-middle gap-2 text-xs ${classNames?.formItemT} `}
             >
               <FormLabel
-                className={`text-xs leading-3 font-normal text-muted-foreground ${classNames?.formLabel} `}
+                className={`text-xs leading-3 font-normal text-foreground-label ${classNames?.formLabel} `}
               >
                 {label}
               </FormLabel>

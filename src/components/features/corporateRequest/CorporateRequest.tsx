@@ -8,8 +8,9 @@ import { corporateSearchSchema, corpSearchType } from "./constants";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import CMField from "./CMField";
+import { cn } from "@/lib/utils";
 
-const CorporateRequest = () => {
+const CorporateRequest = ({ className }: { className?: string }) => {
   // Form definition
   const form = useForm<corpSearchType>({
     resolver: zodResolver(corporateSearchSchema),
@@ -31,15 +32,15 @@ const CorporateRequest = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-[url('../assets/images/corp-search-background.svg')] bg-no-repeat bg-cover w-full rounded-lg py-6 ">
+    <div
+      className={cn(
+        "flex flex-col items-center justify-center bg-[url('../assets/images/corp-search-background.svg')] bg-no-repeat bg-cover w-full rounded-lg py-6 ",
+        className
+      )}
+    >
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-4 w-4/6 "
-        >
-          <p className="text-white font-normal text-3xl w-max pb-5 ">
-            Request Corporate Search
-          </p>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 w-4/6 ">
+          <p className="text-white font-normal text-3xl w-max pb-5 ">Request Corporate Search</p>
           <div className="flex flex-col space-y-8 py-2 bg-white rounded-lg ">
             <CMField
               form={form}
@@ -61,7 +62,7 @@ const CorporateRequest = () => {
               type="number"
             />
           </div>
-          <Button type="submit" className="self-end ">
+          <Button type="submit" className="self-end " variant="secondary">
             Submit
           </Button>
         </form>
