@@ -24,7 +24,7 @@ const InvoiceHeader = () => {
   const handleYearSelect = (year: string) => {};
 
   return (
-    <div className="flex flex-col gap-12 bg-[url('../assets/images/invoice-header-background.svg')] bg-no-repeat bg-cover min-h-[499px] rounded-lg px-12 py-16 ">
+    <div className="flex flex-col gap-12 invoice-header bg-no-repeat bg-cover min-h-[499px] rounded-lg px-12 py-16 ">
       <div className="flex justify-between items-center ">
         <Image src={sidebriefLogo} alt="" />
         <div className="flex gap-4">
@@ -54,9 +54,7 @@ const InvoiceHeader = () => {
         {month && (
           <p className="flex items-center gap-4 text-white text-2xl ">
             {"Month of " + month}{" "}
-            <span
-              className={cn("text-destructive text-lg", paid && "text-success")}
-            >
+            <span className={cn("text-destructive text-lg", paid && "text-success")}>
               {paid ? "Paid" : "Not paid"}
             </span>{" "}
           </p>

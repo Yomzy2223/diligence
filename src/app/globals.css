@@ -87,6 +87,15 @@
   body {
     @apply bg-background text-foreground;
   }
+
+}
+
+.corporate-background {
+  background-image: url('../assets/images/corp-search-background.svg');
+}
+
+.invoice-header-background {
+  background-image: url('../assets/images/invoice-header-background.svg')
 }
 
 input:-webkit-autofill,
