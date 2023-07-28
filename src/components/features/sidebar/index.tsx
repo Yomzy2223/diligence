@@ -44,7 +44,7 @@ const Sidebar = () => {
         className="mx-3 px-0 py-0 min-w-max h-max "
         onClick={() => setOpen(!open)}
       >
-        <BiMenu className="w-5 h-5" />
+        <BiMenu className="w-6 h-6" />
       </Button>
       <div className="flex flex-col flex-1 justify-between text-xs ">
         <div className="flex flex-col gap-2 ">

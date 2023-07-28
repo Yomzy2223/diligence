@@ -2,6 +2,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { BrFirma } from "@/font";
 import Sidebar from "@/components/features/sidebar";
+import MainHeader from "@/components/header/mainHeader";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -11,12 +13,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={BrFirma.className}>
-        <div className="flex">
-          <div>
-            <Sidebar />
+      <body className={cn(BrFirma.className)}>
+        <div className="h-screen">
+          <MainHeader />
+          <div className="flex min-h-full">
+            <div>
+              <Sidebar />
+            </div>
+            <div className="w-full ">{children}</div>
           </div>
-          {children}
         </div>
       </body>
     </html>

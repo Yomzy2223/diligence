@@ -13,14 +13,8 @@ import {
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { bankBranchSchema, bankBranchType } from "./constants";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { bankBranchSchema, bankBranchType, propType } from "./constants";
 import InputWithLabel from "@/components/input/inputWithLabel";
-
-interface propType {
-  buttonVariant?: "default" | "transparent";
-  children?: string;
-}
 
 const BranchOnboard = ({ buttonVariant, children }: propType) => {
   // Form definition
@@ -83,7 +77,7 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
             </div>
 
             <div className="flex flex-col gap-2">
-              <Button type="submit" size="full">
+              <Button type="submit" variant="secondary" size="full">
                 Onboard
               </Button>
               <DialogClose
