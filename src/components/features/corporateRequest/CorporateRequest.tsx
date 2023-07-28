@@ -34,7 +34,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center bg-[url('../assets/images/corp-search-background.svg')] bg-no-repeat bg-cover w-full rounded-lg py-6 ",
+        "flex flex-col items-center justify-center corporate-background bg-no-repeat bg-cover w-full rounded-lg py-6 ",
         className
       )}
     >

@@ -65,8 +65,10 @@ const Sidebar = () => {
           ))}
         </div>
         <Link href="" className="flex items-center gap-2 px-4 py-3 ">
-          <LogoutIcon />
-          {open && <p>Logout</p>}
+          <div className="flex items-center gap-2 ">
+            <LogoutIcon />
+            {open && <p>Logout</p>}
+          </div>
         </Link>
       </div>
     </motion.div>
