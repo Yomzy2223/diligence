@@ -18,18 +18,14 @@ const inputVariants = cva(
   }
 );
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   variant?: "default" | "transparent" | null | undefined;
   error?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, error, variant, ...props }, ref) => {
-    className = cn(
-      className,
-      error ? "focus-visible:ring-0 border-destructive " : ""
-    );
+    className = cn(className, error ? "focus-visible:ring-0 border-destructive " : "");
     return (
       <input
         type={type}

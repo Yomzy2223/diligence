@@ -20,7 +20,7 @@ const Sidebar = () => {
 
   const variants = {
     open: { width: "237px" },
-    closed: { width: "max-content" },
+    closed: { width: "101px" },
   };
 
   const sidebarItems = [
@@ -32,11 +32,12 @@ const Sidebar = () => {
   return (
     <motion.div
       className={cn(
-        "flex flex-col flex-1 gap-12 border-r border-border w-[237px] py-4 px-6 transition-all ease-in-out duration-200 ",
+        "flex flex-col flex-1 gap-12 border-r border-border w-[237px] h-full py-4 px-6 ",
         !open && "w-max"
       )}
       animate={open ? "open" : "closed"}
       variants={variants}
+      transition={{ type: "spring", bounce: 0.5 }}
     >
       <Button
         variant="transparent"
@@ -52,14 +53,14 @@ const Sidebar = () => {
               href={item.href}
               key={i}
               className={cn(
-                "group flex items-center gap-2 px-4 py-3 hover:text-foreground-blue rounded-lg ",
+                "group flex px-4 py-3 hover:text-foreground-blue rounded-lg ",
                 pathname?.startsWith(item.href) && "bg-background-blue"
               )}
             >
-              <item.icon
-                className={{ path: "group-hover:fill-foreground-blue" }}
-              />
-              {open && <span className="text-inherit">{item.text}</span>}
+              <div className="flex items-center gap-2 ">
+                <item.icon className={{ path: "group-hover:fill-foreground-blue" }} />
+                {open && <span className="text-inherit">{item.text}</span>}
+              </div>
             </Link>
           ))}
         </div>

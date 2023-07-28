@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
@@ -85,14 +86,14 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
               <Button type="submit" size="full">
                 Onboard
               </Button>
-              <DialogPrimitive.Close
+              <DialogClose
                 className={buttonVariants({
                   size: "full",
                   variant: "transparent",
                 })}
               >
                 Cancel
-              </DialogPrimitive.Close>
+              </DialogClose>
             </div>
           </form>
         </Form>

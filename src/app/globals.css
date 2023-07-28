@@ -10,8 +10,8 @@
     --background-blue: 194, 100%, 42%, 0.1; /**/
     --foreground-blue: 194 100% 42% /**/
 
-    --muted: 210 1% 59%; /**/
-    --muted-foreground: 200 2% 32%; /**/
+    --muted: 213 33% 95%; /* #EDF1F6 */
+    --muted-foreground: 210 1% 59%; /* #959697 */
 
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
@@ -21,6 +21,8 @@
 
     --border: 213 33% 95%; /**/
     --input: 213 33% 95%; /**/
+
+    --label: 195 3% 31%; /* #4E5152 */
 
     --primary: 194 100% 42%; /**/
     --primary-foreground: 0 0% 100%; /**/
