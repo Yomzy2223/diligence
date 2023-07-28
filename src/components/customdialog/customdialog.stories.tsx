@@ -26,6 +26,7 @@ export const NormalDialog: Story = {
 		brandColor: "#DE4A09",
 		triggerText: "Trigger Dialog",
 		dialogType: "normal",
+		footer: true,
 	},
 };
 
@@ -40,6 +41,7 @@ export const WithProgressBar: Story = {
 		...NormalDialog.args,
 		actionText: "Ok",
 		children: <ProgressBar percent={50} />,
+		footer: true,
 	},
 };
 
