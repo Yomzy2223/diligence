@@ -29,10 +29,7 @@ const Login = () => {
   return (
     <Form {...form}>
       <h1 className="mb-6 text-2xl">Login</h1>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-16  "
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-16  ">
         <div className="flex flex-col gap-6 space-y-8 py-2 bg-white rounded-lg ">
           <InputWithLabel
             form={form}
@@ -49,20 +46,23 @@ const Login = () => {
             tipText="Must be at least 6 characters"
             type="password"
             bottom={
-              <Link
-                href="auth/forgot-password"
-                className="flex self-end text-sm text-muted-foreground"
-              >
+              <Link href="auth/forgot-password" className="flex self-end text-sm">
                 Forgot password?
               </Link>
             }
           />
         </div>
 
-        <div className="flex flex-col gap-2">
-          <Button type="submit" variant="secondary" size="full">
+        <div className="flex flex-col items-center gap-8">
+          <Button type="submit" size="full">
             Login
           </Button>
+          <p>
+            Don't have an account?{" "}
+            <Link href="/auth/signup" className="text-foreground-blue">
+              Sign up
+            </Link>
+          </p>
         </div>
       </form>
     </Form>

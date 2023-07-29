@@ -22,10 +22,10 @@ module.exports = {
         ring: "hsl(var(--ring))",
         background: {
           DEFAULT: "hsl(var(--background))",
-          blue: "hsl(var(--background-blue))",
+          blue: "hsla(var(--background-blue))",
         },
         foreground: {
-          DEFAULT: "hsla(var(--foreground))",
+          DEFAULT: "hsl(var(--foreground))",
           blue: "hsl(var(--foreground-blue))",
           label: "hsl(var(--label))",
         },

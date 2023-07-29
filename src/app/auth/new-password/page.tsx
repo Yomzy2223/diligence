@@ -29,10 +29,7 @@ const ForgotPassword = () => {
   return (
     <Form {...form}>
       <h2 className="mb-6 text-2xl">New password</h2>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-16  "
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-16  ">
         <div className="flex flex-col gap-6 space-y-8 py-2 bg-white rounded-lg ">
           <InputWithLabel
             form={form}
@@ -47,13 +44,13 @@ const ForgotPassword = () => {
             name="confirmPassword"
             label="Confirm new password"
             placeholder="Confirm new password"
-            tipText="Should match your new password"
+            tipText="Should match with your new password"
             type="password"
           />
         </div>
 
         <div className="flex flex-col gap-2">
-          <Button type="submit" variant="primary" size="full">
+          <Button type="submit" size="full">
             Reset password
           </Button>
         </div>
