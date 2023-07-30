@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema, signUpType } from "./constants";
 import InputWithLabel from "@/components/input/inputWithLabel";
 import Link from "next/link";
+import { AuthLayout } from "@/components/features/AuthLayout";
 
 const SignUp = () => {
   // Form definition
@@ -29,6 +30,8 @@ const SignUp = () => {
   }
 
   return (
+    <AuthLayout
+    title ='create Account '>
     <Form {...form}>
       <h1 className="mb-6 text-2xl">Create account</h1>
       <form
@@ -74,12 +77,13 @@ const SignUp = () => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Button type="submit" variant="primary" size="full">
+          <Button type="submit"  size="full">
             Create account
           </Button>
         </div>
       </form>
     </Form>
+    </AuthLayout>
   );
 };
 

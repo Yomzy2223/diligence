@@ -23,7 +23,8 @@ type Story = StoryObj<typeof meta>;
 export const TableWithHeaderAndBody: Story = {
     args: {
         header: headers,
-        body:dataBody
+        body:dataBody,
+        rowCursor: false
     },
     play: async ({ canvasElement }) => {
         const canvas = within(canvasElement);
