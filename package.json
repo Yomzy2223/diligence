@@ -49,7 +49,6 @@
     "tailwindcss-animate": "^1.0.6",
     "typescript": "5.1.6",
     "tinycolor2": "^1.6.0",
-    "typescript": "5.1.6",
     "zod": "^3.21.4"
   },
   "devDependencies": {
