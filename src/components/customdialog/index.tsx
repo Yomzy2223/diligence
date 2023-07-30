@@ -36,7 +36,7 @@ export const Dialog = (props: IdialogProps) => {
 		<>
 			{props.dialogType === "normal" && (
 				<DialogRoot>
-					<DialogTrigger>
+					<DialogTrigger asChild>
 						<Button color={props.brandColor}>
 							{props.triggerText}
 						</Button>
