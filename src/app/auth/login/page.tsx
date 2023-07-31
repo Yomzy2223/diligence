@@ -8,8 +8,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import InputWithLabel from "@/components/input/inputWithLabel";
 import Link from "next/link";
 import { loginSchema, loginType } from "./constants";
+import { useMutation } from "@tanstack/react-query";
+import { signIn } from "@/api/authApi";
+import { useAuth } from "@/hooks/useAuth";
 
 const Login = () => {
+  const { signIn } = useAuth();
+
   // Form definition
   const form = useForm<loginType>({
     resolver: zodResolver(loginSchema),
@@ -21,9 +26,7 @@ const Login = () => {
 
   // Submit handler
   function onSubmit(values: loginType) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    signIn(values);
   }
 
   return (

@@ -8,8 +8,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema, signUpType } from "./constants";
 import InputWithLabel from "@/components/input/inputWithLabel";
 import Link from "next/link";
+import { useAuth } from "@/hooks/useAuth";
 
 const SignUp = () => {
+  const { signUp } = useAuth();
+
   // Form definition
   const form = useForm<signUpType>({
     resolver: zodResolver(signUpSchema),
@@ -23,9 +26,7 @@ const SignUp = () => {
 
   // Submit handler
   function onSubmit(values: signUpType) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    signUp(values);
   }
 
   return (

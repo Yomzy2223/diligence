@@ -9,8 +9,11 @@ import InputWithLabel from "@/components/input/inputWithLabel";
 import Link from "next/link";
 import { forgotPasswordSchema, forgotPasswordType } from "./constants";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 
 const ForgotPassword = () => {
+  const { forgotPassword } = useAuth();
+
   const router = useRouter();
   // Form definition
   const form = useForm<forgotPasswordType>({
@@ -22,10 +25,7 @@ const ForgotPassword = () => {
 
   // Submit handler
   function onSubmit(values: forgotPasswordType) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-    router.push("/auth/new-password");
+    forgotPassword(values);
   }
 
   return (

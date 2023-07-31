@@ -4,6 +4,7 @@ import { BrFirma } from "@/font";
 import Sidebar from "@/components/features/sidebar";
 import MainHeader from "@/components/header/mainHeader";
 import { cn } from "@/lib/utils";
+import Providers from "@/lib/provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,7 +14,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={cn(BrFirma.className)}>{children}</body>
+      <body className={cn(BrFirma.className)}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
