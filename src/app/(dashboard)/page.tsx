@@ -5,7 +5,7 @@ import gtbankImg from "@/assets/images/Gtbank.svg";
 import { redirect } from "next/navigation";
 
 export default function Home() {
-  if (true) redirect("/auth/login");
+  // if (true) redirect("/auth/login");
 
   return (
     <main className="flex flex-col ml-4 px-6 ">
