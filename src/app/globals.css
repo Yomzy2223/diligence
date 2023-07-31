@@ -97,6 +97,10 @@
   background-image: url("../assets/images/invoice-header-background.svg");
 }
 
+.auth-background {
+  background-image: url("../assets/svg/AuthBg.svg");
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,

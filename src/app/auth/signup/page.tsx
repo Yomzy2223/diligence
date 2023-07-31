@@ -9,6 +9,7 @@ import { signUpSchema, signUpType } from "./constants";
 import InputWithLabel from "@/components/input/inputWithLabel";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
+import { AuthLayout } from "@/layouts/AuthLayout";
 
 const SignUp = () => {
   const { signUp } = useAuth();
