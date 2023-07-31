@@ -15,7 +15,7 @@ export const Search = ({ placeholderValue = 'Search for anything' }: SearchProps
         className="w-[90%]focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0  text-sm not-italic font-normal leading-5 text-gray-700  border-none outline outline-none bg-transparent placeholder-shown:text-red"
       />
 
-      <div className="w-10 h-10 rounded-full cursor-pointer bg-[#DE4A09] flex justify-center item-center">
+      <div className="w-10 h-10 rounded-[50%] cursor-pointer bg-[#DE4A09] flex justify-center item-center">
         <Image src={searchIcon} alt="Search" width={20} height={20} />
       </div>
     </div>

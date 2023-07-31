@@ -1,5 +1,5 @@
 
-import { Children, ReactNode } from "react";
+import { ReactNode } from "react";
 
 import Image from "next/image";
 
@@ -35,8 +35,9 @@ export const AuthLayout = ( { children, title='Create account'}: authLayoutProps
 </div>
 
     </div>
-    <div className="sticky w-full top-0 right-0 h-screen">
-    <Image src={AuthBg} alt="background" className="object-cover" fill />
+    <div className=" w-full bottom-0 relative   right-0 h-[920px]">
+    <Image src={AuthBg} alt="background" className='object-cover' fill/>
+    <p className="flex text-[40px] translate-x-[50%]  max-w-[498px] tracking-[-0.8px] w-full leading-[130%] not-italic font-normal text-center absolute top-[50%] right-[50%] text-[#FFFFFF]"> Verify Businesses and get reports immediately with Sidebrief.</p>
 			
       </div>
 

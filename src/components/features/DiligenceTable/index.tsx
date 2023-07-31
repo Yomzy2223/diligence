@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import {
   Table,
@@ -9,41 +10,42 @@ import {
 } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
 
-type Obj = { [key: string | number]: string }
+
+
 interface TableProps {
   header: string[]
   body: (string | number)[][]
-  bodyFullData?: any
-  rowCursor?: string
-  headerStyle?: Obj
-  bodyStyle?: Obj
-  status?: string
-  // onRowClick?: (bodyFullData?: any) => void
-  // onClick?: (bodyFullData?: any, row?: number, column?: number) => void
+  rowCursor?: boolean
+  onRowClick?: (cellData?: (string | number)[], rowIndex?: number) => void
+  onCellClick?: (cellData?: (string | number), rowIndex?: number, columnIndex?: number) => void;
+  
 }
 
 export const DiligenceTable = ({
   header,
   body,
-  bodyFullData,
   rowCursor,
-  headerStyle,
-  bodyStyle,
-}: // onRowClick,
-// onClick
-TableProps) => {
-  // const handleRowClick = (e: any, index: number) => {
-  //   if (onRowClick) onRowClick(bodyFullData[index])
-  // }
+  onRowClick,
+onCellClick
+}:  
 
-  // const handleCellClick = (e: any, row: number, column: number) => {
-  //   if (onClick) onClick(bodyFullData[row], row + 1, column + 1)
-  // }
+TableProps) => {
+  const handleCellClick = (cellData?: (string | number), rowIndex?: number, columnIndex?: number): void => {
+    // Call the provided onCellClick function with the clicked cell's data
+    if(onCellClick) onCellClick(cellData, rowIndex, columnIndex)
+    
+   };
+
+   const handleRowClick = (rowData?: (string | number)[], rowIndex?: number): void => {
+    // Call the provided onRowClick function with the clicked cell's data
+    if(onRowClick) onRowClick(rowData, rowIndex)
+    
+   };
   return (
     <Table className="bg-[#fffff] min-w-full border-spacing-0">
       <TableHeader
         className="w-full  border-none bg-gray-100 text-gray-900 text-base"
-        style={headerStyle}
+        
       >
         <TableRow className="w-full ">
           {header?.map((text, index) => (
@@ -56,35 +58,39 @@ TableProps) => {
           ))}
         </TableRow>
       </TableHeader>
-      <TableBody className="w-full" style={bodyStyle}>
-        {body?.map((each, row) => (
+      <TableBody className="w-full" >
+        {body?.map((row, rowIndex) => (
           <TableRow
             className="w-full"
-            key={row}
-            // onClick={(e) => handleRowClick(e, row)}
-            style={{ cursor: rowCursor || '' }}
+            key={rowIndex}
+            onClick={() => handleRowClick(row, rowIndex,)}
+             
+          
           >
-            {each?.map((el: any, column) => (
+            {row?.map((cell, columnIndex) => (
               <TableCell
                 className={cn(
                   'text-sm text-gray-900 border-b-0 leading-5 text-left px-6 py-5 m-0 font-normal overflow-hidden max-w-max',
                   {
                     'text-[#0082AA]':
-                      each[each.length - 1] === 'Under review' &&
-                      column === each.length - 1,
+                      row[row.length - 1] === 'Under review' &&
+                      columnIndex === row.length - 1,
                     'text-[#DE4A09]':
-                      each[each.length - 1] === 'Completed' &&
-                      column === each.length - 1,
+                      row[row.length - 1] === 'Completed' &&
+                      columnIndex === row.length - 1,
                     'text-[#00D448]':
-                      each[each.length - 1] === 'Paid' &&
-                      column === each.length - 1,
+                      row[row.length - 1] === 'Paid' &&
+                      columnIndex === row.length - 1,
+                  },
+                  {
+                    'cursor-pointer': rowCursor
                   },
                 )}
-                key={column}
-                // style={statusStyle}
-                //onClick={(e) => handleCellClick(e, row, column)}
+                key={columnIndex}
+                
+                onClick={() => handleCellClick(cell, rowIndex, columnIndex)}
               >
-                {el}
+                {cell}
               </TableCell>
             ))}
           </TableRow>
