@@ -7,7 +7,7 @@ const inputVariants = cva(
   {
     variants: {
       variant: {
-        default: "py-4 px-6 border-border ",
+        default: "py-4 px-6",
         transparent:
           "bg-transparent text-foreground border-0 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none !px-0 !mt-0 ",
       },

@@ -8,8 +8,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import InputWithLabel from "@/components/input/inputWithLabel";
 import Link from "next/link";
 import { forgotPasswordSchema, forgotPasswordType } from "./constants";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 
 const ForgotPassword = () => {
+  const { forgotPassword } = useAuth();
+
+  const router = useRouter();
   // Form definition
   const form = useForm<forgotPasswordType>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -20,9 +25,7 @@ const ForgotPassword = () => {
 
   // Submit handler
   function onSubmit(values: forgotPasswordType) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    forgotPassword(values);
   }
 
   return (
@@ -31,10 +34,7 @@ const ForgotPassword = () => {
       <p className="tex-sm text--muted-foreground mb-6">
         Enter your work email to reset your password
       </p>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-16  "
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-16  ">
         <div className="flex flex-col gap-6 space-y-8 py-2 bg-white rounded-lg ">
           <InputWithLabel
             form={form}
@@ -42,12 +42,12 @@ const ForgotPassword = () => {
             label="Work email"
             placeholder="Enter your work email"
             type="email"
-            tipText="The email of the accout to be reset"
+            tipText="Must be a registered email"
           />
         </div>
 
         <div className="flex flex-col gap-2">
-          <Button type="submit" variant="secondary" size="full">
+          <Button type="submit" size="full">
             Send
           </Button>
         </div>

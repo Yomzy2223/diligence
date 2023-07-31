@@ -42,10 +42,7 @@ const InputWithLabel = ({
   const toggleType = () => setTypeM(typeM === "password" ? "text" : "password");
 
   const Password = (
-    <p
-      className="absolute right-2 cursor-pointer text-sm "
-      onClick={toggleType}
-    >
+    <p className="absolute right-2 cursor-pointer text-sm " onClick={toggleType}>
       {typeM === "password" ? "Show" : "Hide"}
     </p>
   );
@@ -57,17 +54,13 @@ const InputWithLabel = ({
       render={({ field }) => (
         <FormItem className={`flex flex-col justify-center !mt-0 `}>
           <div className="flex justify-between gap-4 mb-2 w-full">
-            <div className={`flex justify-start align-middle gap-2 text-sm `}>
-              <FormLabel
-                className={`text-sm leading-3 font-normal text-muted-foreground ${textSize} `}
-              >
+            <div className={`flex justify-start items-center gap-2 text-sm `}>
+              <FormLabel className={`text-sm leading-3 font-normal text-label ${textSize} `}>
                 {label}
               </FormLabel>
               {tipText && Tooltip}
             </div>
-            <FormMessage
-              className={`min-w-max text-sm leading-3 font-normal ${textSize}`}
-            />
+            <FormMessage className={`min-w-max text-sm leading-3 font-normal ${textSize}`} />
           </div>
           <FormControl>
             <div className="flex items-center !mt-0 relative ">
@@ -76,9 +69,7 @@ const InputWithLabel = ({
                 placeholder={placeholder}
                 {...field}
                 className={cn(
-                  `placeholder:text-sm ${
-                    textSize && `placeholder:${textSize}`
-                  }`,
+                  `placeholder:text-sm ${textSize && `placeholder:${textSize}`}`,
                   type === "password" && "pr-12"
                 )}
                 error={fieldState.invalid}

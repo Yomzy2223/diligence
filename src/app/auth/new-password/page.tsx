@@ -6,10 +6,12 @@ import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputWithLabel from "@/components/input/inputWithLabel";
-import Link from "next/link";
 import { forgotPasswordSchema, forgotPasswordType } from "./constants";
+import { useAuth } from "@/hooks/useAuth";
 
 const ForgotPassword = () => {
+  const { changePassword } = useAuth();
+
   // Form definition
   const form = useForm<forgotPasswordType>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -21,18 +23,13 @@ const ForgotPassword = () => {
 
   // Submit handler
   function onSubmit(values: forgotPasswordType) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    changePassword(values);
   }
 
   return (
     <Form {...form}>
       <h2 className="mb-6 text-2xl">New password</h2>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-16  "
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-16  ">
         <div className="flex flex-col gap-6 space-y-8 py-2 bg-white rounded-lg ">
           <InputWithLabel
             form={form}
@@ -47,13 +44,13 @@ const ForgotPassword = () => {
             name="confirmPassword"
             label="Confirm new password"
             placeholder="Confirm new password"
-            tipText="Should match your new password"
+            tipText="Should match with your new password"
             type="password"
           />
         </div>
 
         <div className="flex flex-col gap-2">
-          <Button type="submit" variant="primary" size="full">
+          <Button type="submit" size="full">
             Reset password
           </Button>
         </div>
