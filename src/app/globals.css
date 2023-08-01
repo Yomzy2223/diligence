@@ -95,7 +95,11 @@
 }
 
 .invoice-header-background {
-  background-image: url('../assets/images/invoice-header-background.svg')
+  background-image: url('../assets/images/invoice-header-background.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 input:-webkit-autofill,
