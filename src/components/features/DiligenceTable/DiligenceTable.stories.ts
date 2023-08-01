@@ -21,6 +21,7 @@ export const TableWithHeaderAndBody: Story = {
   args: {
     header: headers,
     body: dataBody,
+    rowCursor: false,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
