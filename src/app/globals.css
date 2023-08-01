@@ -99,6 +99,9 @@
 
 .auth-background {
   background-image: url("../assets/svg/AuthBg.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
 }
 
 input:-webkit-autofill,
