@@ -64,7 +64,7 @@ const Sidebar = () => {
             </Link>
           ))}
         </div>
-        <Link href="" className="flex items-center gap-2 px-4 py-3 ">
+        <Link href="/auth/login" className="flex items-center gap-2 px-4 py-3 ">
           <div className="flex items-center gap-2 ">
             <LogoutIcon />
             {open && <p>Logout</p>}
