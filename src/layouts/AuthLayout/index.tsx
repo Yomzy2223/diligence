@@ -18,8 +18,8 @@ export const AuthLayout = ({ children }: authLayoutProps) => {
           <div>{children}</div>
         </div>
       </div>
-      <div className="flex-1 h-screen auth-background">
-        <p className="flex text-[40px] translate-x-[50%] max-w-[498px] tracking-[-0.8px] w-full leading-[130%] not-italic font-normal text-center absolute top-[50%] right-[50%] text-white">
+      <div className="flex-1 h-screen w-full auth-background relative">
+        <p className="flex text-[40px]  max-w-[498px] tracking-[-0.8px] w-full leading-[130%] not-italic font-normal text-center absolute top-[50%] right-[25%] text-white">
           Verify Businesses and get reports immediately with Sidebrief.
         </p>
       </div>
