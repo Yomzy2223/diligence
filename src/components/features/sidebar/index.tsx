@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import React, { useState } from "react";
 import { BiMenu } from "react-icons/bi";
 import HomeIcon from "@/assets/icons/homeIcon";
@@ -10,24 +9,19 @@ import LogoutIcon from "@/assets/icons/logoutIcon";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
 
+  const router = useRouter();
   const pathname = usePathname();
 
-  const variants = {
-    open: { width: "237px" },
-    closed: { width: "101px" },
+  const handleLogout = () => {
+    localStorage.clear();
+    router.push("auth/login");
   };
-
-  const sidebarItems = [
-    { href: "/", text: "Home", icon: HomeIcon },
-    { href: "/details", text: "Details", icon: DetailsIcon },
-    { href: "/settings", text: "Settings", icon: SettingsIcon },
-  ];
 
   return (
     <motion.div
@@ -46,33 +40,60 @@ const Sidebar = () => {
       >
         <BiMenu className="w-6 h-6" />
       </Button>
-      <div className="flex flex-col flex-1 justify-between text-xs ">
-        <div className="flex flex-col gap-2 ">
-          {sidebarItems.map((item, i) => (
-            <Link
-              href={item.href}
-              key={i}
-              className={cn(
-                "group flex px-4 py-3 hover:text-foreground-blue rounded-lg ",
-                pathname?.startsWith(item.href) && "bg-background-blue"
-              )}
-            >
-              <div className="flex items-center gap-2 ">
-                <item.icon className={{ path: "group-hover:fill-foreground-blue" }} />
-                {open && <span className="text-inherit">{item.text}</span>}
-              </div>
-            </Link>
-          ))}
+      <div className="flex flex-col flex-1 justify-between text-sm ">
+        <div className="flex flex-col gap-2 overflow-x-hidden ">
+          {sidebarItems.map((item, i) => {
+            const active = i === 0 ? pathname === "/" : pathname?.startsWith(item.href);
+            return (
+              <Link
+                href={item.href}
+                key={i}
+                className={cn(
+                  "group flex px-4 py-3 rounded-lg ",
+                  active && "bg-background-blue text-primary "
+                )}
+              >
+                <div className="flex items-center gap-2 ">
+                  <item.icon
+                    className={{ path: cn("group-hover:fill-primary", active && "fill-primary") }}
+                  />
+                  {open && (
+                    <span
+                      className={cn(
+                        "text-inherit group-hover:text-primary",
+                        active && "text-primary"
+                      )}
+                    >
+                      {item.text}
+                    </span>
+                  )}
+                </div>
+              </Link>
+            );
+          })}
         </div>
-        <Link href="" className="flex items-center gap-2 px-4 py-3 ">
+        <Button variant="ghost" onClick={handleLogout} className="w-full justify-start">
           <div className="flex items-center gap-2 ">
             <LogoutIcon />
-            {open && <p>Logout</p>}
+            {open && <p className="text-destructive">Logout</p>}
           </div>
-        </Link>
+        </Button>
       </div>
     </motion.div>
   );
 };
 
 export default Sidebar;
+
+//
+const sidebarItems = [
+  { href: "/", text: "Home", icon: HomeIcon },
+  { href: "/details", text: "Details", icon: DetailsIcon },
+  { href: "/settings", text: "Settings", icon: SettingsIcon },
+];
+
+//
+const variants = {
+  open: { width: "237px" },
+  closed: { width: "101px" },
+};

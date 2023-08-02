@@ -13,6 +13,8 @@ export const useAuth = () => {
       handleError(error);
     },
     onSuccess(data, variables, context) {
+      localStorage.setItem("userInfo", data.data);
+      router.push("/");
       handleSuccess(data);
     },
     retry: 3,
@@ -24,6 +26,9 @@ export const useAuth = () => {
       handleError(error);
     },
     onSuccess(data, variables, context) {
+      console.log(data);
+      router.push("/");
+      localStorage.setItem("userInfo", data.data);
       handleSuccess(data);
     },
     retry: 3,

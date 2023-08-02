@@ -7,8 +7,7 @@
     --background: 0 0% 100%; /* #ffffff */
     --foreground: 200 4% 15%; /* #242627 */
 
-    --background-blue: 194 100% 42% 0.1; /* rgba(0, 162, 212, 0.10) */
-    --foreground-blue: 194 100% 42%; /* #00A2D4 */
+    --background-blue: 194 100% 42% / 0.1; /* rgba(0, 162, 212, 0.10) */
 
     --muted: 213 33% 95%; /* #EDF1F6 */
     --muted-foreground: 210 1% 59%; /* #959697 */
@@ -94,8 +93,8 @@
 }
 
 .invoice-header-background {
-  background-image: url("../assets/images/invoice-header-background.svg");
-} */
+  background-image: url("../assets/images/invoice-header-background.png");
+}
 
 .auth-background {
   background-image: url("../assets/svg/AuthBg.svg");

@@ -11,7 +11,7 @@ import { buttonVariants } from "@/components/ui/button";
 
 const MainHeader = () => {
   return (
-    <div className="border-b">
+    <div className="border-b sticky top-0 bg-white z-10">
       <div className="flex items-center px-6 py-2">
         <div className=" flex flex-col justify-center p-23">
           <Image src={Logo} alt={"sidebrief logo"} className="h-6 w-auto" />

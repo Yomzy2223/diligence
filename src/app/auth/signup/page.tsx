@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -75,7 +75,7 @@ const SignUp = () => {
           </Button>
           <p>
             Already have an account?{" "}
-            <Link href="/auth/login" className="text-foreground-blue">
+            <Link href="/auth/login" className="text-primary">
               Sign in
             </Link>
           </p>
