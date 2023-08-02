@@ -4,14 +4,6 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import Notification from "@/stories/assets/Icons/Notification.svg";
 import { Checkbox } from "@/components/ui/checkbox";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
 import {
   DropdownMenu,
@@ -82,10 +74,8 @@ export const NotificationCard = () => {
       <DropdownMenuContent className="w-380 m-4" align="end" forceMount>
         <>
           <div className="flex items-center justify-between space-y-2 m-4">
-            <div>
-              <CardTitle className="flex items-center">
-                <p className="text-sm font-semibold">Notifications</p>
-              </CardTitle>
+            <div className="flex items-center">
+              <p className="text-sm font-semibold">Notifications</p>
             </div>
             <div className="flex items-center space-x-3 mx-1">
               <p className="text-[#DE4A09] underline">Delete</p>
@@ -113,7 +103,6 @@ export const NotificationCard = () => {
                 <div className="buttons flex m-5 space-x-4">
                   <div>
                     <Button
-                      variant={"outline"}
                       className="justify-center items-center text-[#DE4A09] gap-2 rounded-8 border-2 border-[#DE4A09] bg-transparent"
                     >
                       Decline
