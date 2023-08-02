@@ -8,8 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import InputWithLabel from "@/components/input/inputWithLabel";
 import Link from "next/link";
 import { loginSchema, loginType } from "./constants";
-import { useMutation } from "@tanstack/react-query";
-import { signIn } from "@/api/authApi";
 import { useAuth } from "@/hooks/useAuth";
 
 const Login = () => {
@@ -49,7 +47,7 @@ const Login = () => {
             tipText="Must be at least 6 characters"
             type="password"
             bottom={
-              <Link href="auth/forgot-password" className="flex self-end text-sm">
+              <Link href="/auth/forgot-password" className="flex self-end text-sm">
                 Forgot password?
               </Link>
             }
@@ -62,7 +60,7 @@ const Login = () => {
           </Button>
           <p>
             Don't have an account?{" "}
-            <Link href="/auth/signup" className="text-foreground-blue">
+            <Link href="/auth/signup" className="text-primary">
               Sign up
             </Link>
           </p>

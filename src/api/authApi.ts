@@ -4,13 +4,11 @@ import { client } from "@/lib/globalFunctions";
 // --------------------------------------------------------------------------------
 // Function to sign in
 export const signIn = (formInfo: any) => {
-  console.log(formInfo);
   return client.post("/diligence/user/login", formInfo);
 };
 
 // Function to sign up
 export const signUp = (formInfo: any) => {
-  console.log(formInfo);
   return client.post("/diligence/user", formInfo);
 };
 
