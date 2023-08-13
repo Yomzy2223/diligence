@@ -1,7 +1,8 @@
-import { client } from "@/lib/globalFunctions";
+import { client } from "@/lib/config";
 
 // CORPORATE REQUEST FUNCTIONS
 // --------------------------------------------------------------------------------
+
 // Function to create a request
 export const createRequest = (formInfo: any) => {
   return client.post("/diligence/request", formInfo);

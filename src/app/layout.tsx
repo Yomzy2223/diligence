@@ -5,6 +5,7 @@ import Sidebar from "@/components/features/sidebar";
 import MainHeader from "@/components/header/mainHeader";
 import { cn } from "@/lib/utils";
 import Providers from "@/lib/provider";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,7 +16,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={cn(BrFirma.className)}>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );

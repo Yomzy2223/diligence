@@ -9,7 +9,7 @@
 
     --background-blue: 194 100% 42% / 0.1; /* rgba(0, 162, 212, 0.10) */
 
-    --muted: 213 33% 95%; /* #EDF1F6 */
+    --muted: 0, 0%, 96%, 0.56; /* rgba(245, 245, 245, 0.56) */
     --muted-foreground: 210 1% 59%; /* #959697 */
 
     --popover: 0 0% 100%;
@@ -88,7 +88,7 @@
   }
 }
 
-/* .corporate-background {
+.corporate-background {
   background-image: url("../assets/images/corp-search-background.svg");
 }
 
@@ -120,4 +120,19 @@ input[type="number"]::-webkit-inner-spin-button {
 /* Works for Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.swiper-pagination-bullet {
+  transition: 0.2s ease width;
+  max-width: 7px !important;
+  max-height: 7px !important;
+}
+
+.swiper-pagination-bullet-active {
+  border-radius: 8px !important;
+  height: 7px !important;
+  width: 38px !important;
+  max-width: 100% !important;
+  background: white !important;
+  margin-block: auto !important;
 }
