@@ -88,7 +88,7 @@ const Detail = ({
       <p className="text-base font-medium leading-snug text-foreground tracking-[0.32px]">
         {detailName}
       </p>
-      <p className="text-base leading-relaxed text-muted">{detail}</p>
+      <p className="text-base leading-relaxed text-[#959697]">{detail}</p>
     </div>
   );
 };

@@ -66,7 +66,7 @@ export const headers = [
     length : 5
   },
   {
-    name :'drafts',
+    name :'Drafts',
     length : 3
   }
 
