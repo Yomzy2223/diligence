@@ -4,7 +4,7 @@ import CorporateRequest from "@/components/features/corporateRequest/CorporateRe
 import Image from "next/image";
 import gtbankImg from "@/assets/images/Gtbank.svg";
 import { redirect } from "next/navigation";
-import CorporateRequestInfo from '@/components/features/corporateRequest/Info/page';
+import CorporateRequestInfo from '@/components/features/corporateRequest/Info';
 
 
 export default function Home() {

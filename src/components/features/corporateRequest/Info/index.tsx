@@ -6,12 +6,13 @@ import { EmptyList } from "../../emptyList";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { viewAllRequests, deleteRequestDocument } from "@/api/requestApi";
 import numeral from "numeral";
-import { format, parseJSON } from "date-fns";
+import { format } from "date-fns";
 import { getTimeInfo } from "@/lib/utils";
 import Dialog from "@/components/customdialog";
 import { DeleteIcon, EditIcon } from "@/assets/icons";
 import { FileDisplay } from "@/components/customdialog/fileDisplay";
 import { Button, buttonVariants } from "@/components/ui/button";
+
 
 interface CorporateRequest {
   id: number;
@@ -35,6 +36,7 @@ const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
   };
 
   const { data, isLoading } = useQuery(["allDiligenceRequests"], viewAllRequests);
+
   console.log("corporate data", data?.data?.data);
   const queryClient = useQueryClient();
   const {
@@ -45,7 +47,7 @@ const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
   } = useMutation(() => deleteRequestDocument(formInfo), {
     onSuccess: async () => {
       console.log("Document deleted successfully.");
-      await queryClient.invalidateQueries("requests");
+      await queryClient.invalidateQueries("");
 
       // Refresh the list of requests
       const updatedRequests = await viewAllRequests();
@@ -87,8 +89,6 @@ const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
     });
   };
 
-  console.log("Show result dialog", showResultDialog);
-
   const formattedStatus = (status: string) => {
     if (status === "Unverified") {
       return (
@@ -98,25 +98,21 @@ const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
             src={DeleteIcon}
             alt="delete"
             className="w-4 h-4 cursor-pointer"
-            onClick={handleDeleteRequest}
+            onClick={showResult}
           />
-          {showDeleteDialog && (
-            <div className="text-center">
+          <div className="text-center">
               <Dialog
-                open={openDialog}
-                cancel={toggleDialog}
+                open={showResultDialog}
+                cancel={cancelResult}
                 dialogType="state"
-                actionText="Submit"
                 title="Are you sure you want to delete?"
                 brandColor="red"
+                footer={false}
               >
                 <div className="flex items-center justify-center gap-4">
-                  <Button type="submit" variant="secondary" onClick={handleDelete}>
+                  <Button type="submit" variant="secondary"  onClick={showResult}>
                     Delete
                   </Button>
-                  {/* <Button type="submit" variant="outline" onClick={() => !showDeleteDialog} >
-                  Cancel
-                </Button> */}
 
                   <Button type="submit" variant="outline">
                     Cancel
@@ -124,31 +120,27 @@ const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
                 </div>
               </Dialog>
             </div>
-          )}
         </div>
-      );
+      )
     } else if (status === "In Progress") {
       return <u className="text-[#469c30]">In Progress</u>;
     } else if (status === "Completed") {
       return (
         <>
-          <u className="text-[#DE4A09] cursor-pointer" onClick={showResult}>
+          <h6 className="text-[#DE4A09] cursor-pointer underline" onClick={showResult}>
             See Result
-          </u>
+          </h6>
           <div>
             <Dialog
               open={showResultDialog}
               cancel={cancelResult}
               dialogType="state"
-              // actionText="Submit"
               title="Verification succeessful"
               description={`Your request has been verified successfully`}
               brandColor="red"
               footer={false}
-              // triggerText="See result"
             >
               <FileDisplay>
-                {/* {requests?.map((doc) => <span>{doc?.}</span> )} */}
                 CAC Certificate
               </FileDisplay>
             </Dialog>

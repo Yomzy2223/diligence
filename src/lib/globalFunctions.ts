@@ -20,11 +20,15 @@ export const handleSuccess = (data: any) => {
   console.log(data);
 };
 
+
+
 export const client = axios.create({
-  // h2rwx2fbhm.us-east-1.awsapprunner.com
-  // baseURL: "https://iapkmjspxh.us-east-1.awsapprunner.com",
-  baseURL: "https://h2rwx2fbhm.us-east-1.awsapprunner.com",
+  baseURL:
+    process.env.NODE_ENV === "production"
+      ? "https://iapkmjspxh.us-east-1.awsapprunner.com/"
+      : "https://h2rwx2fbhm.us-east-1.awsapprunner.com/",
   headers: {
     "Content-Type": "application/json",
   },
 });
+
