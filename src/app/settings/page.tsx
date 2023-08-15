@@ -11,7 +11,7 @@ import { useQuery } from '@tanstack/react-query';
 import { viewEnterpriseByEmail } from '@/api/bankApi';
 export default function Settings () {
 
-  const adminEmail="bamidelesayo1@sidebrief.com"
+  const adminEmail="femiadeyemo008@gmail.com"
   const singleEnterprise = useQuery(
     ['viewEnterpriseByEmail', adminEmail],
     () => viewEnterpriseByEmail(adminEmail)

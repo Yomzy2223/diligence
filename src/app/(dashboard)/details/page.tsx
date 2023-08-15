@@ -13,9 +13,10 @@ import { useQuery } from "@tanstack/react-query";
 import { viewEnterpriseByEmail } from "@/api/bankApi";
 import { format, parseJSON } from "date-fns";
 import { DiligenceTable } from "@/components/features/DiligenceTable";
+import BranchOnboard from "@/components/features/dialog/onboardBranch";
 
 const Details = () => {
-  const adminEmail="bamidelesayo1@sidebrief.com"
+  const adminEmail="femiadeyemo008@gmail.com"
   const headers = [
     'S/N',
     'Date added',
@@ -54,9 +55,8 @@ console.log(enterprise?.data?.data)
             <Button type="submit" variant="orangeOutline" size="full">
               See payment invoice
             </Button>
-            <Button type="submit" variant="secondary" size="full">
-              Onboard a branch
-            </Button>
+            <BranchOnboard  size='full' buttonVariant="secondary">Onboard a branch</BranchOnboard>
+
           </div>
         </div>
       </div>

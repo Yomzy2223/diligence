@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,29 +15,62 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { bankBranchSchema, bankBranchType, propType } from "./constants";
 import InputWithLabel from "@/components/input/inputWithLabel";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { viewEnterpriseByEmail } from "@/api/bankApi";
+import { Variable } from "lucide-react";
+import { useBank } from "@/hooks/useBank";
 
-const BranchOnboard = ({ buttonVariant, children }: propType) => {
+const BranchOnboard = ({ buttonVariant, children, size }: propType) => {
+  const [formValues,setFormValues] =useState({})
+
+  const adminEmail="femiadeyemo008@gmail.com"
+  const enterprise = useQuery(
+    ['viewEnterpriseByEmail', adminEmail],
+    () => viewEnterpriseByEmail(adminEmail)
+
+  );
+  const enterpriseData=enterprise?.data?.data?.data
+  const adminId = enterpriseData?.id;
+  console.log(adminId)
+
+  const{useCreateDiligenceManagerMutation} =useBank();
+  const createDiligenceManager = useCreateDiligenceManagerMutation()
+
+
+
   // Form definition
   const form = useForm<bankBranchType>({
     resolver: zodResolver(bankBranchSchema),
     defaultValues: {
-      branch: "",
-      branchState: "",
+      name: "",
+      location: "",
       managerEmail: "",
     },
   });
+  console.log(formValues)
+
+  
 
   // Submit handler
-  function onSubmit(values: bankBranchType) {
+  function onSubmit(values: bankBranchType){
+  createDiligenceManagerMutation({adminId, values})
+
+    setFormValues(formValues)
+ 
+  
+    
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    //console.log(values);
   }
+
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={buttonVariant}>{children}</Button>
+        
+        <Button size ={size} variant={buttonVariant}>{children}</Button>
+      
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] md:max-w-[570px] py-14 bg-white ">
         <DialogHeader className="m-auto mb-6 ">
@@ -52,7 +85,7 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
             <div className="flex flex-col gap-6 space-y-8 py-2 bg-white rounded-lg ">
               <InputWithLabel
                 form={form}
-                name="branch"
+                name="name"
                 label="Branch Name"
                 placeholder="Enter branch name"
                 tipText="Must be the registrered name"
@@ -60,7 +93,7 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
               />
               <InputWithLabel
                 form={form}
-                name="branchState"
+                name="location"
                 label="Branch State"
                 placeholder="Enter branch state"
                 tipText="The state where the branch is located"
