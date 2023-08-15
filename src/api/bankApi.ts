@@ -32,6 +32,10 @@ export const viewAllNigeriaBanks = () => {
   return client.get(`/diligence/nigerianbanks`);
 };
 
+export const viewEnterpriseByEmail = async (adminEmail: string) => {
+	return await client.get(`/diligence/enterpriseByEmail/${adminEmail}`);
+};
+
 //
 //
 //

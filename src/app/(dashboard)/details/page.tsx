@@ -9,13 +9,42 @@ import { Search } from "@/components/features/Search";
 import { Tab } from "./constants";
 import { cn } from "@/lib/utils";
 import { DraftTable, OnboardTable } from "./tables";
+import { useQuery } from "@tanstack/react-query";
+import { viewEnterpriseByEmail } from "@/api/bankApi";
+import { format, parseJSON } from "date-fns";
+import { DiligenceTable } from "@/components/features/DiligenceTable";
 
 const Details = () => {
-  const [activeTab, setActiveTab] = useState("Onboarded branch(es)");
+  const adminEmail="bamidelesayo1@sidebrief.com"
+  const headers = [
+    'S/N',
+    'Date added',
+    'Branch name',
+    'Branch state',
+    
+    'Branch Manager email',
+  ]
+ 
+  const enterprise = useQuery(
+    ['viewEnterpriseByEmail', adminEmail],
+    () => viewEnterpriseByEmail(adminEmail)
 
-  const handleTabClick = (tab: string) => {
-    setActiveTab(tab);
-  };
+  );
+ 
+console.log(enterprise?.data?.data)
+  const enterpriseData =enterprise?.data?.data?.data;
+  const dataBody = enterpriseData?.diligenceManager?.map((el:any, index:number)=>[
+    index + 1,
+    format(
+      parseJSON(el.updatedAt),
+      "dd/MM/yyyy"
+    ),
+    el.name,
+    el?.location,
+    el?.managerEmail
+
+  ])
+  
   return (
     <div>
       <div className="py-4 pl-10 pr-6 w-full border-b border-[#EDF1F6]">
@@ -36,10 +65,10 @@ const Details = () => {
         <div className="w-full">
           <BankInfo
             image={Gtbank.src}
-            name="Gtbank"
+            name={enterpriseData?.name}
             branch={false}
-            numberOfOnboardedBranches={32}
-            numberOfBusinesssVerified={12198}
+            numberOfOnboardedBranches={enterpriseData?.diligenceManager?.length}
+            numberOfBusinesssVerified={enterpriseData?.diligenceRequest?.length}
             totalAmountSpent={289323}
           />
         </div>
@@ -54,10 +83,11 @@ const Details = () => {
               <Search />
             </div>
           </div>
-          <div className="flex h-16 w-full  items-center  gap-8">
-            {Tab?.map((el: any, index) => (
+          <div className="flex w-full  items-center ">
+           
+            {/* {Tab?.map((el: any, index) => (
               <div
-                onClick={() => handleTabClick(el?.name)}
+                
                 key={index}
                 className={cn("flex pl-4 h-16 items-center justify-center gap-4", {
                   "border-b-4  border-[#00A2D4]": el?.name === activeTab,
@@ -68,11 +98,14 @@ const Details = () => {
                   <p className="text-sm not-italic font-normal text-[#00A2D4]">{el?.length}</p>
                 </div>
               </div>
-            ))}
+            ))} */}
           </div>
           <div className="w-full">
-            {activeTab === "Onboarded branch(es)" && <OnboardTable />}
-            {activeTab === "drafts" && <DraftTable />}
+          <DiligenceTable
+            header={headers}
+            body={dataBody}
+            />
+            
           </div>
         </div>
       </div>
