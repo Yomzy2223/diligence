@@ -1,4 +1,4 @@
-
+"use client";
 import React from 'react'
 import { BankSettingInfo } from "@/components/features/BankSettingInfo"
 import { SettingContext } from "@/components/features/settingContext"
@@ -7,9 +7,22 @@ import gtbankImg from "@/assets/images/Gtbank.svg";
 import MainHeader from '@/components/header/mainHeader'; 
 import Sidebar from '@/components/features/sidebar';
 import InvoicePage from '../invoice/page';
+import { useQuery } from '@tanstack/react-query';
+import { viewEnterpriseByEmail } from '@/api/bankApi';
 export default function Settings () {
+
+  const adminEmail="bamidelesayo1@sidebrief.com"
+  const singleEnterprise = useQuery(
+    ['viewEnterpriseByEmail', adminEmail],
+    () => viewEnterpriseByEmail(adminEmail)
+
+
+  );
+  const singleEnterpriseData =singleEnterprise?.data?.data?.data;
+  console.log(singleEnterpriseData)
  
   return (
+
     <>
      <div className="flex flex-col h-screen">
       <MainHeader />
@@ -28,11 +41,11 @@ export default function Settings () {
 
           <div className='my-10'>
             <BankSettingInfo
-              name={"Guaranty Trust Bank"}
+              name={singleEnterpriseData?.name}
               image={gtbankImg}
-              address={"No, 51 West side street"}
+              address={singleEnterpriseData?.address}
               adminName={"Mr. Oluwole"}
-              adminEmail={"Mr. Oluwole@gmail.com"}
+              adminEmail={singleEnterpriseData?.adminEmail}
               regUrl="https/www/sidebrief.diligence/gtbank.com"
             />
           </div>
@@ -41,7 +54,7 @@ export default function Settings () {
             <SettingContext/>
           </div> 
 
-          <InvoicePage/>
+         
         </main>
         </div>
       </div>

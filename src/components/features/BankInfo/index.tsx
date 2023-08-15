@@ -88,19 +88,17 @@ export const BankInfo = (props: BankInfoProps) => {
           </TheBox>
         )}
         <RealBox
-          title="BUSINESSES VERIFIED"
-          number={`${numeral(
-            convertToOneSignificantFigure(props.numberOfBusinesssVerified)
-          ).format("0,0")}+`}
+          title="NUMBER OF REQUESTS"
+          number={props.numberOfBusinesssVerified}
           percentThisMonth={25}
         />
-        <RealBox
+        {/* <RealBox
           title="AMOUNT SPENT"
           number={`#${numeral(
             convertToOneSignificantFigure(props.totalAmountSpent)
           ).format("0,0")}+`}
           percentThisMonth={25}
-        />
+        /> */}
       </div>
     </div>
   );
@@ -118,7 +116,7 @@ const RealBox = ({
   percentThisMonth,
 }: {
   title: string;
-  number: string;
+  number: number;
   percentThisMonth: number;
 }) => {
   return (
