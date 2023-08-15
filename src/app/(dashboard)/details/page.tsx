@@ -31,6 +31,7 @@ const Details = () => {
           </div>
         </div>
       </div>
+
       <div className="flex flex-col justify-center w-full px-8 pl-10 pr-6 gap-8">
         <div className="w-full">
           <BankInfo
@@ -75,6 +76,7 @@ const Details = () => {
           </div>
         </div>
       </div>
+      
     </div>
   );
 };

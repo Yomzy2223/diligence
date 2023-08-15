@@ -15,19 +15,30 @@ interface ToastComponentProps {
   title: string;
   description: string;
   action: string;
+  type: "error" | "success" | "info";
 }
 export const Toaster = ({
-  title,
   description,
-  action
+  action,
+  type,
 }:ToastComponentProps) => {
   const { toasts } = useToast()
 
+  const getBackgroundClass = () => {
+    switch (type) {
+      case "error":
+        return "bg-red-500"; 
+      case "success":
+        return "bg-green-500";
+      case "info":
+      default:
+        return "bg-gray-500"; 
+    }
+  };
   return (
     <ToastProvider>
-      <Toast>
+      <Toast className={getBackgroundClass()}> 
           <div className="grid gap-1">
-          {title && <ToastTitle>{title}</ToastTitle>}
           {description && (
             <ToastDescription>{description}</ToastDescription>
           )}

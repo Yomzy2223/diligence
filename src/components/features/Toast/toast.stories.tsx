@@ -19,25 +19,17 @@ type Story = StoryObj<typeof Toaster>;
 //     }
 // }
 
-export const WithTitle: Story = {
+
+export const WithDescription: Story = {
     args: {
-        title: "Message",
+        description:"Messsage sent"
         
     }
 }
 
-export const WithTitleAndDescription: Story = {
+export const DescriptionAndAction: Story = {
     args: {
-        title: "Message",
-        description:"Messsage sent successfully"
-        
-    }
-}
-
-export const WithTitleAndDescriptionAndAction: Story = {
-    args: {
-        title: "Message",
-        description:"Messsage sent successfully",
+        description:"Messsage sent",
         action: "Sent"
         
     }
