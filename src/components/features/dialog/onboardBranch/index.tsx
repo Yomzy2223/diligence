@@ -20,23 +20,16 @@ import { viewEnterpriseByEmail } from "@/api/bankApi";
 import { Variable } from "lucide-react";
 import { useBank } from "@/hooks/useBank";
 
-const BranchOnboard = ({ buttonVariant, children, size }: propType) => {
-  const [formValues,setFormValues] =useState({})
-
-  const adminEmail="femiadeyemo008@gmail.com"
-  const enterprise = useQuery(
-    ['viewEnterpriseByEmail', adminEmail],
-    () => viewEnterpriseByEmail(adminEmail)
-
+const BranchOnboard = ({ buttonVariant, children }: propType) => {
+  const adminEmail = "femiadeyemo008@gmail.com";
+  const enterprise = useQuery(["viewEnterpriseByEmail", adminEmail], () =>
+    viewEnterpriseByEmail(adminEmail)
   );
-  const enterpriseData=enterprise?.data?.data?.data
+  const enterpriseData = enterprise?.data?.data?.data;
   const adminId = enterpriseData?.id;
-  console.log(adminId)
 
-  const{useCreateDiligenceManagerMutation} =useBank();
-  const createDiligenceManager = useCreateDiligenceManagerMutation()
-
-
+  const { useCreateDiligenceManagerMutation } = useBank();
+  const createDiligenceManager = useCreateDiligenceManagerMutation();
 
   // Form definition
   const form = useForm<bankBranchType>({
@@ -47,30 +40,25 @@ const BranchOnboard = ({ buttonVariant, children, size }: propType) => {
       managerEmail: "",
     },
   });
-  console.log(formValues)
-
-  
 
   // Submit handler
-  function onSubmit(values: bankBranchType){
-  createDiligenceManagerMutation({adminId, values})
-
-    setFormValues(formValues)
- 
-  
-    
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    //console.log(values);
+  function onSubmit(formInfo: bankBranchType) {
+    createDiligenceManager.mutate(
+      { adminId, formInfo },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+        },
+      }
+    );
   }
-
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        
-        <Button size ={size} variant={buttonVariant}>{children}</Button>
-      
+        <Button size={buttonVariant?.size} variant={buttonVariant?.variant}>
+          {children}
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] md:max-w-[570px] py-14 bg-white ">
         <DialogHeader className="m-auto mb-6 ">
@@ -82,7 +70,7 @@ const BranchOnboard = ({ buttonVariant, children, size }: propType) => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-16 w-[90%] m-auto "
           >
-            <div className="flex flex-col gap-6 space-y-8 py-2 bg-white rounded-lg ">
+            <div className="flex flex-col gap-6 py-2 space-y-8 bg-white rounded-lg ">
               <InputWithLabel
                 form={form}
                 name="name"

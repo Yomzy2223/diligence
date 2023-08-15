@@ -88,16 +88,18 @@ export const useBank = () => {
     },
     retry: 3,
   });
-  const useCreateDiligenceManagerMutation =() => useMutation({
-    mutationFn:createDiligenceManager,
-    onError(error, variables, context) {
-      handleError(error);
-    },
-    onSuccess(data, variables, context) {
-      handleSuccess(data);
-    },
-    retry: 3,
-  });
+
+  const useCreateDiligenceManagerMutation = () =>
+    useMutation({
+      mutationFn: createDiligenceManager,
+      onError(error, variables, context) {
+        handleError(error);
+      },
+      onSuccess(data, variables, context) {
+        handleSuccess(data);
+      },
+      retry: 3,
+    });
 
   return {
     createBankMutation,
@@ -113,7 +115,6 @@ export const useBank = () => {
     viewAllNigeriaBankMutation,
     viewAllNigeriaBanks: viewAllNigeriaBankMutation.mutate,
     useCreateDiligenceManagerMutation,
-  
   };
 };
 
