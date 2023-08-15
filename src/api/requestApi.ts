@@ -25,7 +25,7 @@ export const viewSingleRequest = (formInfo: any) => {
 
 // Function to view all requests
 export const viewAllRequests = () => {
-  return client.get("/diligence/allRequests");
+  return client.get("/diligence/request");
 };
 
 // Function to verify a request
@@ -42,3 +42,5 @@ export const addRequestDocument = (formInfo: any) => {
 export const deleteRequestDocument = (formInfo: any) => {
   return client.delete(`/diligence/deleteDocument/${formInfo.reqNumber}`, formInfo);
 };
+
+
