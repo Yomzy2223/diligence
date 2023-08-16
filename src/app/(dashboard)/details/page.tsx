@@ -14,6 +14,7 @@ import { viewEnterpriseByEmail } from "@/api/bankApi";
 import { format, parseJSON } from "date-fns";
 import { DiligenceTable } from "@/components/features/DiligenceTable";
 import BranchOnboard from "@/components/features/dialog/onboardBranch";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Details = () => {
   const adminEmail = "femiadeyemo008@gmail.com";
@@ -22,8 +23,9 @@ const Details = () => {
   const enterprise = useQuery(["viewEnterpriseByEmail", adminEmail], () =>
     viewEnterpriseByEmail(adminEmail)
   );
+  console.log(enterprise);
 
-  console.log(enterprise?.data?.data);
+  
   const enterpriseData = enterprise?.data?.data?.data;
   const dataBody = enterpriseData?.diligenceManager?.map((el: any, index: number) => [
     index + 1,
@@ -88,7 +90,10 @@ const Details = () => {
             ))} */}
           </div>
           <div className="w-full">
-            <DiligenceTable header={headers} body={dataBody} />
+            {enterprise?.isLoading ?(
+              <Skeleton className="w-[100px] h-[20px] rounded-full" />):
+            (
+            <DiligenceTable header={headers} body={dataBody} />)}
           </div>
         </div>
       </div>

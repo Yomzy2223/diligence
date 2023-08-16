@@ -21,12 +21,22 @@ import { Variable } from "lucide-react";
 import { useBank } from "@/hooks/useBank";
 
 const BranchOnboard = ({ buttonVariant, children }: propType) => {
-  const adminEmail = "femiadeyemo008@gmail.com";
-  const enterprise = useQuery(["viewEnterpriseByEmail", adminEmail], () =>
-    viewEnterpriseByEmail(adminEmail)
-  );
-  const enterpriseData = enterprise?.data?.data?.data;
-  const adminId = enterpriseData?.id;
+
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = React.useState(false);
+
+  const handleDeleteClick = () => {
+    setShowDeleteConfirmation(true);
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirmation(false);
+  };
+
+  // all these info will be gotten from local storage where the digilence user info is being stored stored 
+  //const adminEmail = "femiadeyemo008@gmail.com";
+  const adminId = "ea10f149-5d4c-4d34-b7fd-757cf25457b2";
+
+ 
 
   const { useCreateDiligenceManagerMutation } = useBank();
   const createDiligenceManager = useCreateDiligenceManagerMutation();
@@ -49,9 +59,13 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
         onSuccess: (data) => {
           console.log(data);
         },
+        onError: (error) => {
+          console.log(error);
+        },
       }
     );
   }
+  
 
   return (
     <Dialog>
@@ -98,7 +112,7 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
             </div>
 
             <div className="flex flex-col gap-2">
-              <Button type="submit" variant="secondary" size="full">
+              <Button id="closeDialog" type="submit" variant="secondary" size="full">
                 Onboard
               </Button>
               <DialogClose

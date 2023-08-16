@@ -12,6 +12,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 const Login = () => {
   const { signIn } = useAuth();
+  console.log(useAuth)
 
   // Form definition
   const form = useForm<loginType>({
