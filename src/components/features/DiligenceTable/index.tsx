@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 interface TableProps {
   header: string[];
   body: (string | number)[][];
+
   rowCursor?: boolean;
   onRowClick?: (cellData?: (string | number)[], rowIndex?: number) => void;
   onCellClick?: (cellData?: string | number, rowIndex?: number, columnIndex?: number) => void;

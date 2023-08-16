@@ -4,7 +4,8 @@ import Image from "next/image";
 import { DiligenceTable } from "../../DiligenceTable";
 import { EmptyList } from "../../emptyList";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { viewAllRequests, deleteRequestDocument } from "@/api/requestApi";
+import { viewAllRequests, updateRequest, deleteRequest } from "@/api/requestApi";
+import { viewEnterpriseByEmail } from '@/api/bankApi';
 import numeral from "numeral";
 import { format } from "date-fns";
 import { getTimeInfo } from "@/lib/utils";
@@ -12,10 +13,17 @@ import Dialog from "@/components/customdialog";
 import { DeleteIcon, EditIcon } from "@/assets/icons";
 import { FileDisplay } from "@/components/customdialog/fileDisplay";
 import { Button, buttonVariants } from "@/components/ui/button";
-
-
+import { Toaster } from "../../Toast";
+import {
+  Toast,
+  ToastClose,
+  ToastDescription,
+  ToastProvider,
+  ToastTitle,
+  ToastViewport,
+} from "@/components/ui/toast"
 interface CorporateRequest {
-  id: number;
+  id: string;
   name: string;
   registrationNumber: string;
   status: string;
@@ -26,70 +34,68 @@ interface CorporateRequest {
 
 const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
   const [requests, setRequests] = useState<CorporateRequest[]>([]);
-  const [showDeleteDialog, setshowDeleteDialog] = useState(false);
   const [showResultDialog, setShowResultDialog] = useState(false);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
+  const [deleteResultDialog, setDeleteResultDialog] = useState(false)
 
-  const toggleDialog = () => {
-    setOpenDialog((prev) => !prev);
-  };
+  const adminEmail="bamidelesayo1@sidebrief.com"
+  const { data, isLoading } = useQuery(
+    ['viewEnterpriseByEmail', adminEmail],
+    () => viewEnterpriseByEmail(adminEmail)
+  );
+  // const { data, isLoading } = useQuery(["allDiligenceRequests"], viewAllRequests);
 
-  const { data, isLoading } = useQuery(["allDiligenceRequests"], viewAllRequests);
 
-  console.log("corporate data", data?.data?.data);
   const queryClient = useQueryClient();
-  const {
-    mutate: deleteRequest,
-    isLoading: loading,
-    data: requestData,
-    isSuccess,
-  } = useMutation(() => deleteRequestDocument(formInfo), {
-    onSuccess: async () => {
-      console.log("Document deleted successfully.");
-      await queryClient.invalidateQueries("");
 
-      // Refresh the list of requests
-      const updatedRequests = await viewAllRequests();
-      console.log("Updated requests:", updatedRequests);
+  const { 
+    mutate: deleteRequests} = useMutation( deleteRequest, { 
+    onSuccess: () => {
+      setDeleteResultDialog(false)
+      queryClient.invalidateQueries(["viewEnterpriseByEmail"]);
     },
-    onError: (error: string) => {
-      console.error("Error deleting document:", error);
-    },
+    onError: (error) => {
+    }
   });
+  
+  const { 
+    mutate: updateRequests } = useMutation(updateRequest, { 
+    onSuccess: () => {
+      // console.log("Request updated successfully");
+      // Do something with updatedData if needed
+      queryClient.invalidateQueries(["viewEnterpriseByEmail"]);
+    },
+    onError: (error) => {
+      console.log("Error updating request:", error);  
+    }
+});
 
-  const handleDelete = async () => {
-    await deleteRequest();
-  };
+ 
+ 
 
   useEffect(() => {
-    setRequests(data?.data?.data);
+    setRequests(data?.data?.data?.diligenceRequest);
   }, [data]);
 
-  const handleOpenDialog = () => {
-    setIsDialogOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
-  };
-
-  const handleDeleteRequest = () => {
-    setOpenDialog((prev) => !prev);
-  };
+  
 
   const showResult = () => {
     setShowResultDialog(true);
   };
 
+
   const cancelResult = () => {
-    setShowResultDialog((prev) => {
-      console.log(prev);
-      return;
-    });
+    setShowResultDialog(prev => !prev);
   };
 
-  const formattedStatus = (status: string) => {
+  const showDelete = () => {
+    setDeleteResultDialog(true)
+  }
+
+  const cancelDelete = () => {
+    setDeleteResultDialog(prev => !prev);
+  }
+
+  const formattedStatus = (status: string, id: string) => {
     if (status === "Unverified") {
       return (
         <div className="flex items-center gap-6">
@@ -98,23 +104,23 @@ const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
             src={DeleteIcon}
             alt="delete"
             className="w-4 h-4 cursor-pointer"
-            onClick={showResult}
+            onClick={showDelete}
           />
           <div className="text-center">
               <Dialog
-                open={showResultDialog}
-                cancel={cancelResult}
+                open={deleteResultDialog}
+                cancel={cancelDelete}
                 dialogType="state"
-                title="Are you sure you want to delete?"
+                title="Are you sure you want to delete this request?"
                 brandColor="red"
                 footer={false}
               >
                 <div className="flex items-center justify-center gap-4">
-                  <Button type="submit" variant="secondary"  onClick={showResult}>
+                  <Button type="submit" variant="secondary" onClick={() => deleteRequests(id)}>
                     Delete
                   </Button>
 
-                  <Button type="submit" variant="outline">
+                  <Button type="submit" variant="outline" >
                     Cancel
                   </Button>
                 </div>
@@ -123,7 +129,10 @@ const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
         </div>
       )
     } else if (status === "In Progress") {
-      return <u className="text-[#469c30]">In Progress</u>;
+      return <h6 className="text-[#469c30] underline">In Progress</h6>
+    } else if (status === "Verified") {
+      return <h6 className="text-[#6975f9]">Verified</h6>
+    
     } else if (status === "Completed") {
       return (
         <>
@@ -162,23 +171,22 @@ const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
     "Action",
   ];
 
-  const dataBody = requests?.map((request, id) => {
+  const dataBody = requests?.map((request, index) => {
     const formattedDate = format(new Date(request?.createdAt), "dd/MM/yyyy");
     const formattedTime = getTimeInfo(request?.createdAt);
 
     return [
-      numeral(id + 1).format("00"),
+      numeral(index + 1).format("00"),
       request?.name,
       request?.registrationNumber,
       request?.createdBy,
       formattedDate,
       formattedTime,
       // request?.status
-      formattedStatus(request?.status),
+      formattedStatus(request?.status, request?.id),
     ];
   });
 
-  console.log("all requests", requests);
   return (
     <div>
       {isLoading ? (
@@ -196,7 +204,7 @@ const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
           </div>
 
           <div>
-            <DiligenceTable header={headers} body={dataBody} link={true} />
+            <DiligenceTable header={headers} body={dataBody} lastColumnCursor link={true} />
           </div>
           {/* 
           <Dialog

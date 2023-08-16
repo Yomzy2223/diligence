@@ -9,6 +9,7 @@ import Sidebar from '@/components/features/sidebar';
 import InvoicePage from '../invoice/page';
 import { useQuery } from '@tanstack/react-query';
 import { viewEnterpriseByEmail } from '@/api/bankApi';
+
 export default function Settings () {
 
   const adminEmail="bamidelesayo1@sidebrief.com"

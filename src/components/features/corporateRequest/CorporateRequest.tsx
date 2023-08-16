@@ -10,7 +10,8 @@ import { Separator } from "@/components/ui/separator";
 import CMField from "./CMField";
 import { cn } from "@/lib/utils";
 import { createRequest} from "@/api/requestApi";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Toaster } from "@/components/features/Toast/index";
 
 const CorporateRequest = ({ className }: { className?: string }) => {
 
@@ -23,51 +24,33 @@ const CorporateRequest = ({ className }: { className?: string }) => {
     },
   });
 
-  // const mutation = useMutation(createRequest);
+  const queryClient = useQueryClient(); 
+  const { mutate } = useMutation(createRequest, { 
+    onSuccess: (data) => {
+      // console.log(data)
+      queryClient.invalidateQueries(["viewEnterpriseByEmail"])
+
+    },
+    onError: (error) => {
+      // console.log("error", error)  
+    }
+  });
   
-  // console.log("mutation", mutation);
-  
-  // const onSubmit = async (values: corpSearchType) => {
-  //   if (!values.regName || !values.regNumber) {
-  //     console.log("Fields are empty, form not submitted");
-  //     return;
-  //   }
-
-  //   await mutation.mutateAsync(values);
-  //   console.log('Request created successfully', values);
-  //   try {
-
-  //     await mutation.mutateAsync(values);
-  //     console.log('Request created successfully', values);
-  //   } catch (error) {
-  //     console.error('Error creating request:', error);
-  //   }
-  // };
-
-  // const submitForm = async () => {
-  //   try {
-  //     const response = await createRequest(form.getValues());
-  //     console.log('Request created:', response);
-  //   } catch (error) {
-  //     console.error('Error creating request:', error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   submitForm();
-  // }, [form.getValues()])
-  
-
- // Submit handler
-  function onSubmit(values: corpSearchType) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  const onSubmit = async (values: corpSearchType) => {
+    try {
+      const payload = {
+        name:`${values.regName}`, 
+        registrationNumber: `${values.regNumber}`, 
+        email:"bamidelesayo1@sidebrief.com", 
+        enterpriseId: "a46bccb1-f23e-4f2b-a93a-fa66428f778d"
+      }
+      mutate(payload)
+    } catch (error) {
+      console.log("error", error)
+    }
     
-    console.log(values);
-  }
-
-
-
+   
+  };
   const styles2 = {
     formItemT: "pt-2",
   };
@@ -101,7 +84,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
               placeholder="Enter Registration Number"
               classNames={styles2}
               tipText="Unique registration number assigned to your business when you registered"
-              type="text"
+              type="number"
             />
           </div>
           <Button type="submit" className="self-end " variant="secondary">
