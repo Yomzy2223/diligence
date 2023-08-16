@@ -120,7 +120,7 @@ const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
                     Delete
                   </Button>
 
-                  <Button type="submit" variant="outline" >
+                  <Button type="submit" variant="outline" onClick={() => updateRequests(id)}>
                     Cancel
                   </Button>
                 </div>
