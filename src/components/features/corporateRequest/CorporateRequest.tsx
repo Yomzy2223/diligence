@@ -1,76 +1,53 @@
 "use client";
 
-import React, { useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import { Form } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
+import { useForm, useFormContext } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { corporateSearchSchema, corpSearchType } from "./constants";
+import { corporateSearchSchema, corpSearchType, submitType } from "./constants";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import CMField from "./CMField";
 import { cn } from "@/lib/utils";
-import { createRequest} from "@/api/requestApi";
-import { useMutation } from "@tanstack/react-query";
+import { useRequests } from "@/hooks/useRequests";
+import { getUserInfo } from "@/lib/globalFunctions";
+import ConfirmAction from "../dialog/confirmAction";
 
 const CorporateRequest = ({ className }: { className?: string }) => {
+  const { createRequestMutation } = useRequests();
+  const { mutate, isLoading, isSuccess, isError } = createRequestMutation;
+  const [formValues, setFormValues] = useState({ name: "", registrationNumber: "" });
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   // Form definition
   const form = useForm<corpSearchType>({
     resolver: zodResolver(corporateSearchSchema),
     defaultValues: {
-      regName: "",
-      regNumber: "",
+      name: "",
+      registrationNumber: "",
     },
   });
 
-  // const mutation = useMutation(createRequest);
-  
-  // console.log("mutation", mutation);
-  
-  // const onSubmit = async (values: corpSearchType) => {
-  //   if (!values.regName || !values.regNumber) {
-  //     console.log("Fields are empty, form not submitted");
-  //     return;
-  //   }
-
-  //   await mutation.mutateAsync(values);
-  //   console.log('Request created successfully', values);
-  //   try {
-
-  //     await mutation.mutateAsync(values);
-  //     console.log('Request created successfully', values);
-  //   } catch (error) {
-  //     console.error('Error creating request:', error);
-  //   }
-  // };
-
-  // const submitForm = async () => {
-  //   try {
-  //     const response = await createRequest(form.getValues());
-  //     console.log('Request created:', response);
-  //   } catch (error) {
-  //     console.error('Error creating request:', error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   submitForm();
-  // }, [form.getValues()])
-  
-
- // Submit handler
-  function onSubmit(values: corpSearchType) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    
-    console.log(values);
-  }
-
-
-
-  const styles2 = {
-    formItemT: "pt-2",
+  // Submit handler
+  const onSubmit = async (values: corpSearchType) => {
+    setFormValues(values);
+    setOpenConfirm(true);
   };
+
+  const handleConfirm = () => {
+    const userInfo = getUserInfo();
+    const payload: submitType = {
+      ...formValues,
+      email: userInfo?.data?.email || "",
+      enterpriseId: userInfo?.data?.id || "",
+    };
+
+    mutate(payload);
+  };
+
+  useEffect(() => {
+    if (isSuccess || isError) setOpenConfirm(false);
+  }, [isLoading]);
 
   return (
     <div
@@ -85,31 +62,36 @@ const CorporateRequest = ({ className }: { className?: string }) => {
           <div className="flex flex-col space-y-8 py-2 bg-white rounded-lg ">
             <CMField
               form={form}
-              name="regName"
+              name="name"
               label="Business/Company Name"
               placeholder="Enter Business/Company Name"
               tipText="Must be registered with CAC"
-             
             />
 
             <Separator className="!mt-0 " />
 
             <CMField
               form={form}
-              name="regNumber"
+              name="registrationNumber"
               label="Registration Number"
               placeholder="Enter Registration Number"
-              classNames={styles2}
               tipText="Unique registration number assigned to your business when you registered"
               type="text"
             />
           </div>
-          <Button type="submit" className="self-end " variant="secondary">
+          <Button type="submit" className="self-end " variant="secondary" loading={isLoading}>
             Submit
           </Button>
+          <ConfirmAction
+            open={openConfirm}
+            setOpen={setOpenConfirm}
+            title="Confirm Request Information"
+            description={`Business name is "${formValues.name}" and Registration Number is "${formValues.registrationNumber}"`}
+            actionText="Request"
+            action={handleConfirm}
+            loading={isLoading}
+          />
         </form>
-        {/* {mutation.status === "loading" && <p>Loading...</p>}
-      {mutation.status === "error" && <p>Error creating request</p>} */}
       </Form>
     </div>
   );

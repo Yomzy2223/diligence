@@ -1,7 +1,8 @@
-import { client } from "@/lib/globalFunctions";
-
 // BANK FUNCTIONS
 // --------------------------------------------------------------------------------
+
+import { client } from "@/lib/config";
+
 // Function to create a bank
 export const createBank = (formInfo: any) => {
   return client.post(`/diligence/bank`, formInfo);
@@ -33,7 +34,7 @@ export const viewAllNigeriaBanks = () => {
 };
 
 export const viewEnterpriseByEmail = async (adminEmail: string) => {
-	return await client.get(`/diligence/enterpriseByEmail/${adminEmail}`);
+  return await client.get(`/diligence/enterpriseByEmail/${adminEmail}`);
 };
 
 //
@@ -73,29 +74,49 @@ export const viewAllStaff = (formInfo: any) => {
 //
 //
 
+interface managerType {
+  formInfo: {
+    name: string;
+    location: string;
+    managerEmail: string;
+  };
+}
+
+interface createManagerType extends managerType {
+  adminId: string;
+}
+interface updateManagerType extends managerType {
+  managerId: string;
+}
+
 // BANK BRANCH FUNCTIONS
 // --------------------------------------------------------------------------------
-// Function to create a branch
-export const createBranch = (formInfo: any) => {
-  return client.post(`/diligence/branch/${formInfo.bankId}`, formInfo);
+// Function to create a branch manager
+export const createManager = ({ adminId, formInfo }: createManagerType) => {
+  return client.post(`/diligence/manager/${adminId}`, formInfo);
 };
 
-// Function to update a branch
-export const updateBranch = (formInfo: any) => {
-  return client.post(``, formInfo);
+// Function to update a branch manager
+export const updateManager = ({ managerId, formInfo }: updateManagerType) => {
+  return client.put(`/diligence/manager/${managerId}`, formInfo);
 };
 
-// Function to delete a branch
-export const deleteBranch = (formInfo: any) => {
-  return client.post(``, formInfo);
+// Function to delete a branch manager
+export const deleteManager = (managerId: string) => {
+  return client.delete(`/diligence/manager/${managerId}`);
 };
 
-// Function to view a branch
-export const viewBranch = (formInfo: any) => {
-  return client.post(`/diligence/branch/${formInfo.branchId}`, formInfo);
+// Function to view a branch manager by id
+export const viewManagerById = (managerId: string) => {
+  return client.get(`/diligence/manager/${managerId}`);
 };
 
-// Function to view all branches
-export const viewAllBranches = (formInfo: any) => {
-  return client.post(`/diligence/branches/${formInfo.branchId}`, formInfo);
+// Function to view a branch manager by email address
+export const viewManagerByEmail = (managerEmail: string) => {
+  return client.get(`/diligence/managerByEmail/${managerEmail}`);
+};
+
+// Function to view all enterprise managers
+export const viewAllEnterpriseManagers = (enterpriseId: string) => {
+  return client.get(`/diligence/managers/${enterpriseId}`);
 };

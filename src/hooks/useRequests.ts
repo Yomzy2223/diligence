@@ -1,25 +1,28 @@
 import {
-  addRequestDocument,
   createRequest,
-  deleteRequest,
-  deleteRequestDocument,
   updateRequest,
+  deleteRequest,
   verifyRequest,
   viewAllRequests,
   viewSingleRequest,
+  viewRequestDocument,
+  viewAllRequestDocuments,
 } from "@/api/requestApi";
-import { handleError, handleSuccess } from "@/lib/globalFunctions";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { ReactNode } from "react";
+import { useResponse } from "./useResponse";
 
 // React Query hooks for corporate request
-export const useAuth = () => {
+export const useRequests = () => {
+  const { handleError, handleSuccess } = useResponse();
+
   const createRequestMutation = useMutation({
     mutationFn: createRequest,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
@@ -27,10 +30,10 @@ export const useAuth = () => {
   const updateRequestMutation = useMutation({
     mutationFn: updateRequest,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
@@ -38,85 +41,54 @@ export const useAuth = () => {
   const deleteRequestMutation = useMutation({
     mutationFn: deleteRequest,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
 
-  const viewRequestMutation = useMutation({
-    mutationFn: viewSingleRequest,
-    onError(error, variables, context) {
-      handleError(error);
-    },
-    onSuccess(data, variables, context) {
-      handleSuccess(data);
-    },
-    retry: 3,
-  });
+  // const viewRequestQuery =(requestId: string)=> useQuery({
+  //   queryKey: ["Single Request",],
+  //   queryFn: ()=> viewSingleRequest(requestId),
+  // });
 
-  const viewAllRequestsMutation = useMutation({
-    mutationFn: viewAllRequests,
-    onError(error, variables, context) {
-      handleError(error);
-    },
-    onSuccess(data, variables, context) {
-      handleSuccess(data);
-    },
-    retry: 3,
+  const viewAllRequestsQuery = useQuery({
+    queryKey: ["All Requests"],
+    queryFn: viewAllRequests,
   });
 
   const verifyRequestMutation = useMutation({
     mutationFn: verifyRequest,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
 
-  const addRequestDocumentMutation = useMutation({
-    mutationFn: addRequestDocument,
-    onError(error, variables, context) {
-      handleError(error);
-    },
-    onSuccess(data, variables, context) {
-      handleSuccess(data);
-    },
-    retry: 3,
-  });
+  // const viewRequestDocumentQuery = useQuery({
+  //   queryKey: ["Request Document"],
+  //   queryFn:()=> viewRequestDocument,
 
-  const deleteRequestDocumentMutation = useMutation({
-    mutationFn: deleteRequestDocument,
-    onError(error, variables, context) {
-      handleError(error);
-    },
-    onSuccess(data, variables, context) {
-      handleSuccess(data);
-    },
-    retry: 3,
-  });
+  // });
+
+  // const viewRequestsDocumentQuery = useQuery({
+  //   queryKey: ["Request Documents"],
+  //   queryFn:()=> viewAllRequestDocuments,
+  // });
 
   return {
     createRequestMutation,
-    createRequest: createRequestMutation.mutate,
     updateRequestMutation,
-    updateRequest: updateRequestMutation.mutate,
     deleteRequestMutation,
-    deleteRequest: deleteRequestMutation.mutate,
-    viewRequestMutation,
-    viewSingleRequest: viewRequestMutation.mutate,
-    viewAllRequestsMutation,
-    viewAllRequests: viewAllRequestsMutation.mutate,
+    // viewRequestQuery,
+    viewAllRequestsQuery,
     verifyRequestMutation,
-    verifyRequest: verifyRequestMutation.mutate,
-    addRequestDocumentMutation,
-    addRequestDocument: addRequestDocumentMutation.mutate,
-    deleteRequestDocumentMutation,
-    deleteRequestDocument: deleteRequestDocumentMutation.mutate,
+    // viewRequestDocumentQuery,
+    // viewRequestsDocumentQuery,
   };
 };

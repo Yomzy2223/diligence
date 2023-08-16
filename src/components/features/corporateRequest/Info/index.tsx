@@ -13,7 +13,6 @@ import { DeleteIcon, EditIcon } from "@/assets/icons";
 import { FileDisplay } from "@/components/customdialog/fileDisplay";
 import { Button, buttonVariants } from "@/components/ui/button";
 
-
 interface CorporateRequest {
   id: number;
   name: string;
@@ -37,7 +36,6 @@ const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
 
   const { data, isLoading } = useQuery(["allDiligenceRequests"], viewAllRequests);
 
-  console.log("corporate data", data?.data?.data);
   const queryClient = useQueryClient();
   const {
     mutate: deleteRequest,
@@ -101,27 +99,27 @@ const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
             onClick={showResult}
           />
           <div className="text-center">
-              <Dialog
-                open={showResultDialog}
-                cancel={cancelResult}
-                dialogType="state"
-                title="Are you sure you want to delete?"
-                brandColor="red"
-                footer={false}
-              >
-                <div className="flex items-center justify-center gap-4">
-                  <Button type="submit" variant="secondary"  onClick={showResult}>
-                    Delete
-                  </Button>
+            <Dialog
+              open={showResultDialog}
+              cancel={cancelResult}
+              dialogType="state"
+              title="Are you sure you want to delete?"
+              brandColor="red"
+              footer={false}
+            >
+              <div className="flex items-center justify-center gap-4">
+                <Button type="submit" variant="secondary" onClick={showResult}>
+                  Delete
+                </Button>
 
-                  <Button type="submit" variant="outline">
-                    Cancel
-                  </Button>
-                </div>
-              </Dialog>
-            </div>
+                <Button type="submit" variant="outline">
+                  Cancel
+                </Button>
+              </div>
+            </Dialog>
+          </div>
         </div>
-      )
+      );
     } else if (status === "In Progress") {
       return <u className="text-[#469c30]">In Progress</u>;
     } else if (status === "Completed") {
@@ -140,9 +138,7 @@ const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
               brandColor="red"
               footer={false}
             >
-              <FileDisplay>
-                CAC Certificate
-              </FileDisplay>
+              <FileDisplay>CAC Certificate</FileDisplay>
             </Dialog>
           </div>
         </>
@@ -178,7 +174,6 @@ const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
     ];
   });
 
-  console.log("all requests", requests);
   return (
     <div>
       {isLoading ? (

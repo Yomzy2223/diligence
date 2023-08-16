@@ -1,33 +1,36 @@
 import {
   createBank,
-  createBranch,
   createStaff,
   deleteBank,
-  deleteBranch,
   deleteStaff,
   updateBank,
-  updateBranch,
   updateStaff,
   viewAllBanks,
-  viewAllBranches,
   viewAllNigeriaBanks,
   viewAllStaff,
   viewBank,
-  viewBranch,
   viewStaff,
-} from "@/api/bankApi";
-import { handleError, handleSuccess } from "@/lib/globalFunctions";
-import { useMutation } from "@tanstack/react-query";
+  createManager,
+  updateManager,
+  deleteManager,
+  viewManagerById,
+  viewManagerByEmail,
+  viewAllEnterpriseManagers,
+} from "@/api/enterpriseApi";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useResponse } from "./useResponse";
 
 // React Query hooks for bank
 export const useBank = () => {
+  const { handleError, handleSuccess } = useResponse();
+
   const createBankMutation = useMutation({
     mutationFn: createBank,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
@@ -35,10 +38,10 @@ export const useBank = () => {
   const updateBankMutation = useMutation({
     mutationFn: updateBank,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
@@ -46,10 +49,10 @@ export const useBank = () => {
   const deleteBankMutation = useMutation({
     mutationFn: deleteBank,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
@@ -57,10 +60,10 @@ export const useBank = () => {
   const viewBankMutation = useMutation({
     mutationFn: viewBank,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
@@ -68,10 +71,10 @@ export const useBank = () => {
   const viewAllBanksMutation = useMutation({
     mutationFn: viewAllBanks,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
@@ -79,10 +82,10 @@ export const useBank = () => {
   const viewAllNigeriaBankMutation = useMutation({
     mutationFn: viewAllNigeriaBanks,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
@@ -110,13 +113,15 @@ export const useBank = () => {
 
 // React Query hooks for bank staff
 export const useBankStaff = () => {
+  const { handleError, handleSuccess } = useResponse();
+
   const createStaffMutation = useMutation({
     mutationFn: createStaff,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
@@ -124,10 +129,10 @@ export const useBankStaff = () => {
   const updateStaffMutation = useMutation({
     mutationFn: updateStaff,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
@@ -135,10 +140,10 @@ export const useBankStaff = () => {
   const deleteStaffMutation = useMutation({
     mutationFn: deleteStaff,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
@@ -146,10 +151,10 @@ export const useBankStaff = () => {
   const viewStaffMutation = useMutation({
     mutationFn: viewStaff,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
@@ -157,10 +162,10 @@ export const useBankStaff = () => {
   const viewAllStaffMutation = useMutation({
     mutationFn: viewAllStaff,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
@@ -186,71 +191,61 @@ export const useBankStaff = () => {
 
 // React Query hooks for bank branch
 export const useBankBranch = () => {
-  const createBranchMutation = useMutation({
-    mutationFn: createBranch,
+  const { handleError, handleSuccess } = useResponse();
+
+  const createManagerMutation = useMutation({
+    mutationFn: createManager,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
 
-  const updateBranchMutation = useMutation({
-    mutationFn: updateBranch,
+  const updateManagerMutation = useMutation({
+    mutationFn: updateManager,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
 
-  const deleteBranchMutation = useMutation({
-    mutationFn: deleteBranch,
+  const deleteManagerMutation = useMutation({
+    mutationFn: deleteManager,
     onError(error, variables, context) {
-      handleError(error);
+      handleError({ error });
     },
     onSuccess(data, variables, context) {
-      handleSuccess(data);
+      handleSuccess({ data });
     },
     retry: 3,
   });
 
-  const viewBranchMutation = useMutation({
-    mutationFn: viewBranch,
-    onError(error, variables, context) {
-      handleError(error);
-    },
-    onSuccess(data, variables, context) {
-      handleSuccess(data);
-    },
-    retry: 3,
+  const viewManagerByIdQuery = useQuery({
+    queryKey: ["View Branch"],
+    queryFn: () => viewManagerById,
   });
 
-  const viewAllBranchesMutation = useMutation({
-    mutationFn: viewAllBranches,
-    onError(error, variables, context) {
-      handleError(error);
-    },
-    onSuccess(data, variables, context) {
-      handleSuccess(data);
-    },
-    retry: 3,
+  const viewManagerByEmailQuery = useQuery({
+    queryKey: ["View Branch"],
+    queryFn: () => viewManagerByEmail,
+  });
+
+  const viewAllEnterpriseManagersQuery = useQuery({
+    queryKey: ["View All Enterprise"],
+    queryFn: () => viewAllEnterpriseManagers,
   });
 
   return {
-    createBranchMutation,
-    createBranch: createBranchMutation.mutate,
-    updateBranchMutation,
-    updateBranch: updateBranchMutation.mutate,
-    deleteBranchMutation,
-    deleteBranch: deleteBranchMutation.mutate,
-    viewBranchMutation,
-    viewBranch: viewBranchMutation.mutate,
-    viewAllBranchesMutation,
-    viewAllBranches: viewAllBranchesMutation.mutate,
+    createManagerMutation,
+    updateManagerMutation,
+    deleteManagerMutation,
+    viewManagerByEmailQuery,
+    viewAllEnterpriseManagersQuery,
   };
 };

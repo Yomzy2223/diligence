@@ -19,9 +19,7 @@ export default function Home() {
 
       <CorporateRequest className="my-8" />
 
-      <div>
-        <CorporateRequestInfo />
-      </div>
+      <CorporateRequestInfo />
     </main>
   );
 }

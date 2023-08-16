@@ -10,41 +10,28 @@ import { Tab } from "./constants";
 import { cn } from "@/lib/utils";
 import { DraftTable, OnboardTable } from "./tables";
 import { useQuery } from "@tanstack/react-query";
-import { viewEnterpriseByEmail } from "@/api/bankApi";
+import { viewEnterpriseByEmail } from "@/api/enterpriseApi";
 import { format, parseJSON } from "date-fns";
 import { DiligenceTable } from "@/components/features/DiligenceTable";
 
 const Details = () => {
-  const adminEmail="bamidelesayo1@sidebrief.com"
-  const headers = [
-    'S/N',
-    'Date added',
-    'Branch name',
-    'Branch state',
-    
-    'Branch Manager email',
-  ]
- 
-  const enterprise = useQuery(
-    ['viewEnterpriseByEmail', adminEmail],
-    () => viewEnterpriseByEmail(adminEmail)
+  const adminEmail = "bamidelesayo1@sidebrief.com";
+  const headers = ["S/N", "Date added", "Branch name", "Branch state", "Branch Manager email"];
 
+  const enterprise = useQuery(["viewEnterpriseByEmail", adminEmail], () =>
+    viewEnterpriseByEmail(adminEmail)
   );
- 
-console.log(enterprise?.data?.data)
-  const enterpriseData =enterprise?.data?.data?.data;
-  const dataBody = enterpriseData?.diligenceManager?.map((el:any, index:number)=>[
+
+  console.log(enterprise?.data?.data);
+  const enterpriseData = enterprise?.data?.data?.data;
+  const dataBody = enterpriseData?.diligenceManager?.map((el: any, index: number) => [
     index + 1,
-    format(
-      parseJSON(el.updatedAt),
-      "dd/MM/yyyy"
-    ),
+    format(parseJSON(el.updatedAt), "dd/MM/yyyy"),
     el.name,
     el?.location,
-    el?.managerEmail
+    el?.managerEmail,
+  ]);
 
-  ])
-  
   return (
     <div>
       <div className="py-4 pl-10 pr-6 w-full border-b border-[#EDF1F6]">
@@ -84,7 +71,6 @@ console.log(enterprise?.data?.data)
             </div>
           </div>
           <div className="flex w-full  items-center ">
-           
             {/* {Tab?.map((el: any, index) => (
               <div
                 
@@ -101,15 +87,10 @@ console.log(enterprise?.data?.data)
             ))} */}
           </div>
           <div className="w-full">
-          <DiligenceTable
-            header={headers}
-            body={dataBody}
-            />
-            
+            <DiligenceTable header={headers} body={dataBody} />
           </div>
         </div>
       </div>
-      
     </div>
   );
 };

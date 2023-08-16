@@ -9,3 +9,13 @@ export const getAllYearsUpToCurrentYear = () => {
 
   return allYears;
 };
+
+export const getUserInfo = () => {
+  let userInfo = localStorage.getItem("userInfo");
+  let parsedUserInfo;
+
+  if (userInfo) {
+    parsedUserInfo = JSON.parse(userInfo);
+  }
+  return parsedUserInfo || {};
+};
