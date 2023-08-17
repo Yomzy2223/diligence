@@ -60,5 +60,3 @@ export const viewRequestDocument = (documentId: string) => {
 export const viewAllRequestDocuments = (requestId: string) => {
   return client.get(`/diligence/document/${requestId}`);
 };
-
-

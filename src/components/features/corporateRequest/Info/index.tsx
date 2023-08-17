@@ -6,8 +6,8 @@ import { DiligenceTable } from "../../DiligenceTable";
 import { EmptyList } from "../../emptyList";
 import { useActions } from "./useActions";
 
-const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
-  const { headers, dataBody, requests, isLoading } = useActions();
+const CorporateRequestInfo = ({ status }: { status?: string }) => {
+  const { headers, dataBody, requests, isLoading } = useActions({ status });
 
   //
   if (isLoading)
@@ -20,8 +20,8 @@ const CorporateRequestInfo = ({ formInfo }: { formInfo: any }) => {
   //
   if (requests?.length === 0)
     return (
-      <div className="text-center">
-        <EmptyList />
+      <div className="flex justify-center items-center ">
+        <EmptyList small />
       </div>
     );
 
