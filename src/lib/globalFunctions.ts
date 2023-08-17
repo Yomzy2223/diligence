@@ -29,6 +29,8 @@ export const client = axios.create({
       : "https://h2rwx2fbhm.us-east-1.awsapprunner.com/",
   headers: {
     "Content-Type": "application/json",
+    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVhMTBmMTQ5LTVkNGMtNGQzNC1iN2ZkLTc1N2NmMjU0NTdiMiIsImlhdCI6MTY5MjE0MDM1OSwiZXhwIjoxNjkzMzQ5OTU5fQ.9ZVSNaEXp_APFm87HiUNhUqR9AKY_d1VDmO2SuPCBqo`,
+  
   },
 });
 

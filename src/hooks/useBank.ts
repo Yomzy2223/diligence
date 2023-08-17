@@ -1,6 +1,7 @@
 import {
   createBank,
   createBranch,
+  createDiligenceManager,
   createStaff,
   deleteBank,
   deleteBranch,
@@ -16,6 +17,7 @@ import {
   viewBranch,
   viewStaff,
 } from "@/api/bankApi";
+import { bankBranchType } from "@/components/features/dialog/onboardBranch/constants";
 import { handleError, handleSuccess } from "@/lib/globalFunctions";
 import { useMutation } from "@tanstack/react-query";
 
@@ -87,6 +89,18 @@ export const useBank = () => {
     retry: 3,
   });
 
+  const useCreateDiligenceManagerMutation = () =>
+    useMutation({
+      mutationFn: createDiligenceManager,
+      onError(error, variables, context) {
+        handleError(error);
+      },
+      onSuccess(data, variables, context) {
+        handleSuccess(data);
+      },
+      retry: 3,
+    });
+
   return {
     createBankMutation,
     createBank: createBankMutation.mutate,
@@ -100,6 +114,7 @@ export const useBank = () => {
     viewAllBanks: viewAllBanksMutation.mutate,
     viewAllNigeriaBankMutation,
     viewAllNigeriaBanks: viewAllNigeriaBankMutation.mutate,
+    useCreateDiligenceManagerMutation,
   };
 };
 

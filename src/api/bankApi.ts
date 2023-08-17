@@ -1,3 +1,4 @@
+import { bankBranchType } from "@/components/features/dialog/onboardBranch/constants";
 import { client } from "@/lib/globalFunctions";
 
 // BANK FUNCTIONS
@@ -33,7 +34,19 @@ export const viewAllNigeriaBanks = () => {
 };
 
 export const viewEnterpriseByEmail = async (adminEmail: string) => {
-	return await client.get(`/diligence/enterpriseByEmail/${adminEmail}`);
+  return await client.get(`/diligence/enterpriseByEmail/${adminEmail}`);
+};
+
+//create manager
+
+export const createDiligenceManager = async ({
+  adminId,
+  formInfo,
+}: {
+  adminId: string;
+  formInfo: bankBranchType;
+}) => {
+  return await client.post(`/diligence/manager/${adminId}`, formInfo);
 };
 
 //

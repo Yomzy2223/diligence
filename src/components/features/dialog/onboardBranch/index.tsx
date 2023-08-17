@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,29 +15,64 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { bankBranchSchema, bankBranchType, propType } from "./constants";
 import InputWithLabel from "@/components/input/inputWithLabel";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { viewEnterpriseByEmail } from "@/api/bankApi";
+import { Variable } from "lucide-react";
+import { useBank } from "@/hooks/useBank";
 
 const BranchOnboard = ({ buttonVariant, children }: propType) => {
+
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = React.useState(false);
+
+  const handleDeleteClick = () => {
+    setShowDeleteConfirmation(true);
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirmation(false);
+  };
+
+  // all these info will be gotten from local storage where the digilence user info is being stored stored 
+  //const adminEmail = "femiadeyemo008@gmail.com";
+  const adminId = "ea10f149-5d4c-4d34-b7fd-757cf25457b2";
+
+ 
+
+  const { useCreateDiligenceManagerMutation } = useBank();
+  const createDiligenceManager = useCreateDiligenceManagerMutation();
+
   // Form definition
   const form = useForm<bankBranchType>({
     resolver: zodResolver(bankBranchSchema),
     defaultValues: {
-      branch: "",
-      branchState: "",
+      name: "",
+      location: "",
       managerEmail: "",
     },
   });
 
   // Submit handler
-  function onSubmit(values: bankBranchType) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  function onSubmit(formInfo: bankBranchType) {
+    createDiligenceManager.mutate(
+      { adminId, formInfo },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
   }
+  
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={buttonVariant}>{children}</Button>
+        <Button size={buttonVariant?.size} variant={buttonVariant?.variant}>
+          {children}
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] md:max-w-[570px] py-14 bg-white ">
         <DialogHeader className="m-auto mb-6 ">
@@ -49,10 +84,10 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-16 w-[90%] m-auto "
           >
-            <div className="flex flex-col gap-6 space-y-8 py-2 bg-white rounded-lg ">
+            <div className="flex flex-col gap-6 py-2 space-y-8 bg-white rounded-lg ">
               <InputWithLabel
                 form={form}
-                name="branch"
+                name="name"
                 label="Branch Name"
                 placeholder="Enter branch name"
                 tipText="Must be the registrered name"
@@ -60,7 +95,7 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
               />
               <InputWithLabel
                 form={form}
-                name="branchState"
+                name="location"
                 label="Branch State"
                 placeholder="Enter branch state"
                 tipText="The state where the branch is located"
@@ -77,7 +112,7 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
             </div>
 
             <div className="flex flex-col gap-2">
-              <Button type="submit" variant="secondary" size="full">
+              <Button id="closeDialog" type="submit" variant="secondary" size="full">
                 Onboard
               </Button>
               <DialogClose
