@@ -9,13 +9,6 @@ export const bankBranchSchema = z.object({
 export type bankBranchType = z.infer<typeof bankBranchSchema>;
 
 export interface propType {
-  buttonVariant?:
-    | "default"
-    | "transparent"
-    | "destructive"
-    | "outline"
-    | "secondary"
-    | "ghost"
-    | "link";
-  children?: string;
+  children?: string | undefined;
+  // size?: string;
 }

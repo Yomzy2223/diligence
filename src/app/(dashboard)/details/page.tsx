@@ -13,16 +13,18 @@ import { useQuery } from "@tanstack/react-query";
 import { viewEnterpriseByEmail } from "@/api/enterpriseApi";
 import { format, parseJSON } from "date-fns";
 import { DiligenceTable } from "@/components/features/DiligenceTable";
+import BranchOnboard from "@/components/features/dialog/onboardBranch";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Details = () => {
-  const adminEmail = "bamidelesayo1@sidebrief.com";
+  const adminEmail = "femiadeyemo008@gmail.com";
   const headers = ["S/N", "Date added", "Branch name", "Branch state", "Branch Manager email"];
 
   const enterprise = useQuery(["viewEnterpriseByEmail", adminEmail], () =>
     viewEnterpriseByEmail(adminEmail)
   );
+  console.log(enterprise);
 
-  console.log(enterprise?.data?.data);
   const enterpriseData = enterprise?.data?.data?.data;
   const dataBody = enterpriseData?.diligenceManager?.map((el: any, index: number) => [
     index + 1,
@@ -41,14 +43,14 @@ const Details = () => {
             <Button type="submit" variant="orangeOutline" size="full">
               See payment invoice
             </Button>
-            <Button type="submit" variant="secondary" size="full">
+            <BranchOnboard buttonVariant={{ variant: "secondary", size: "full" }}>
               Onboard a branch
-            </Button>
+            </BranchOnboard>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col justify-center w-full px-8 pl-10 pr-6 gap-8">
+      <div className="flex flex-col justify-center w-full gap-8 px-8 pl-10 pr-6">
         <div className="w-full">
           <BankInfo
             image={Gtbank.src}
@@ -59,9 +61,9 @@ const Details = () => {
             totalAmountSpent={289323}
           />
         </div>
-        <div className="payment w-full "></div>
+        <div className="w-full payment "></div>
         <div className=" w-full border border-[#EDF1F6] rounded p-6">
-          <div className="w-full h-14 flex justify-between items-center ">
+          <div className="flex items-center justify-between w-full h-14 ">
             <p className="text-xl font-normal text-gray-900 leading-[130%]">
               {" "}
               Onboarded branch(es)
@@ -70,7 +72,7 @@ const Details = () => {
               <Search />
             </div>
           </div>
-          <div className="flex w-full  items-center ">
+          <div className="flex items-center w-full ">
             {/* {Tab?.map((el: any, index) => (
               <div
                 
@@ -87,7 +89,11 @@ const Details = () => {
             ))} */}
           </div>
           <div className="w-full">
-            <DiligenceTable header={headers} body={dataBody} />
+            {enterprise?.isLoading ? (
+              <Skeleton className="w-[100px] h-[20px] rounded-full" />
+            ) : (
+              <DiligenceTable header={headers} body={dataBody} />
+            )}
           </div>
         </div>
       </div>

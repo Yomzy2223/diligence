@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAllYearsUpToCurrentYear } from "./globalFunctions";
+import { getAllYearsUpToCurrentYear, getUserInfo } from "./globalFunctions";
 
 export const allMonths = [
   {
@@ -61,5 +61,6 @@ export const client = axios.create({
       : "https://h2rwx2fbhm.us-east-1.awsapprunner.com/",
   headers: {
     "Content-Type": "application/json",
+    Authorization: `Bearer ${getUserInfo()?.data?.token}`,
   },
 });

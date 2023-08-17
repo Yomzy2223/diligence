@@ -18,7 +18,7 @@ import InputWithLabel from "@/components/input/inputWithLabel";
 import { getUserInfo } from "@/lib/globalFunctions";
 import { useBankBranch } from "@/hooks/useEnterprise";
 
-const BranchOnboard = ({ buttonVariant, children }: propType) => {
+const BranchOnboard = ({ children }: propType) => {
   const [open, setOpen] = useState(false);
 
   const { createBranchMutation } = useBankBranch();
@@ -49,7 +49,7 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
 
   return (
     <Dialog open={open}>
-      <Button variant={buttonVariant} onClick={() => setOpen(true)}>
+      <Button variant="secondary" onClick={() => setOpen(true)}>
         {children}
       </Button>
       <DialogContent
@@ -65,7 +65,7 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-16 w-[90%] m-auto "
           >
-            <div className="flex flex-col gap-6 space-y-8 py-2 bg-white rounded-lg ">
+            <div className="flex flex-col gap-6 py-2 space-y-8 bg-white rounded-lg ">
               <InputWithLabel
                 form={form}
                 name="name"
