@@ -1,18 +1,28 @@
 import CMToolTip from "@/components/cmTooltip";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { BsInfoCircle } from "react-icons/bs";
 import { propType } from "./constants";
 
-const CMField = ({ form, name, label, tipText, type, placeholder, classNames }: propType) => {
-  const [value, setvalue] = useState("");
+const CMField = ({
+  form,
+  name,
+  label,
+  tipText,
+  type,
+  placeholder,
+  classNames,
+  defaultValue,
+}: propType) => {
+  const { setValue, getValues } = useFormContext();
 
-  const handleChange = (e: any, onChange: (e: any[]) => void) => {
-    const val = e.target.value;
-    setvalue(val);
-    onChange(e);
-  };
+  const value = getValues()?.[name];
+
+  useEffect(() => {
+    if (defaultValue) setValue(name, defaultValue, { shouldValidate: true });
+  }, [defaultValue]);
 
   return (
     <FormField
@@ -46,7 +56,6 @@ const CMField = ({ form, name, label, tipText, type, placeholder, classNames }: 
                 placeholder={placeholder}
                 variant="transparent"
                 {...field}
-                onChange={(e) => handleChange(e, field.onChange)}
                 className={classNames?.input}
               />
               {!value && (

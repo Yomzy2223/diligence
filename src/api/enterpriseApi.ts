@@ -82,41 +82,41 @@ interface managerType {
   };
 }
 
-interface createManagerType extends managerType {
+interface createBranchType extends managerType {
   adminId: string;
 }
-interface updateManagerType extends managerType {
+interface updateBranchType extends managerType {
   managerId: string;
 }
 
 // BANK BRANCH FUNCTIONS
 // --------------------------------------------------------------------------------
-// Function to create a branch manager
-export const createManager = ({ adminId, formInfo }: createManagerType) => {
+// Function to create a branch
+export const createBranch = ({ adminId, formInfo }: createBranchType) => {
   return client.post(`/diligence/manager/${adminId}`, formInfo);
 };
 
-// Function to update a branch manager
-export const updateManager = ({ managerId, formInfo }: updateManagerType) => {
+// Function to update a branch
+export const updateBranch = ({ managerId, formInfo }: updateBranchType) => {
   return client.put(`/diligence/manager/${managerId}`, formInfo);
 };
 
-// Function to delete a branch manager
-export const deleteManager = (managerId: string) => {
+// Function to delete a branch
+export const deleteBranch = (managerId: string) => {
   return client.delete(`/diligence/manager/${managerId}`);
 };
 
-// Function to view a branch manager by id
-export const viewManagerById = (managerId: string) => {
+// Function to view a branch by enterprise id
+export const viewBranchById = (managerId: string) => {
   return client.get(`/diligence/manager/${managerId}`);
 };
 
-// Function to view a branch manager by email address
-export const viewManagerByEmail = (managerEmail: string) => {
+// Function to view a branch by email address
+export const viewBranchByEmail = (managerEmail: string) => {
   return client.get(`/diligence/managerByEmail/${managerEmail}`);
 };
 
 // Function to view all enterprise managers
-export const viewAllEnterpriseManagers = (enterpriseId: string) => {
+export const viewEnterpriseManagers = (enterpriseId: string) => {
   return client.get(`/diligence/managers/${enterpriseId}`);
 };

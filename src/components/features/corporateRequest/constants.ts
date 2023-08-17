@@ -33,6 +33,7 @@ export interface propType {
   tipText?: string;
   type?: string;
   placeholder?: string;
+  defaultValue?: string;
   classNames?: {
     formItem?: string;
     formItemT?: string;

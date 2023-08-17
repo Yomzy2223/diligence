@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Form } from "@/components/ui/form";
 import { useForm, useFormContext } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,12 +12,15 @@ import { cn } from "@/lib/utils";
 import { useRequests } from "@/hooks/useRequests";
 import { getUserInfo } from "@/lib/globalFunctions";
 import ConfirmAction from "../dialog/confirmAction";
+import { RequestContext } from "@/app/(dashboard)/(home)/layout";
 
 const CorporateRequest = ({ className }: { className?: string }) => {
   const { createRequestMutation } = useRequests();
   const { mutate, isLoading, isSuccess, isError } = createRequestMutation;
   const [formValues, setFormValues] = useState({ name: "", registrationNumber: "" });
   const [openConfirm, setOpenConfirm] = useState(false);
+
+  const requestContext = useContext(RequestContext);
 
   // Form definition
   const form = useForm<corpSearchType>({
@@ -66,6 +69,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
               label="Business/Company Name"
               placeholder="Enter Business/Company Name"
               tipText="Must be registered with CAC"
+              defaultValue={requestContext?.regInfo?.regName}
             />
 
             <Separator className="!mt-0 " />
@@ -77,6 +81,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
               placeholder="Enter Registration Number"
               tipText="Unique registration number assigned to your business when you registered"
               type="text"
+              defaultValue={requestContext?.regInfo?.regNo}
             />
           </div>
           <Button type="submit" className="self-end " variant="secondary" loading={isLoading}>

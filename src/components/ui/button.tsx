@@ -16,6 +16,7 @@ const buttonVariants = cva(
         outline: "border border-primary text-primary bg-transparent hover:bg-accent",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
+        ghost2: "",
         link: "text-primary underline-offset-4 hover:underline",
         transparent: "bg-none text-muted-foreground",
         orangeOutline: " flex justify-center item-center border border-[#DE4A09]",

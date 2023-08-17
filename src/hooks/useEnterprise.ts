@@ -10,12 +10,12 @@ import {
   viewAllStaff,
   viewBank,
   viewStaff,
-  createManager,
-  updateManager,
-  deleteManager,
-  viewManagerById,
-  viewManagerByEmail,
-  viewAllEnterpriseManagers,
+  createBranch,
+  updateBranch,
+  deleteBranch,
+  viewBranchById,
+  viewBranchByEmail,
+  viewEnterpriseManagers,
 } from "@/api/enterpriseApi";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useResponse } from "./useResponse";
@@ -193,8 +193,8 @@ export const useBankStaff = () => {
 export const useBankBranch = () => {
   const { handleError, handleSuccess } = useResponse();
 
-  const createManagerMutation = useMutation({
-    mutationFn: createManager,
+  const createBranchMutation = useMutation({
+    mutationFn: createBranch,
     onError(error, variables, context) {
       handleError({ error });
     },
@@ -205,7 +205,7 @@ export const useBankBranch = () => {
   });
 
   const updateManagerMutation = useMutation({
-    mutationFn: updateManager,
+    mutationFn: updateBranch,
     onError(error, variables, context) {
       handleError({ error });
     },
@@ -215,8 +215,8 @@ export const useBankBranch = () => {
     retry: 3,
   });
 
-  const deleteManagerMutation = useMutation({
-    mutationFn: deleteManager,
+  const deleteBranchMutation = useMutation({
+    mutationFn: deleteBranch,
     onError(error, variables, context) {
       handleError({ error });
     },
@@ -226,26 +226,29 @@ export const useBankBranch = () => {
     retry: 3,
   });
 
-  const viewManagerByIdQuery = useQuery({
-    queryKey: ["View Branch"],
-    queryFn: () => viewManagerById,
-  });
+  const useViewBranchByIdQuery = (branchId: string) =>
+    useQuery({
+      queryKey: ["View Branch"],
+      queryFn: () => viewBranchById(branchId),
+    });
 
-  const viewManagerByEmailQuery = useQuery({
-    queryKey: ["View Branch"],
-    queryFn: () => viewManagerByEmail,
-  });
+  const useViewBranchByEmailQuery = (email: string) =>
+    useQuery({
+      queryKey: ["View Branch"],
+      queryFn: () => viewBranchByEmail(email),
+    });
 
-  const viewAllEnterpriseManagersQuery = useQuery({
+  const viewEnterpriseManagersQuery = useQuery({
     queryKey: ["View All Enterprise"],
-    queryFn: () => viewAllEnterpriseManagers,
+    queryFn: () => viewEnterpriseManagers,
   });
 
   return {
-    createManagerMutation,
+    createBranchMutation,
     updateManagerMutation,
-    deleteManagerMutation,
-    viewManagerByEmailQuery,
-    viewAllEnterpriseManagersQuery,
+    deleteBranchMutation,
+    useViewBranchByIdQuery,
+    useViewBranchByEmailQuery,
+    viewEnterpriseManagersQuery,
   };
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,31 +15,47 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { bankBranchSchema, bankBranchType, propType } from "./constants";
 import InputWithLabel from "@/components/input/inputWithLabel";
+import { getUserInfo } from "@/lib/globalFunctions";
+import { useBankBranch } from "@/hooks/useEnterprise";
 
 const BranchOnboard = ({ buttonVariant, children }: propType) => {
+  const [open, setOpen] = useState(false);
+
+  const { createBranchMutation } = useBankBranch();
+  const { mutate, isLoading, isSuccess, isError } = createBranchMutation;
+
   // Form definition
   const form = useForm<bankBranchType>({
     resolver: zodResolver(bankBranchSchema),
     defaultValues: {
-      branch: "",
-      branchState: "",
+      name: "",
+      location: "",
       managerEmail: "",
     },
   });
 
   // Submit handler
   function onSubmit(values: bankBranchType) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    const payload = {
+      adminId: getUserInfo()?.data?.id,
+      formInfo: values,
+    };
+    mutate(payload);
   }
 
+  useEffect(() => {
+    if (isSuccess || isError) setOpen(false);
+  }, [isLoading]);
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant={buttonVariant}>{children}</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] md:max-w-[570px] py-14 bg-white ">
+    <Dialog open={open}>
+      <Button variant={buttonVariant} onClick={() => setOpen(true)}>
+        {children}
+      </Button>
+      <DialogContent
+        className="sm:max-w-[425px] md:max-w-[570px] py-14 bg-white "
+        cancel={() => setOpen(false)}
+      >
         <DialogHeader className="m-auto mb-6 ">
           <DialogTitle>Onboard a Branch</DialogTitle>
         </DialogHeader>
@@ -52,7 +68,7 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
             <div className="flex flex-col gap-6 space-y-8 py-2 bg-white rounded-lg ">
               <InputWithLabel
                 form={form}
-                name="branch"
+                name="name"
                 label="Branch Name"
                 placeholder="Enter branch name"
                 tipText="Must be the registrered name"
@@ -60,7 +76,7 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
               />
               <InputWithLabel
                 form={form}
-                name="branchState"
+                name="location"
                 label="Branch State"
                 placeholder="Enter branch state"
                 tipText="The state where the branch is located"
@@ -77,17 +93,12 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
             </div>
 
             <div className="flex flex-col gap-2">
-              <Button type="submit" variant="secondary" size="full">
+              <Button type="submit" variant="secondary" size="full" loading={isLoading}>
                 Onboard
               </Button>
-              <DialogClose
-                className={buttonVariants({
-                  size: "full",
-                  variant: "transparent",
-                })}
-              >
+              <Button size="full" variant="transparent" onClick={() => setOpen(false)}>
                 Cancel
-              </DialogClose>
+              </Button>
             </div>
           </form>
         </Form>
