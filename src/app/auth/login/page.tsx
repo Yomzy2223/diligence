@@ -9,10 +9,11 @@ import InputWithLabel from "@/components/input/inputWithLabel";
 import Link from "next/link";
 import { loginSchema, loginType } from "./constants";
 import { useAuth } from "@/hooks/useAuth";
+import { Oval } from "react-loading-icons";
 
 const Login = () => {
-  const { signIn } = useAuth();
-  console.log(useAuth)
+  const { signIn, signInMutation } = useAuth();
+  const { isLoading } = signInMutation;
 
   // Form definition
   const form = useForm<loginType>({
@@ -24,9 +25,9 @@ const Login = () => {
   });
 
   // Submit handler
-  function onSubmit(values: loginType) {
+  const onSubmit = async (values: loginType) => {
     signIn(values);
-  }
+  };
 
   return (
     <Form {...form}>
@@ -54,13 +55,12 @@ const Login = () => {
             }
           />
         </div>
-
         <div className="flex flex-col items-center gap-8">
-          <Button type="submit" size="full">
-            Login
+          <Button type="submit" size="full" disabled={isLoading}>
+            {isLoading ? <Oval stroke="#fff" className="w-5 h-5" /> : "Login"}
           </Button>
           <p>
-            Don't have an account?{" "}
+            Don&#39;t have an account?{" "}
             <Link href="/auth/signup" className="text-primary">
               Sign up
             </Link>

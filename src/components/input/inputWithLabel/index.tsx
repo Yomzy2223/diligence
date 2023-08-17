@@ -34,8 +34,8 @@ const InputWithLabel = ({
 
   const Tooltip = (
     <CMToolTip
-      content={<p className={`text-sm text-cm-black-400`}>{tipText}</p>}
-      trigger={<BsInfoCircle className={`relative text-cm-black-400 `} />}
+      content={tipText}
+      trigger={<BsInfoCircle className={`relative text-cm-black-400 w-3 h-auto `} />}
     />
   );
 

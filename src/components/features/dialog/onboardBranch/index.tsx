@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,31 +15,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { bankBranchSchema, bankBranchType, propType } from "./constants";
 import InputWithLabel from "@/components/input/inputWithLabel";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { viewEnterpriseByEmail } from "@/api/bankApi";
-import { Variable } from "lucide-react";
-import { useBank } from "@/hooks/useBank";
+import { getUserInfo } from "@/lib/globalFunctions";
+import { useBankBranch } from "@/hooks/useEnterprise";
 
-const BranchOnboard = ({ buttonVariant, children }: propType) => {
+const BranchOnboard = ({ children }: propType) => {
+  const [open, setOpen] = useState(false);
 
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = React.useState(false);
-
-  const handleDeleteClick = () => {
-    setShowDeleteConfirmation(true);
-  };
-
-  const handleCancelDelete = () => {
-    setShowDeleteConfirmation(false);
-  };
-
-  // all these info will be gotten from local storage where the digilence user info is being stored stored 
-  //const adminEmail = "femiadeyemo008@gmail.com";
-  const adminId = "ea10f149-5d4c-4d34-b7fd-757cf25457b2";
-
- 
-
-  const { useCreateDiligenceManagerMutation } = useBank();
-  const createDiligenceManager = useCreateDiligenceManagerMutation();
+  const { createBranchMutation } = useBankBranch();
+  const { mutate, isLoading, isSuccess, isError } = createBranchMutation;
 
   // Form definition
   const form = useForm<bankBranchType>({
@@ -52,29 +35,27 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
   });
 
   // Submit handler
-  function onSubmit(formInfo: bankBranchType) {
-    createDiligenceManager.mutate(
-      { adminId, formInfo },
-      {
-        onSuccess: (data) => {
-          console.log(data);
-        },
-        onError: (error) => {
-          console.log(error);
-        },
-      }
-    );
+  function onSubmit(values: bankBranchType) {
+    const payload = {
+      adminId: getUserInfo()?.data?.id,
+      formInfo: values,
+    };
+    mutate(payload);
   }
-  
+
+  useEffect(() => {
+    if (isSuccess || isError) setOpen(false);
+  }, [isLoading]);
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button size={buttonVariant?.size} variant={buttonVariant?.variant}>
-          {children}
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] md:max-w-[570px] py-14 bg-white ">
+    <Dialog open={open}>
+      <Button variant="secondary" onClick={() => setOpen(true)}>
+        {children}
+      </Button>
+      <DialogContent
+        className="sm:max-w-[425px] md:max-w-[570px] py-14 bg-white "
+        cancel={() => setOpen(false)}
+      >
         <DialogHeader className="m-auto mb-6 ">
           <DialogTitle>Onboard a Branch</DialogTitle>
         </DialogHeader>
@@ -112,17 +93,12 @@ const BranchOnboard = ({ buttonVariant, children }: propType) => {
             </div>
 
             <div className="flex flex-col gap-2">
-              <Button id="closeDialog" type="submit" variant="secondary" size="full">
+              <Button type="submit" variant="secondary" size="full" loading={isLoading}>
                 Onboard
               </Button>
-              <DialogClose
-                className={buttonVariants({
-                  size: "full",
-                  variant: "transparent",
-                })}
-              >
+              <Button size="full" variant="transparent" onClick={() => setOpen(false)}>
                 Cancel
-              </DialogClose>
+              </Button>
             </div>
           </form>
         </Form>

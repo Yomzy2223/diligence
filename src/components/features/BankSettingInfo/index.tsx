@@ -11,6 +11,7 @@ interface BankInfoProps {
   regUrl: string;
   brandColor?: string;
   branch?: boolean;
+  className?: {};
 }
 
 export const BankSettingInfo = ({
@@ -25,9 +26,7 @@ export const BankSettingInfo = ({
 }: BankInfoProps) => {
   return (
     <div className="space-y-4">
-      <h6 className="text-xl font-semibold leading-6 text-foreground">
-        Bank Information
-      </h6>
+      <h6 className="text-xl font-semibold leading-6 text-foreground">Bank Information</h6>
       <div className="flex gap-6 p-6 border divide-x rounded-sm">
         <div className="grow">
           <div className="relative w-[148px] h-[148px] rounded-sm overflow-hidden">
@@ -62,13 +61,6 @@ export const BankSettingInfo = ({
                 </Link>
               </div>
             )}
-            {/* <Button
-							variant={"outline"}
-							color={brandColor}
-							className="mt-auto"
-						>
-							Edit
-						</Button> */}
           </div>
         </div>
       </div>
@@ -76,13 +68,7 @@ export const BankSettingInfo = ({
   );
 };
 
-const Detail = ({
-  detail,
-  detailName,
-}: {
-  detailName: string;
-  detail: string;
-}) => {
+const Detail = ({ detail, detailName }: { detailName: string; detail: string }) => {
   return (
     <div className="flex flex-col justify-center space-y-2 grow">
       <p className="text-base font-medium leading-snug text-foreground tracking-[0.32px]">
