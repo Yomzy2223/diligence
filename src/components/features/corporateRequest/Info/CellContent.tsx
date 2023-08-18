@@ -7,6 +7,7 @@ import ConfirmAction from "../../dialog/confirmAction";
 import Dialog from "@/components/customdialog";
 import { FileDisplay } from "@/components/customdialog/fileDisplay";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface propsType {
   request: any;
@@ -19,7 +20,7 @@ interface propsType {
   handleConfirm: (arg: any) => void;
 }
 
-const ActionCellContent = ({
+export const ActionCellContent = ({
   request,
   openResult,
   setOpenResult,
@@ -95,4 +96,17 @@ const ActionCellContent = ({
   //
   else return status;
 };
-export default ActionCellContent;
+
+export const Status = ({ status }: { status: string }) => {
+  status = status.toLowerCase();
+  const className = "capitalize px-2 py-1 rounded-lg text-center";
+
+  if (status === "unverified")
+    return <div className={cn(className, "bg-red-400/20")}>{status}</div>;
+
+  if (status === "verified")
+    return <div className={cn(className, "bg-yellow-500/20")}>{status}</div>;
+
+  if (status === "completed")
+    return <div className={cn(className, "bg-green-500/20")}>{status}</div>;
+};

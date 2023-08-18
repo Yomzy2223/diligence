@@ -1,27 +1,26 @@
 import {
   createBank,
-  createStaff,
-  deleteBank,
-  deleteStaff,
   updateBank,
-  updateStaff,
+  deleteBank,
   viewAllBanks,
   viewAllNigeriaBanks,
-  viewAllStaff,
   viewBank,
-  viewStaff,
   createBranch,
   updateBranch,
   deleteBranch,
   viewBranchById,
   viewBranchByEmail,
   viewEnterpriseManagers,
+  createStaff,
+  deleteStaff,
+  viewStaff,
+  viewAllBranchStaff,
 } from "@/api/enterpriseApi";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useResponse } from "./useResponse";
 
 // React Query hooks for bank
-export const useBank = () => {
+export const useEnterprise = () => {
   const { handleError, handleSuccess } = useResponse();
 
   const createBankMutation = useMutation({
@@ -112,22 +111,11 @@ export const useBank = () => {
 //
 
 // React Query hooks for bank staff
-export const useBankStaff = () => {
+export const useEnterpriseStaff = () => {
   const { handleError, handleSuccess } = useResponse();
 
   const createStaffMutation = useMutation({
     mutationFn: createStaff,
-    onError(error, variables, context) {
-      handleError({ error });
-    },
-    onSuccess(data, variables, context) {
-      handleSuccess({ data });
-    },
-    retry: 3,
-  });
-
-  const updateStaffMutation = useMutation({
-    mutationFn: updateStaff,
     onError(error, variables, context) {
       handleError({ error });
     },
@@ -159,8 +147,8 @@ export const useBankStaff = () => {
     retry: 3,
   });
 
-  const viewAllStaffMutation = useMutation({
-    mutationFn: viewAllStaff,
+  const viewAllBranchStaffMutation = useMutation({
+    mutationFn: viewAllBranchStaff,
     onError(error, variables, context) {
       handleError({ error });
     },
@@ -172,15 +160,9 @@ export const useBankStaff = () => {
 
   return {
     createStaffMutation,
-    createStaff: createStaffMutation.mutate,
-    updateStaffMutation,
-    updateStaff: updateStaffMutation.mutate,
     deleteStaffMutation,
-    deleteStaff: deleteStaffMutation.mutate,
     viewStaffMutation,
-    viewStaff: viewStaffMutation.mutate,
-    viewAllStaffMutation,
-    viewAllStaff: viewAllStaffMutation.mutate,
+    viewAllBranchStaff,
   };
 };
 
@@ -190,7 +172,7 @@ export const useBankStaff = () => {
 //
 
 // React Query hooks for bank branch
-export const useBankBranch = () => {
+export const useEnterpriseBranch = () => {
   const { handleError, handleSuccess } = useResponse();
 
   const createBranchMutation = useMutation({

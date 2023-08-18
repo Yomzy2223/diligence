@@ -20,7 +20,7 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    router.push("auth/login");
+    router.push("/auth/login");
   };
 
   return (
@@ -72,7 +72,7 @@ const Sidebar = () => {
             );
           })}
         </div>
-        <Button variant="ghost" onClick={handleLogout} className="w-full justify-start">
+        <Button variant="ghost2" onClick={handleLogout} className="w-full justify-start">
           <div className="flex items-center gap-2 ">
             <LogoutIcon />
             {open && <p className="text-destructive">Logout</p>}

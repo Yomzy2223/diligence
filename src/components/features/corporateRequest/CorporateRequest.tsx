@@ -15,12 +15,13 @@ import ConfirmAction from "../dialog/confirmAction";
 import { RequestContext } from "@/app/(dashboard)/(home)/layout";
 
 const CorporateRequest = ({ className }: { className?: string }) => {
-  const { createRequestMutation } = useRequests();
+  const { createRequestMutation, updateRequestMutation } = useRequests();
   const { mutate, isLoading, isSuccess, isError } = createRequestMutation;
   const [formValues, setFormValues] = useState({ name: "", registrationNumber: "" });
   const [openConfirm, setOpenConfirm] = useState(false);
 
   const requestContext = useContext(RequestContext);
+  const editMode = requestContext?.regState?.regName && requestContext?.regState?.regNo;
 
   // Form definition
   const form = useForm<corpSearchType>({
@@ -37,20 +38,47 @@ const CorporateRequest = ({ className }: { className?: string }) => {
     setOpenConfirm(true);
   };
 
+  // Create or Update request
   const handleConfirm = () => {
     const userInfo = getUserInfo();
     const payload: submitType = {
       ...formValues,
       email: userInfo?.data?.email || "",
-      enterpriseId: userInfo?.data?.id || "",
+      enterpriseId: userInfo?.data?.enterpriseId || "",
     };
 
-    mutate(payload);
+    editMode
+      ? updateRequestMutation?.mutate({
+          requestId: requestContext?.regState?.requestId,
+          formInfo: payload,
+        })
+      : mutate(payload);
   };
 
+  // Cancel request update
+  const cancelEdit = () => {
+    requestContext?.setRegState({
+      ...requestContext?.regState,
+      regName: "",
+      regNo: "",
+    });
+  };
+
+  // Close dialog and refetch data after creating or updating a request
   useEffect(() => {
-    if (isSuccess || isError) setOpenConfirm(false);
-  }, [isLoading]);
+    if (
+      editMode
+        ? updateRequestMutation.isError || updateRequestMutation.isSuccess
+        : isSuccess || isError
+    ) {
+      setOpenConfirm(false);
+      requestContext?.setRegState({
+        ...requestContext?.regState,
+        refetchData: !requestContext?.regState?.refetchData,
+      });
+    }
+    if (updateRequestMutation.isSuccess) cancelEdit();
+  }, [isLoading, updateRequestMutation.isLoading]);
 
   return (
     <div
@@ -62,14 +90,14 @@ const CorporateRequest = ({ className }: { className?: string }) => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 w-4/6 ">
           <p className="text-white font-normal text-3xl w-max pb-5 ">Request Corporate Search</p>
-          <div className="flex flex-col space-y-8 py-2 bg-white rounded-lg ">
+          <div className="flex flex-col space-y-8 py-2 bg-white rounded-lg relative ">
             <CMField
               form={form}
               name="name"
               label="Business/Company Name"
               placeholder="Enter Business/Company Name"
               tipText="Must be registered with CAC"
-              defaultValue={requestContext?.regInfo?.regName}
+              defaultValue={requestContext?.regState?.regName}
             />
 
             <Separator className="!mt-0 " />
@@ -81,12 +109,26 @@ const CorporateRequest = ({ className }: { className?: string }) => {
               placeholder="Enter Registration Number"
               tipText="Unique registration number assigned to your business when you registered"
               type="text"
-              defaultValue={requestContext?.regInfo?.regNo}
+              defaultValue={requestContext?.regState?.regNo}
             />
           </div>
-          <Button type="submit" className="self-end " variant="secondary" loading={isLoading}>
-            Submit
-          </Button>
+
+          <div className="self-end space-x-4">
+            {editMode && (
+              <Button
+                type="button"
+                variant="outline-secondary"
+                loading={isLoading}
+                onClick={cancelEdit}
+              >
+                Cancel
+              </Button>
+            )}
+            <Button type="submit" variant="secondary" loading={isLoading}>
+              {editMode ? "Update" : "Submit"}
+            </Button>
+          </div>
+
           <ConfirmAction
             open={openConfirm}
             setOpen={setOpenConfirm}
@@ -94,7 +136,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
             description={`Business name is "${formValues.name}" and Registration Number is "${formValues.registrationNumber}"`}
             actionText="Request"
             action={handleConfirm}
-            loading={isLoading}
+            loading={isLoading || updateRequestMutation.isLoading}
           />
         </form>
         {/* {mutation.status === "loading" && <p>Loading...</p>}

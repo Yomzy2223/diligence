@@ -22,6 +22,9 @@ const CMField = ({
 
   useEffect(() => {
     if (defaultValue) setValue(name, defaultValue, { shouldValidate: true });
+    else {
+      setValue(name, "", { shouldValidate: false });
+    }
   }, [defaultValue]);
 
   return (

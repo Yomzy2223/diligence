@@ -42,31 +42,31 @@ export const viewEnterpriseByEmail = async (adminEmail: string) => {
 //
 //
 
+interface createStaffType {
+  managerId: string;
+  formInfo: { email: string };
+}
+
 // BANK STAFF FUNCTIONS
 // --------------------------------------------------------------------------------
 // Function to create a Staff
-export const createStaff = (formInfo: any) => {
-  return client.post(`/diligence/createStaff`, formInfo);
-};
-
-// Function to update a Staff
-export const updateStaff = (formInfo: any) => {
-  return client.post(`/diligence/verify/${formInfo.id}`, formInfo);
+export const createStaff = ({ managerId, formInfo }: createStaffType) => {
+  return client.post(`/diligence/staff/${managerId}`, formInfo);
 };
 
 // Function to delete a Staff
-export const deleteStaff = (formInfo: any) => {
-  return client.post(``, formInfo);
+export const deleteStaff = (staffId: string) => {
+  return client.delete(`/diligence/staff/${staffId}`);
 };
 
 // Function to view a Staff
-export const viewStaff = (formInfo: any) => {
-  return client.post(`/diligence/staff/${formInfo.id}`, formInfo);
+export const viewStaff = (staffId: string) => {
+  return client.get(`/diligence/staff/${staffId}`);
 };
 
 // Function to view all Staffs
-export const viewAllStaff = (formInfo: any) => {
-  return client.post(`/diligence//allStaffs/${formInfo.id}`, formInfo);
+export const viewAllBranchStaff = (managerId: string) => {
+  return client.get(`/diligence/staffs/${managerId}`);
 };
 
 //
