@@ -21,7 +21,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
   const [openConfirm, setOpenConfirm] = useState(false);
 
   const requestContext = useContext(RequestContext);
-  const editMode = requestContext?.regInfo?.regName && requestContext?.regInfo?.regNo;
+  const editMode = requestContext?.regState?.regName && requestContext?.regState?.regNo;
 
   // Form definition
   const form = useForm<corpSearchType>({
@@ -34,7 +34,6 @@ const CorporateRequest = ({ className }: { className?: string }) => {
 
   // Submit handler
   const onSubmit = async (values: corpSearchType) => {
-    console.log(values);
     setFormValues(values);
     setOpenConfirm(true);
   };
@@ -50,7 +49,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
 
     editMode
       ? updateRequestMutation?.mutate({
-          requestId: requestContext?.regInfo?.requestId,
+          requestId: requestContext?.regState?.requestId,
           formInfo: payload,
         })
       : mutate(payload);
@@ -58,20 +57,26 @@ const CorporateRequest = ({ className }: { className?: string }) => {
 
   // Cancel request update
   const cancelEdit = () => {
-    requestContext?.setRegInfo({
-      ...requestContext?.regInfo,
+    requestContext?.setRegState({
+      ...requestContext?.regState,
       regName: "",
       regNo: "",
     });
   };
 
+  // Close dialog and refetch data after creating or updating a request
   useEffect(() => {
     if (
       editMode
         ? updateRequestMutation.isError || updateRequestMutation.isSuccess
         : isSuccess || isError
-    )
+    ) {
       setOpenConfirm(false);
+      requestContext?.setRegState({
+        ...requestContext?.regState,
+        refetchData: !requestContext?.regState?.refetchData,
+      });
+    }
     if (updateRequestMutation.isSuccess) cancelEdit();
   }, [isLoading, updateRequestMutation.isLoading]);
 
@@ -92,7 +97,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
               label="Business/Company Name"
               placeholder="Enter Business/Company Name"
               tipText="Must be registered with CAC"
-              defaultValue={requestContext?.regInfo?.regName}
+              defaultValue={requestContext?.regState?.regName}
             />
 
             <Separator className="!mt-0 " />
@@ -104,7 +109,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
               placeholder="Enter Registration Number"
               tipText="Unique registration number assigned to your business when you registered"
               type="text"
-              defaultValue={requestContext?.regInfo?.regNo}
+              defaultValue={requestContext?.regState?.regNo}
             />
           </div>
 

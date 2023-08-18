@@ -25,31 +25,34 @@ export const useActions = ({ status }: { status?: string }) => {
       refetch();
       setOpenDeleteConfirm(false);
     }
-    console.log(requests);
   }, [deleteRequestMutation.isSuccess, deleteRequestMutation.isError]);
 
+  useEffect(() => {
+    refetch();
+    console.log("Data refeched");
+  }, [reqContext?.regState?.refetchData]);
+
   const normalize = (text: string) => text.trim().toLowerCase();
-  const searchValue = normalize(reqContext?.regInfo?.searchValue || "");
+  const searchValue = normalize(reqContext?.regState?.searchValue || "");
 
   // Filter requests
   const filteredRequests = requests?.filter(
     (el: any) =>
       normalize(el?.createdBy)?.includes(searchValue) ||
       normalize(el?.name)?.includes(searchValue) ||
-      el?.registrationNumber?.includes(reqContext?.regInfo?.searchValue) ||
+      el?.registrationNumber?.includes(reqContext?.regState?.searchValue) ||
       normalize(el?.status)?.includes(searchValue)
   );
 
   // Delete request
   const handleDeleteConfirm = (request: any) => {
-    console.log(request);
     deleteRequestMutation.mutate(request.id);
   };
 
   // Edit request
   const handleEdit = (request: any) => {
-    reqContext?.setRegInfo({
-      ...reqContext?.regInfo,
+    reqContext?.setRegState({
+      ...reqContext?.regState,
       requestId: request?.id,
       regNo: request?.registrationNumber,
       regName: request?.name,

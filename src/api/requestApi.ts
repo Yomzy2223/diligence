@@ -28,7 +28,7 @@ export const createRequest = async (formInfo: createType) => {
 
 // Function to update a request
 export const updateRequest = ({ requestId, formInfo }: updateType) => {
-  return client.put(`/diligence/request/update/${requestId}`, formInfo);
+  return client.put(`/diligence/request/${requestId}`, formInfo);
 };
 
 // Function to delete a request

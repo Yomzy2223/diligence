@@ -1,13 +1,14 @@
-export interface RegInfo {
+export interface RegStateType {
   requestId: string;
   regNo: string;
   regName: string;
   searchValue: string;
+  refetchData: boolean;
 }
 
 export interface RequestType {
-  regInfo: RegInfo;
-  setRegInfo: React.Dispatch<React.SetStateAction<RegInfo>>;
+  regState: RegStateType;
+  setRegState: React.Dispatch<React.SetStateAction<RegStateType>>;
 }
 
 export const allStatus = [

@@ -16,12 +16,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { bankBranchSchema, bankBranchType, propType } from "./constants";
 import InputWithLabel from "@/components/input/inputWithLabel";
 import { getUserInfo } from "@/lib/globalFunctions";
-import { useBankBranch } from "@/hooks/useEnterprise";
+import { useEnterpriseBranch } from "@/hooks/useEnterprise";
 
 const BranchOnboard = ({ children }: propType) => {
   const [open, setOpen] = useState(false);
 
-  const { createBranchMutation } = useBankBranch();
+  const { createBranchMutation } = useEnterpriseBranch();
   const { mutate, isLoading, isSuccess, isError } = createBranchMutation;
 
   // Form definition
