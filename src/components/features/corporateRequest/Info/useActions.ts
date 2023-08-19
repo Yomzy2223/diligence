@@ -9,10 +9,11 @@ import { ActionCellContent, Status } from "./CellContent";
 export const useActions = ({ status }: { status?: string }) => {
   const [openResult, setOpenResult] = useState(false);
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
+  const [openVerifyConfirm, setOpenVerifyConfirm] = useState(false);
 
   const reqContext = useContext(RequestContext);
 
-  const { deleteRequestMutation, viewAllRequestsQuery } = useRequests();
+  const { deleteRequestMutation, viewAllRequestsQuery, verifyRequestMutation } = useRequests();
   const { data, error, isError, isSuccess, isLoading, refetch } = viewAllRequestsQuery;
 
   status = status?.toLowerCase();
@@ -25,11 +26,19 @@ export const useActions = ({ status }: { status?: string }) => {
       refetch();
       setOpenDeleteConfirm(false);
     }
-  }, [deleteRequestMutation.isSuccess, deleteRequestMutation.isError]);
+    if (verifyRequestMutation.isSuccess || verifyRequestMutation.isError) {
+      refetch();
+      setOpenVerifyConfirm(false);
+    }
+  }, [
+    deleteRequestMutation.isSuccess,
+    deleteRequestMutation.isError,
+    verifyRequestMutation.isSuccess,
+    verifyRequestMutation.isError,
+  ]);
 
   useEffect(() => {
     refetch();
-    console.log("Data refeched");
   }, [reqContext?.regState?.refetchData]);
 
   const normalize = (text: string) => text.trim().toLowerCase();
@@ -47,6 +56,11 @@ export const useActions = ({ status }: { status?: string }) => {
   // Delete request
   const handleDeleteConfirm = (request: any) => {
     deleteRequestMutation.mutate(request.id);
+  };
+
+  // Verify request
+  const handleVerifyConfirm = (request: any) => {
+    verifyRequestMutation.mutate(request.id);
   };
 
   // Edit request
@@ -68,6 +82,7 @@ export const useActions = ({ status }: { status?: string }) => {
 
     const Action = ActionCellContent({
       request,
+      propStatus: status,
       handleConfirm: handleDeleteConfirm,
       isLoading: deleteRequestMutation.isLoading,
       openDeleteConfirm: openDeleteConfirm,
@@ -75,6 +90,10 @@ export const useActions = ({ status }: { status?: string }) => {
       handleEdit,
       openResult: openResult,
       setOpenResult: setOpenResult,
+      openVerifyConfirm: openVerifyConfirm,
+      setOpenVerifyConfirm: setOpenVerifyConfirm,
+      handleVerifyConfirm: handleVerifyConfirm,
+      verifyLoading: verifyRequestMutation.isLoading,
     });
 
     const body = status
