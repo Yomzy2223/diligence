@@ -20,9 +20,15 @@ import { useEnterpriseBranch, useEnterpriseStaff } from "@/hooks/useEnterprise";
 
 const AddStaff = ({ children }: propType) => {
   const [open, setOpen] = useState(false);
+  const [staffToDelete, setStaffToDelete] = useState({});
 
-  const { createStaffMutation } = useEnterpriseStaff();
+  const { createStaffMutation, useViewAllBranchStaffQuery, deleteStaffMutation } =
+    useEnterpriseStaff();
   const { mutate, isLoading, isSuccess, isError } = createStaffMutation;
+
+  const managerId = getUserInfo()?.data?.managerId;
+  const viewBranchStaffQuery = useViewAllBranchStaffQuery(managerId);
+  const allStaff = viewBranchStaffQuery.data?.data?.data;
 
   // Form definition
   const form = useForm<staffType>({
@@ -33,19 +39,24 @@ const AddStaff = ({ children }: propType) => {
   });
 
   // Submit handler
-  function onSubmit(values: staffType) {
-    console.log(getUserInfo()?.data?.id);
-    console.log(values);
-    // const payload = {
-    //   managerId: getUserInfo()?.data?.id,
-    //   formInfo: { email: values.email },
-    // };
-    // mutate(payload);
-  }
+  const onSubmit = (values: staffType) => {
+    const payload = {
+      managerId: getUserInfo()?.data?.id,
+      formInfo: { email: values.email },
+    };
+    console.log(payload);
+    mutate(payload);
+  };
 
+  // Refetch staff when successfully created one or deleted any
   useEffect(() => {
-    if (isSuccess || isError) setOpen(false);
-  }, [isLoading]);
+    if (isSuccess || deleteStaffMutation.isSuccess) viewBranchStaffQuery.refetch();
+  }, [isSuccess, deleteStaffMutation.isSuccess]);
+
+  const handleRemove = (staff: any) => {
+    setStaffToDelete(staff);
+    deleteStaffMutation.mutate(staff?.id);
+  };
 
   return (
     <Dialog open={open}>
@@ -53,37 +64,71 @@ const AddStaff = ({ children }: propType) => {
         {children}
       </Button>
       <DialogContent
-        className="sm:max-w-[425px] md:max-w-[570px] py-14 bg-white "
+        className="sm:max-w-[425px] md:max-w-[570px] py-14 bg-white gap-0"
         cancel={() => setOpen(false)}
       >
-        <DialogHeader className="m-auto mb-6 ">
+        <DialogHeader className="m-auto w-full mb-6">
           <DialogTitle>Add Staff</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-16 w-[90%] m-auto "
+            className="flex flex-col gap-16 w-full m-auto mb-8 "
           >
-            <div className="flex gap-4 py-2 bg-white rounded-lg ">
+            <div className="flex item-center gap-4 bg-white rounded-lg ">
               <InputWithLabel
                 form={form}
                 name="email"
                 placeholder="Enter staff work email"
                 textSize="text-xs"
+                classNames={{ formItem: "w-4/5" }}
+                bottom={
+                  <span className="text-xs pt-2">
+                    Members added are only allowed to make requests for verifications
+                  </span>
+                }
               />
-              <Button type="submit" variant="ghost2" size="icon" loading={isLoading}>
+              <Button
+                type="submit"
+                variant="ghost2"
+                size="icon"
+                loading={isLoading}
+                loadingStroke="hsl(var(--secondary))"
+                className="relative top-5 text-secondary underline px-1"
+              >
                 Add
-              </Button>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Button type="button" variant="secondary" size="full" loading={isLoading}>
-                Done
               </Button>
             </div>
           </form>
         </Form>
+
+        {allStaff?.length > 0 && (
+          <div className="space-y-2 mb-12 ">
+            <p className="text-sm font-semibold">List of added staff</p>
+            <div className="bg-background-grey max-h-72 overflow-auto p-3.5 rounded-lg space-y-4">
+              {allStaff?.map((el: any, i: number) => (
+                <div key={i} className="flex justify-between gap-4">
+                  <span className="text-sm">{el?.email}</span>
+                  <Button
+                    size="slim"
+                    variant="destructive2"
+                    loading={deleteStaffMutation.isLoading && staffToDelete === el}
+                    onClick={() => handleRemove(el)}
+                  >
+                    X Remove
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="flex justify-end">
+          <Button type="button" variant="secondary" onClick={() => setOpen(false)}>
+            Done
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );

@@ -41,7 +41,7 @@ export const useAuth = () => {
     },
     onSuccess(data, variables, context) {
       handleSuccess({ data });
-      router.push("/auth/new-password");
+      // router.push("/auth/new-password");
     },
     retry: 3,
   });

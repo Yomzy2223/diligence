@@ -102,11 +102,11 @@ export const Status = ({ status }: { status: string }) => {
   const className = "capitalize px-2 py-1 rounded-lg text-center";
 
   if (status === "unverified")
-    return <div className={cn(className, "bg-red-400/20")}>{status}</div>;
+    return <div className={cn(className, "bg-red-400/10")}>{status}</div>;
 
   if (status === "verified")
-    return <div className={cn(className, "bg-yellow-500/20")}>{status}</div>;
+    return <div className={cn(className, "bg-yellow-500/10")}>{status}</div>;
 
   if (status === "completed")
-    return <div className={cn(className, "bg-green-500/20")}>{status}</div>;
+    return <div className={cn(className, "bg-green-500/10")}>{status}</div>;
 };

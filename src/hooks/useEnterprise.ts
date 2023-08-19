@@ -147,22 +147,18 @@ export const useEnterpriseStaff = () => {
     retry: 3,
   });
 
-  const viewAllBranchStaffMutation = useMutation({
-    mutationFn: viewAllBranchStaff,
-    onError(error, variables, context) {
-      handleError({ error });
-    },
-    onSuccess(data, variables, context) {
-      handleSuccess({ data });
-    },
-    retry: 3,
-  });
+  const useViewAllBranchStaffQuery = (managerId: string) =>
+    useQuery({
+      queryKey: ["All Staff", managerId],
+      queryFn: ({ queryKey }) => viewAllBranchStaff(queryKey[1]),
+    });
 
   return {
     createStaffMutation,
     deleteStaffMutation,
     viewStaffMutation,
     viewAllBranchStaff,
+    useViewAllBranchStaffQuery,
   };
 };
 

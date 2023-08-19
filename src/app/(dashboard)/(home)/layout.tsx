@@ -38,7 +38,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <CorporateRequest className="my-8" />
 
         <div className="flex justify-between items-center gap-8 mb-4">
-          <ActiveNav2 nav={allStatus} />
+          <ActiveNav2 nav={allStatus} defaultURL="/" />
           <Input
             variant="search"
             placeholder="Search for request..."

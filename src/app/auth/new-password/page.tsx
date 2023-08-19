@@ -8,10 +8,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import InputWithLabel from "@/components/input/inputWithLabel";
 import { forgotPasswordSchema, forgotPasswordType } from "./constants";
 import { useAuth } from "@/hooks/useAuth";
+import { getUserInfo } from "@/lib/globalFunctions";
+import { useSearchParams } from "next/navigation";
 
-const ForgotPassword = () => {
+const NewPassword = () => {
   const { changePassword, changePasswordMutation } = useAuth();
   const { isLoading } = changePasswordMutation;
+
+  const params = useSearchParams();
+  const token = params.get("token");
 
   // Form definition
   const form = useForm<forgotPasswordType>({
@@ -24,9 +29,8 @@ const ForgotPassword = () => {
 
   // Submit handler
   function onSubmit(values: forgotPasswordType) {
-    let userInfo = localStorage.getItem("userInfo");
-    if (userInfo) userInfo = JSON.parse(userInfo);
-    const payload = { password: values.password, email: userInfo?.data?.email, token: "" };
+    const email = getUserInfo()?.data?.email;
+    const payload = { password: values.password, email, token };
     changePassword(payload);
   }
 
@@ -63,4 +67,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default NewPassword;
