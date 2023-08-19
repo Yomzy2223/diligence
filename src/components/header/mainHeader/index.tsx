@@ -17,10 +17,13 @@ const MainHeader = () => {
           <Image src={Logo} alt={"sidebrief logo"} className="h-6 w-auto" />
         </div>
         <div className="ml-auto flex items-center space-x-4">
-          <Link href="" className={buttonVariants({ variant: "transparent", size: "icon" })}>
+          <Link
+            href="/settings"
+            className={buttonVariants({ variant: "transparent", size: "icon" })}
+          >
             <Image src={Settings} alt={"Settings icon"} className="block w-8 h-8 " />
           </Link>
-          <NotificationCard />
+          {/* <NotificationCard /> */}
           <UserNav />
         </div>
       </div>

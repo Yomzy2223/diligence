@@ -1,10 +1,4 @@
 import {
-  createBank,
-  updateBank,
-  deleteBank,
-  viewAllBanks,
-  viewAllNigeriaBanks,
-  viewBank,
   createBranch,
   updateBranch,
   deleteBranch,
@@ -15,6 +9,9 @@ import {
   deleteStaff,
   viewStaff,
   viewAllBranchStaff,
+  updateEnterprise,
+  viewEnterpriseById,
+  viewEnterpriseByAdminEmail,
 } from "@/api/enterpriseApi";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useResponse } from "./useResponse";
@@ -23,8 +20,8 @@ import { useResponse } from "./useResponse";
 export const useEnterprise = () => {
   const { handleError, handleSuccess } = useResponse();
 
-  const createBankMutation = useMutation({
-    mutationFn: createBank,
+  const updateEnterpriseMutation = useMutation({
+    mutationFn: updateEnterprise,
     onError(error, variables, context) {
       handleError({ error });
     },
@@ -34,52 +31,17 @@ export const useEnterprise = () => {
     retry: 3,
   });
 
-  const updateBankMutation = useMutation({
-    mutationFn: updateBank,
+  const viewEnterpriseByIdMutation = useMutation({
+    mutationFn: viewEnterpriseById,
     onError(error, variables, context) {
       handleError({ error });
     },
-    onSuccess(data, variables, context) {
-      handleSuccess({ data });
-    },
+    onSuccess(data, variables, context) {},
     retry: 3,
   });
 
-  const deleteBankMutation = useMutation({
-    mutationFn: deleteBank,
-    onError(error, variables, context) {
-      handleError({ error });
-    },
-    onSuccess(data, variables, context) {
-      handleSuccess({ data });
-    },
-    retry: 3,
-  });
-
-  const viewBankMutation = useMutation({
-    mutationFn: viewBank,
-    onError(error, variables, context) {
-      handleError({ error });
-    },
-    onSuccess(data, variables, context) {
-      handleSuccess({ data });
-    },
-    retry: 3,
-  });
-
-  const viewAllBanksMutation = useMutation({
-    mutationFn: viewAllBanks,
-    onError(error, variables, context) {
-      handleError({ error });
-    },
-    onSuccess(data, variables, context) {
-      handleSuccess({ data });
-    },
-    retry: 3,
-  });
-
-  const viewAllNigeriaBankMutation = useMutation({
-    mutationFn: viewAllNigeriaBanks,
+  const viewEnterpriseByAdminEmailMutation = useMutation({
+    mutationFn: viewEnterpriseByAdminEmail,
     onError(error, variables, context) {
       handleError({ error });
     },
@@ -90,18 +52,9 @@ export const useEnterprise = () => {
   });
 
   return {
-    createBankMutation,
-    createBank: createBankMutation.mutate,
-    updateBankMutation,
-    updateBank: updateBankMutation.mutate,
-    deleteBankMutation,
-    deleteBank: deleteBankMutation.mutate,
-    viewBankMutation,
-    viewBank: viewBankMutation.mutate,
-    viewAllBanksMutation,
-    viewAllBanks: viewAllBanksMutation.mutate,
-    viewAllNigeriaBankMutation,
-    viewAllNigeriaBanks: viewAllNigeriaBankMutation.mutate,
+    updateEnterpriseMutation,
+    viewEnterpriseByIdMutation,
+    viewEnterpriseByAdminEmailMutation,
   };
 };
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Sidebar from "@/components/features/sidebar";
 import MainHeader from "@/components/header/mainHeader";
+import { getEnterpriseInfo, setColor } from "@/lib/globalFunctions";
 
 export const metadata: Metadata = {
   title: "Diligence ",

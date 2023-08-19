@@ -117,14 +117,15 @@ const CorporateRequest = ({ className }: { className?: string }) => {
             {editMode && (
               <Button
                 type="button"
-                variant="outline-secondary"
+                variant="outline"
+                className="bg-background"
                 loading={isLoading}
                 onClick={cancelEdit}
               >
                 Cancel
               </Button>
             )}
-            <Button type="submit" variant="secondary" loading={isLoading}>
+            <Button type="submit" loading={isLoading}>
               {editMode ? "Update" : "Submit"}
             </Button>
           </div>

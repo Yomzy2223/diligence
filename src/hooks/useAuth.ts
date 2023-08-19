@@ -1,6 +1,7 @@
 import { changePassword, forgotPassword, signIn, signUp } from "@/api/authApi";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useEnterprise } from "./useEnterprise";
 import { useResponse } from "./useResponse";
 
 // React Query hooks for auth
@@ -59,12 +60,8 @@ export const useAuth = () => {
 
   return {
     signUpMutation,
-    signUp: signUpMutation.mutate,
     signInMutation,
-    signIn: signInMutation.mutate,
     forgotPasswordMutation,
-    forgotPassword: forgotPasswordMutation.mutate,
     changePasswordMutation,
-    changePassword: changePasswordMutation.mutate,
   };
 };

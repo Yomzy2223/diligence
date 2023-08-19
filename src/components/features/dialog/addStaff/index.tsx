@@ -60,9 +60,7 @@ const AddStaff = ({ children }: propType) => {
 
   return (
     <Dialog open={open}>
-      <Button variant="secondary" onClick={() => setOpen(true)}>
-        {children}
-      </Button>
+      <Button onClick={() => setOpen(true)}>{children}</Button>
       <DialogContent
         className="sm:max-w-[425px] md:max-w-[570px] py-14 bg-white gap-0"
         cancel={() => setOpen(false)}
@@ -125,7 +123,7 @@ const AddStaff = ({ children }: propType) => {
         )}
 
         <div className="flex justify-end">
-          <Button type="button" variant="secondary" onClick={() => setOpen(false)}>
+          <Button type="button" onClick={() => setOpen(false)}>
             Done
           </Button>
         </div>

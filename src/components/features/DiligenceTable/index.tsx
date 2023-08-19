@@ -107,25 +107,27 @@ export const DiligenceTable = ({
         </TableBody>
       </Table>
 
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel=">"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={2}
-        pageCount={pageCount}
-        previousLabel="<"
-        renderOnZeroPageCount={null}
-        marginPagesDisplayed={2}
-        containerClassName="flex gap-4 my-4 max-w-max m-auto p-2 border border-border rounded"
-        pageClassName=""
-        pageLinkClassName="px-3 py-1.5 text-muted-foreground "
-        previousClassName=""
-        previousLinkClassName="px-3 py-1.5 text-black border-r border-border"
-        nextClassName=""
-        nextLinkClassName="px-3 py-1.5 text-black border-l border-border"
-        activeClassName=""
-        activeLinkClassName="text-black bg-background-blue rounded"
-      />
+      {body?.length > itemsPerPage && (
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel=">"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={2}
+          pageCount={pageCount}
+          previousLabel="<"
+          renderOnZeroPageCount={null}
+          marginPagesDisplayed={2}
+          containerClassName="flex gap-4 my-4 max-w-max m-auto p-2 border border-border rounded"
+          pageClassName=""
+          pageLinkClassName="px-3 py-1.5 text-muted-foreground "
+          previousClassName=""
+          previousLinkClassName="px-3 py-1.5 text-black border-r border-border"
+          nextClassName=""
+          nextLinkClassName="px-3 py-1.5 text-black border-l border-border"
+          activeClassName=""
+          activeLinkClassName="text-black bg-background-light rounded"
+        />
+      )}
     </div>
   );
 };
