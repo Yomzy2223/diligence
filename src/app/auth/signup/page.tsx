@@ -13,8 +13,8 @@ import { ToastAction } from "@/components/ui/toast";
 import { Oval } from "react-loading-icons";
 
 const SignUp = () => {
-  const { signUp, signUpMutation } = useAuth();
-  const { isLoading } = signUpMutation;
+  const { signUpMutation } = useAuth();
+  const { mutate, isLoading } = signUpMutation;
 
   // Form definition
   const form = useForm<signUpType>({
@@ -29,7 +29,7 @@ const SignUp = () => {
 
   // Submit handler
   function onSubmit(values: signUpType) {
-    signUp(values);
+    mutate(values);
   }
 
   return (
@@ -67,7 +67,7 @@ const SignUp = () => {
         </div>
 
         <div className="flex flex-col items-center gap-8">
-          <Button type="submit" size="full" disabled={isLoading}>
+          <Button type="submit" variant="secondary" size="full" disabled={isLoading}>
             {isLoading ? <Oval stroke="#fff" className="w-5 h-5" /> : "Create account"}
           </Button>
           <p>

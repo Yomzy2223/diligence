@@ -23,7 +23,7 @@ module.exports = {
         tab: "rgba(0, 162, 212, 0.10)",
         background: {
           DEFAULT: "hsl(var(--background))",
-          blue: "hsla(var(--background-blue))",
+          light: "hsla(var(--background-light))",
           grey: "hsla(var(--background-grey))",
         },
         foreground: {

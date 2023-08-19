@@ -3,38 +3,33 @@
 
 import { client } from "@/lib/config";
 
-// Function to create a bank
-export const createBank = (formInfo: any) => {
-  return client.post(`/diligence/bank`, formInfo);
+interface updateType {
+  name: string;
+  address: string;
+  adminEmail: string;
+  logo: string;
+  color: string;
+}
+
+// Function to update an enterprise
+export const updateEnterprise = ({
+  enterpriseId,
+  formInfo,
+}: {
+  enterpriseId: string;
+  formInfo: updateType;
+}) => {
+  return client.put(`/diligence/enterprise/${enterpriseId}`, formInfo);
 };
 
-// Function to update a bank
-export const updateBank = (formInfo: any) => {
-  return client.put(`/diligence/bank/${formInfo.bankId}`, formInfo);
+// Function to view an enterprise by entrprise id
+export const viewEnterpriseById = (enterpriseId: string) => {
+  return client.get(`/diligence/enterprise/${enterpriseId}`);
 };
 
-// Function to delete a bank
-export const deleteBank = (formInfo: any) => {
-  return client.delete(`/diligence/bank/${formInfo.bankId}`, formInfo);
-};
-
-// Function to view a bank
-export const viewBank = (formInfo: any) => {
-  return client.get(`/diligence/bank/${formInfo.id}`);
-};
-
-// Function to view all banks
-export const viewAllBanks = () => {
-  return client.get(`/diligence/banks`);
-};
-
-// Function to view all nigeria banks
-export const viewAllNigeriaBanks = () => {
-  return client.get(`/diligence/nigerianbanks`);
-};
-
-export const viewEnterpriseByEmail = async (adminEmail: string) => {
-  return await client.get(`/diligence/enterpriseByEmail/${adminEmail}`);
+// Function to view an enterprise by admin email
+export const viewEnterpriseByAdminEmail = (adminEmail: string) => {
+  return client.get(`/diligence/enterpriseByEmail/${adminEmail}`);
 };
 
 //
