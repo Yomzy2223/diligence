@@ -60,9 +60,9 @@ export const DiligenceTable = ({
 
   return (
     <div className="border border-border">
-      <Table className="min-w-full bg-white border-spacing-0 ">
+      <Table className="min-w-full bg-white border-spacing-0 border-b border-border ">
         <TableHeader className="w-full text-base text-gray-900 bg-gray-100 border-none">
-          <TableRow className="w-full ">
+          <TableRow className="w-full">
             {header?.map((text, index) => (
               <TableHead
                 className="px-6 py-5 text-sm font-medium leading-5 text-left text-gray-900 border-b-0 max-w-max whitespace-nowrap "
@@ -116,14 +116,15 @@ export const DiligenceTable = ({
         previousLabel="<"
         renderOnZeroPageCount={null}
         marginPagesDisplayed={2}
-        containerClassName="flex justify-center gap-3"
-        pageClassName="p-2 bg-slate-200"
-        pageLinkClassName="page-link"
-        previousClassName="p-2"
-        previousLinkClassName="page-link"
-        nextClassName="p-2"
-        nextLinkClassName="page-link"
-        activeClassName="active"
+        containerClassName="flex gap-4 my-4 max-w-max m-auto p-2 border border-border rounded"
+        pageClassName=""
+        pageLinkClassName="px-3 py-1.5 text-muted-foreground "
+        previousClassName=""
+        previousLinkClassName="px-3 py-1.5 text-black border-r border-border"
+        nextClassName=""
+        nextLinkClassName="px-3 py-1.5 text-black border-l border-border"
+        activeClassName=""
+        activeLinkClassName="text-black bg-background-blue rounded"
       />
     </div>
   );

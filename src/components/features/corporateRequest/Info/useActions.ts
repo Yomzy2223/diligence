@@ -66,27 +66,37 @@ export const useActions = ({ status }: { status?: string }) => {
     const formattedDate = format(new Date(request?.createdAt), "dd/MM/yyyy");
     const formattedTime = getTimeInfo(request?.createdAt);
 
-    let body = [
-      numeral(id + 1).format("00"),
-      request?.name,
-      request?.registrationNumber,
-      request?.createdBy,
-      formattedDate,
-      // formattedTime,
-      Status({ status: request?.status }),
-      ActionCellContent({
-        request,
-        handleConfirm: handleDeleteConfirm,
-        isLoading: deleteRequestMutation.isLoading,
-        openDeleteConfirm: openDeleteConfirm,
-        setOpenDeleteConfirm: setOpenDeleteConfirm,
-        handleEdit,
-        openResult: openResult,
-        setOpenResult: setOpenResult,
-      }),
-    ];
+    const Action = ActionCellContent({
+      request,
+      handleConfirm: handleDeleteConfirm,
+      isLoading: deleteRequestMutation.isLoading,
+      openDeleteConfirm: openDeleteConfirm,
+      setOpenDeleteConfirm: setOpenDeleteConfirm,
+      handleEdit,
+      openResult: openResult,
+      setOpenResult: setOpenResult,
+    });
 
-    if (status) body = body.filter((el) => el !== request?.status);
+    const body = status
+      ? [
+          numeral(id + 1).format("00"),
+          request?.name,
+          request?.registrationNumber,
+          request?.createdBy,
+          formattedDate,
+          // formattedTime,
+          Action,
+        ]
+      : [
+          numeral(id + 1).format("00"),
+          request?.name,
+          request?.registrationNumber,
+          request?.createdBy,
+          formattedDate,
+          // formattedTime,
+          Status({ status: request?.status }),
+          Action,
+        ];
 
     return body;
   });

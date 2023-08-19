@@ -13,6 +13,7 @@ const buttonVariants = cva(
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        destructive2: "bg-destructive/20 text-foreground/70 text-sm hover:bg-destructive/10",
         outline: "border border-primary text-primary bg-transparent hover:bg-accent",
         ["outline-secondary"]: "border border-secondary text-secondary bg-white hover:bg-white/90",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
@@ -45,10 +46,24 @@ export interface ButtonProps
   asChild?: boolean;
   color?: string;
   loading?: boolean;
+  loadingStroke?: string;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, color, loading, children, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      asChild = false,
+      color,
+      loading,
+      loadingStroke,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "button";
 
     const luminence = Tcolor(color).getLuminance();
@@ -70,7 +85,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={loading}
         {...props}
       >
-        {loading ? <Oval stroke="#fff" className="w-5 h-5 " /> : children}
+        {loading ? <Oval stroke={loadingStroke || "#fff"} className="w-5 h-5 " /> : children}
       </Comp>
     );
   }

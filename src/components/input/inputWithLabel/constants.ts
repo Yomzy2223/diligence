@@ -7,4 +7,7 @@ export interface cmFieldPropType {
   placeholder?: string;
   textSize?: string;
   bottom?: any;
+  classNames?: {
+    formItem: string;
+  };
 }
