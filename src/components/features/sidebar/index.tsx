@@ -11,7 +11,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { getEnterpriseInfo, setColor } from "@/lib/globalFunctions";
+import { getEnterpriseInfo, getUserInfo, setColor } from "@/lib/globalFunctions";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
@@ -28,6 +28,16 @@ const Sidebar = () => {
     const brandColor = getEnterpriseInfo()?.data?.color;
     setColor(brandColor || "hsl(194 100% 42%)");
   }, []);
+
+  const userRole = getUserInfo()?.data?.role?.toLowerCase();
+  //
+  let sidebarItems = [
+    { href: "/", text: "Home", icon: HomeIcon },
+    { href: "/details", text: "Details", icon: DetailsIcon },
+    { href: "/settings", text: "Settings", icon: SettingsIcon },
+  ];
+
+  if (userRole === "staff") sidebarItems = sidebarItems.filter((el) => el.href !== "/details");
 
   return (
     <motion.div
@@ -90,13 +100,6 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-
-//
-const sidebarItems = [
-  { href: "/", text: "Home", icon: HomeIcon },
-  { href: "/details", text: "Details", icon: DetailsIcon },
-  { href: "/settings", text: "Settings", icon: SettingsIcon },
-];
 
 //
 const variants = {
