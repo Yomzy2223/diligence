@@ -72,7 +72,7 @@ const SignUp = () => {
           </Button>
           <p>
             Already have an account?{" "}
-            <Link href="/auth/login" className="text-primary">
+            <Link href="/auth/login" className="text-secondary">
               Sign in
             </Link>
           </p>

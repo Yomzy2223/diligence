@@ -1,0 +1,79 @@
+import React, { useState } from "react";
+import { useEnterprise, useEnterpriseBranch } from "@/hooks/useEnterprise";
+import { getUserInfo } from "@/lib/globalFunctions";
+import EnterpriseSummary from "./EnterpriseSummary";
+import { useSearchParams } from "next/navigation";
+import { DiligenceTable } from "../DiligenceTable";
+import { useActions } from "./actions";
+import { Input } from "@/components/ui/input";
+import DoCheck from "@/components/DoCheck";
+
+const EnterpriseInfo = () => {
+  const [searchValue, setSearchValue] = useState("");
+
+  const userInfo = getUserInfo()?.data;
+  const role = userInfo?.role?.toLowerCase();
+  const enterpriseId = userInfo?.enterpriseId;
+
+  const searchParams = useSearchParams();
+  const managerId = role === "manager" ? userInfo?.managerId : searchParams.get("managerId");
+
+  const { useViewBranchByIdQuery } = useEnterpriseBranch();
+  const { useViewEnterpriseByIdMutation } = useEnterprise();
+
+  const branch = useViewBranchByIdQuery(managerId || "");
+  const enterprise = useViewEnterpriseByIdMutation(enterpriseId);
+
+  const { branchHeaders, branchBody, adminHeaders, adminBody, handleClick } = useActions({
+    enterprise,
+    searchValue,
+    managerId,
+  });
+
+  return (
+    <div className="space-y-8">
+      <EnterpriseSummary
+        role={role}
+        managerId={managerId}
+        enterprise={enterprise}
+        branch={branch}
+      />
+
+      {role === "admin" && (
+        <div>
+          <div className="flex justify-between items-center gap-8 mb-4">
+            <p className="font-semibold">Onboarded Branches</p>
+            {adminBody?.length > 0 && (
+              <Input
+                variant="search"
+                placeholder="Search branch..."
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
+            )}
+          </div>
+          <DoCheck isLoading={enterprise.isLoading} isEmpty={adminBody?.length === 0}>
+            <DiligenceTable header={adminHeaders} body={adminBody} onRowClick={handleClick} />
+          </DoCheck>
+        </div>
+      )}
+
+      {role === "manager" && (
+        <div>
+          <div className="flex justify-between items-center gap-8 mb-4">
+            <p className="font-semibold">All Staff</p>
+            <Input
+              variant="search"
+              placeholder="Search staff..."
+              onChange={(e) => setSearchValue(e.target.value)}
+            />
+          </div>
+          <DoCheck isLoading={branch.isLoading} isEmpty={branchBody?.length === 0}>
+            <DiligenceTable header={branchHeaders} body={branchBody} />
+          </DoCheck>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default EnterpriseInfo;

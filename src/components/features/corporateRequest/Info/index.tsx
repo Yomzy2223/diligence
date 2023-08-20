@@ -13,7 +13,7 @@ const CorporateRequestInfo = ({ status }: { status?: string }) => {
   if (isLoading)
     return (
       <div className="flex items-center justify-center h-24 ">
-        <Puff stroke="blue" />
+        <Puff stroke="hsl(var(--primary))" />
       </div>
     );
 

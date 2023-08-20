@@ -92,8 +92,8 @@ const AddStaff = ({ children }: propType) => {
                 variant="ghost2"
                 size="icon"
                 loading={isLoading}
-                loadingStroke="hsl(var(--secondary))"
-                className="relative top-5 text-secondary underline px-1"
+                loadingStroke="hsl(var(--primary))"
+                className="relative top-5 underline px-1"
               >
                 Add
               </Button>

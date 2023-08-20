@@ -31,17 +31,36 @@ export const useEnterprise = () => {
     retry: 3,
   });
 
-  const viewEnterpriseByIdMutation = useMutation({
-    mutationFn: viewEnterpriseById,
-    onError(error, variables, context) {
-      handleError({ error });
-    },
-    onSuccess(data, variables, context) {},
-    retry: 3,
-  });
+  const useViewEnterpriseByIdMutation = (enterpriseId: string) =>
+    useQuery({
+      queryKey: ["Enterprise", enterpriseId],
+      queryFn: ({ queryKey }) => viewEnterpriseById(queryKey[1]),
+    });
 
-  const viewEnterpriseByAdminEmailMutation = useMutation({
-    mutationFn: viewEnterpriseByAdminEmail,
+  const useViewEnterpriseByAdminEmailMutation = (adminEmail: string) =>
+    useQuery({
+      queryKey: ["Enterprise", adminEmail],
+      queryFn: ({ queryKey }) => viewEnterpriseByAdminEmail(queryKey[1]),
+    });
+
+  return {
+    updateEnterpriseMutation,
+    useViewEnterpriseByIdMutation,
+    useViewEnterpriseByAdminEmailMutation,
+  };
+};
+
+//
+//
+//
+//
+
+// React Query hooks for bank branch
+export const useEnterpriseBranch = () => {
+  const { handleError, handleSuccess } = useResponse();
+
+  const createBranchMutation = useMutation({
+    mutationFn: createBranch,
     onError(error, variables, context) {
       handleError({ error });
     },
@@ -51,10 +70,53 @@ export const useEnterprise = () => {
     retry: 3,
   });
 
+  const updateBranchMutation = useMutation({
+    mutationFn: updateBranch,
+    onError(error, variables, context) {
+      handleError({ error });
+    },
+    onSuccess(data, variables, context) {
+      handleSuccess({ data });
+    },
+    retry: 3,
+  });
+
+  const deleteBranchMutation = useMutation({
+    mutationFn: deleteBranch,
+    onError(error, variables, context) {
+      handleError({ error });
+    },
+    onSuccess(data, variables, context) {
+      handleSuccess({ data });
+    },
+    retry: 3,
+  });
+
+  const useViewBranchByIdQuery = (managerId: string) =>
+    useQuery({
+      queryKey: ["View Branch"],
+      queryFn: () => viewBranchById(managerId),
+      enabled: managerId ? true : false,
+    });
+
+  const useViewBranchByEmailQuery = (managerEmail: string) =>
+    useQuery({
+      queryKey: ["View Branch"],
+      queryFn: () => viewBranchByEmail(managerEmail),
+    });
+
+  const viewEnterpriseManagersQuery = useQuery({
+    queryKey: ["View All Enterprise"],
+    queryFn: () => viewEnterpriseManagers,
+  });
+
   return {
-    updateEnterpriseMutation,
-    viewEnterpriseByIdMutation,
-    viewEnterpriseByAdminEmailMutation,
+    createBranchMutation,
+    updateBranchMutation,
+    deleteBranchMutation,
+    useViewBranchByIdQuery,
+    useViewBranchByEmailQuery,
+    viewEnterpriseManagersQuery,
   };
 };
 
@@ -112,74 +174,5 @@ export const useEnterpriseStaff = () => {
     viewStaffMutation,
     viewAllBranchStaff,
     useViewAllBranchStaffQuery,
-  };
-};
-
-//
-//
-//
-//
-
-// React Query hooks for bank branch
-export const useEnterpriseBranch = () => {
-  const { handleError, handleSuccess } = useResponse();
-
-  const createBranchMutation = useMutation({
-    mutationFn: createBranch,
-    onError(error, variables, context) {
-      handleError({ error });
-    },
-    onSuccess(data, variables, context) {
-      handleSuccess({ data });
-    },
-    retry: 3,
-  });
-
-  const updateManagerMutation = useMutation({
-    mutationFn: updateBranch,
-    onError(error, variables, context) {
-      handleError({ error });
-    },
-    onSuccess(data, variables, context) {
-      handleSuccess({ data });
-    },
-    retry: 3,
-  });
-
-  const deleteBranchMutation = useMutation({
-    mutationFn: deleteBranch,
-    onError(error, variables, context) {
-      handleError({ error });
-    },
-    onSuccess(data, variables, context) {
-      handleSuccess({ data });
-    },
-    retry: 3,
-  });
-
-  const useViewBranchByIdQuery = (branchId: string) =>
-    useQuery({
-      queryKey: ["View Branch"],
-      queryFn: () => viewBranchById(branchId),
-    });
-
-  const useViewBranchByEmailQuery = (email: string) =>
-    useQuery({
-      queryKey: ["View Branch"],
-      queryFn: () => viewBranchByEmail(email),
-    });
-
-  const viewEnterpriseManagersQuery = useQuery({
-    queryKey: ["View All Enterprise"],
-    queryFn: () => viewEnterpriseManagers,
-  });
-
-  return {
-    createBranchMutation,
-    updateManagerMutation,
-    deleteBranchMutation,
-    useViewBranchByIdQuery,
-    useViewBranchByEmailQuery,
-    viewEnterpriseManagersQuery,
   };
 };

@@ -22,18 +22,17 @@ const Layout = ({ children }: { children: ReactNode }) => {
     refetchData: false,
   });
 
-  let l = "https://nigerianbanks.xyz/logo/first-bank-of-nigeria";
   const userRole = getUserInfo()?.data?.role?.toLowerCase();
 
-  const enterpriseLogo = getEnterpriseInfo()?.data?.logo;
+  const enterpriseInfo = getEnterpriseInfo()?.data;
 
   return (
     <RequestContext.Provider value={{ regState, setRegState }}>
       <main className="flex flex-col px-6 pb-8">
         <div className="flex items-center gap-4 py-4 ">
-          <Image src={enterpriseLogo} alt="" width={60} height={60} />
+          <Image src={enterpriseInfo?.logo} alt="" width={60} height={60} />
           <div className="flex flex-1 justify-between">
-            <p className="text-2xl font-normal ">GTBank</p>
+            <p className="text-2xl font-normal ">{enterpriseInfo?.name || ""}</p>
             {userRole === "admin" && <BranchOnboard>Onboard a branch</BranchOnboard>}
             {userRole === "manager" && <AddStaff>Add staff</AddStaff>}
           </div>
