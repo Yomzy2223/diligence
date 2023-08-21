@@ -1,4 +1,5 @@
 import { RequestContext } from "@/app/(dashboard)/(home)/layout";
+import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 import { useRequests } from "@/hooks/useRequests";
 import { getTimeInfo } from "@/lib/utils";
 import { format } from "date-fns";
@@ -10,6 +11,7 @@ export const useActions = ({ status }: { status?: string }) => {
   const [openResult, setOpenResult] = useState(false);
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
   const [openVerifyConfirm, setOpenVerifyConfirm] = useState(false);
+  const { setNewOffset } = useGlobalFucntions();
 
   const reqContext = useContext(RequestContext);
 
@@ -52,6 +54,12 @@ export const useActions = ({ status }: { status?: string }) => {
       el?.registrationNumber?.includes(reqContext?.regState?.searchValue) ||
       normalize(el?.status)?.includes(searchValue)
   );
+
+  // Set new offset when searching
+  useEffect(() => {
+    if (searchValue) setNewOffset(filteredRequests);
+    else setNewOffset([]);
+  }, [filteredRequests?.length]);
 
   // Delete request
   const handleDeleteConfirm = (request: any) => {

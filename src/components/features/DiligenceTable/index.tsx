@@ -11,6 +11,8 @@ import {
 import { cn } from "@/lib/utils";
 import ReactPaginate from "react-paginate";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
+import { itemsPerPage } from "@/lib/config";
 
 interface TableProps {
   header: string[];
@@ -20,13 +22,7 @@ interface TableProps {
   onCellClick?: (cellData?: string | number, rowIndex?: number, columnIndex?: number) => void;
 }
 
-export const DiligenceTable = ({
-  header,
-  body,
-  rowCursor,
-  onRowClick,
-  onCellClick,
-}: TableProps) => {
+export const DiligenceTable = ({ header, body, onRowClick, onCellClick }: TableProps) => {
   const handleCellClick = (
     cellData?: string | number,
     rowIndex?: number,
@@ -35,12 +31,12 @@ export const DiligenceTable = ({
     // Call the provided onCellClick function with the clicked cell's data
     if (onCellClick) onCellClick(cellData, rowIndex, columnIndex);
   };
+  const { setQuery } = useGlobalFucntions();
 
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const itemsPerPage = 5;
   const itemOffset: string = searchParams.get("itemOffset") || "";
   const parsedItemOffset = parseInt(itemOffset) || 0;
 
@@ -50,10 +46,11 @@ export const DiligenceTable = ({
 
   const handlePageClick = (event: { selected: number }) => {
     const newOffset = (event.selected * itemsPerPage) % body?.length;
-    router.push(pathname + "?" + "itemOffset=" + newOffset);
+    setQuery("itemOffset", newOffset);
+    // router.push(pathname + "?" + "itemOffset=" + newOffset);
   };
 
-  const handleRowClick = (rowData?: (string | number)[], rowIndex?: number): void => {
+  const handleRowClick = (rowData: (string | number)[], rowIndex: number): void => {
     // Call the provided onRowClick function with the clicked cell's data
     if (onRowClick) onRowClick(rowData, rowIndex);
   };
@@ -85,15 +82,7 @@ export const DiligenceTable = ({
                   className={cn(
                     "text-sm text-gray-900 border-b-0 leading-5 text-left px-6 py-5 m-0 font-normal overflow-hidden max-w-max",
                     {
-                      "text-[#0082AA]":
-                        row[row.length - 1] === "Under review" && columnIndex === row.length - 1,
-                      "text-[#DE4A09]":
-                        row[row.length - 1] === "Completed" && columnIndex === row.length - 1,
-                      "text-[#00D448]":
-                        row[row.length - 1] === "Paid" && columnIndex === row.length - 1,
-                    },
-                    {
-                      "cursor-pointer": rowCursor,
+                      "cursor-pointer": onRowClick ? true : false,
                     }
                   )}
                   key={columnIndex}

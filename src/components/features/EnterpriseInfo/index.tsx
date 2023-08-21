@@ -7,16 +7,15 @@ import { DiligenceTable } from "../DiligenceTable";
 import { useActions } from "./actions";
 import { Input } from "@/components/ui/input";
 import DoCheck from "@/components/DoCheck";
+import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 
 const EnterpriseInfo = () => {
   const [searchValue, setSearchValue] = useState("");
+  const { managerId } = useGlobalFucntions();
 
   const userInfo = getUserInfo()?.data;
   const role = userInfo?.role?.toLowerCase();
   const enterpriseId = userInfo?.enterpriseId;
-
-  const searchParams = useSearchParams();
-  const managerId = role === "manager" ? userInfo?.managerId : searchParams.get("managerId");
 
   const { useViewBranchByIdQuery } = useEnterpriseBranch();
   const { useViewEnterpriseByIdMutation } = useEnterprise();
@@ -24,7 +23,7 @@ const EnterpriseInfo = () => {
   const branch = useViewBranchByIdQuery(managerId || "");
   const enterprise = useViewEnterpriseByIdMutation(enterpriseId);
 
-  const { branchHeaders, branchBody, adminHeaders, adminBody, handleClick } = useActions({
+  const { branchHeaders, branchBody, adminHeaders, adminBody, handleManagerClick } = useActions({
     enterprise,
     searchValue,
     managerId,
@@ -39,7 +38,7 @@ const EnterpriseInfo = () => {
         branch={branch}
       />
 
-      {role === "admin" && (
+      {role === "admin" && !managerId && (
         <div>
           <div className="flex justify-between items-center gap-8 mb-4">
             <p className="font-semibold">Onboarded Branches</p>
@@ -52,12 +51,16 @@ const EnterpriseInfo = () => {
             )}
           </div>
           <DoCheck isLoading={enterprise.isLoading} isEmpty={adminBody?.length === 0}>
-            <DiligenceTable header={adminHeaders} body={adminBody} onRowClick={handleClick} />
+            <DiligenceTable
+              header={adminHeaders}
+              body={adminBody}
+              onRowClick={handleManagerClick}
+            />
           </DoCheck>
         </div>
       )}
 
-      {role === "manager" && (
+      {(role === "manager" || managerId) && (
         <div>
           <div className="flex justify-between items-center gap-8 mb-4">
             <p className="font-semibold">All Staff</p>

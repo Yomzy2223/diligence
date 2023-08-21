@@ -64,3 +64,5 @@ export const client = axios.create({
     Authorization: `Bearer ${getUserInfo()?.data?.token}`,
   },
 });
+
+export const itemsPerPage = 5;

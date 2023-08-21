@@ -50,3 +50,8 @@ export const setColor = (color: string) => {
     root.style.setProperty("--background-light", parsedBgLight);
   }
 };
+
+export const roundToNearestMultiple = (number: number, multiple: number) => {
+  if (number && multiple) return Math.floor(number / multiple) * multiple;
+  else return 0;
+};
