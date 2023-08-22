@@ -1,6 +1,8 @@
 import { RequestContext } from "@/app/(dashboard)/(home)/layout";
+import { useEnterprise } from "@/hooks/useEnterprise";
 import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 import { useRequests } from "@/hooks/useRequests";
+import { getUserInfo } from "@/lib/globalFunctions";
 import { getTimeInfo } from "@/lib/utils";
 import { format } from "date-fns";
 import numeral from "numeral";
@@ -14,12 +16,25 @@ export const useActions = ({ status }: { status?: string }) => {
   const { setNewOffset } = useGlobalFucntions();
 
   const reqContext = useContext(RequestContext);
+  const userInfo = getUserInfo()?.data;
+  const role = userInfo?.role?.toLowerCase();
 
-  const { deleteRequestMutation, viewAllRequestsQuery, verifyRequestMutation } = useRequests();
-  const { data, error, isError, isSuccess, isLoading, refetch } = viewAllRequestsQuery;
+  const branchPayload = { managerEmail: userInfo?.email, managerId: userInfo?.managerId };
 
+  // API calls
+  const { deleteRequestMutation, useViewBranchRequests, verifyRequestMutation } = useRequests();
+  const { data, isLoading, refetch } = useViewBranchRequests(branchPayload);
+  const { useViewEnterpriseByIdMutation } = useEnterprise();
+  const enterprise = useViewEnterpriseByIdMutation(userInfo?.enterpriseId);
+
+  // Enterprise and branch requests
+  const enterpriseInfo = enterprise.data?.data?.data;
+  const enterpriseRequests = enterpriseInfo?.diligenceRequest;
+  const branchRequests = data?.data?.data;
+
+  // Filter requests by status clicked
   status = status?.toLowerCase();
-  let requests = data?.data?.data;
+  let requests = role === "admin" ? enterpriseRequests : branchRequests;
   if (status) requests = requests?.filter((el: any) => el?.status?.toLowerCase() === status);
 
   //
@@ -128,5 +143,5 @@ export const useActions = ({ status }: { status?: string }) => {
     return body;
   });
 
-  return { headers, dataBody, requests, isLoading };
+  return { headers, dataBody, requests, isLoading: isLoading || enterprise.isLoading };
 };

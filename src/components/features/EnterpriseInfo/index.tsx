@@ -64,11 +64,13 @@ const EnterpriseInfo = () => {
         <div>
           <div className="flex justify-between items-center gap-8 mb-4">
             <p className="font-semibold">All Staff</p>
-            <Input
-              variant="search"
-              placeholder="Search staff..."
-              onChange={(e) => setSearchValue(e.target.value)}
-            />
+            {branchBody?.length > 0 && (
+              <Input
+                variant="search"
+                placeholder="Search staff..."
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
+            )}
           </div>
           <DoCheck isLoading={branch.isLoading} isEmpty={branchBody?.length === 0}>
             <DiligenceTable header={branchHeaders} body={branchBody} />

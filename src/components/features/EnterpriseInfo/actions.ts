@@ -15,8 +15,6 @@ export const useActions = ({
   managerId: any;
   searchValue: string;
 }) => {
-  const router = useRouter();
-  const pathname = usePathname();
   const { setQuery, setNewOffset } = useGlobalFucntions();
 
   const normalize = (text: string) => text?.toLowerCase()?.trim();
