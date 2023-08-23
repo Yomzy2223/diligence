@@ -20,8 +20,6 @@ export const BankSettingInfo = ({
   address,
   adminEmail,
   adminName,
-  regUrl,
-  brandColor,
   branch = false,
 }: BankInfoProps) => {
   return (
@@ -41,26 +39,6 @@ export const BankSettingInfo = ({
           <div className="flex flex-col px-6 divide-y grow">
             <Detail detailName="Account admin name" detail={adminName} />
             <Detail detailName="Account admin email" detail={adminEmail} />
-          </div>
-        </div>
-        <div className="flex justify-end grow">
-          <div className="flex flex-col items-start">
-            {!branch && (
-              <div className="space-y-2">
-                <p className="text-base font-medium leading-snug text-foreground tracking-[0.32px]">
-                  Registration
-                </p>
-                <Link
-                  href={regUrl}
-                  className={buttonVariants({
-                    variant: "link",
-                    size: "link",
-                  })}
-                >
-                  {regUrl}
-                </Link>
-              </div>
-            )}
           </div>
         </div>
       </div>

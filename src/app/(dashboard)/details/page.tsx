@@ -15,8 +15,10 @@ const Details = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const userInfo = getUserInfo()?.data?.role?.toLowerCase();
-  const managerId = userInfo === "manager" ? userInfo?.managerId : searchParams.get("managerId");
+  const userInfo = getUserInfo()?.data;
+  const isManager = userInfo?.role?.toLowerCase() === "manager";
+
+  const managerId = isManager ? userInfo?.managerId : searchParams.get("managerId");
 
   return (
     <div>
@@ -38,7 +40,7 @@ const Details = () => {
       >
         <p className="text-2xl font-semibold ">Details</p>
         {!managerId && <BranchOnboard>Onboard a branch</BranchOnboard>}
-        {managerId && <AddStaff>Add staff</AddStaff>}
+        {isManager && <AddStaff>Add staff</AddStaff>}
       </div>
       <div className="pl-10 pr-6">{<EnterpriseInfo />}</div>
     </div>

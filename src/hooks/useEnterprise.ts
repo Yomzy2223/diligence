@@ -31,13 +31,13 @@ export const useEnterprise = () => {
     retry: 3,
   });
 
-  const useViewEnterpriseByIdMutation = (enterpriseId: string) =>
+  const useViewEnterpriseByIdQuery = (enterpriseId: string) =>
     useQuery({
       queryKey: ["Enterprise", enterpriseId],
       queryFn: ({ queryKey }) => viewEnterpriseById(queryKey[1]),
     });
 
-  const useViewEnterpriseByAdminEmailMutation = (adminEmail: string) =>
+  const useViewEnterpriseByAdminEmailQuery = (adminEmail: string) =>
     useQuery({
       queryKey: ["Enterprise", adminEmail],
       queryFn: ({ queryKey }) => viewEnterpriseByAdminEmail(queryKey[1]),
@@ -45,8 +45,8 @@ export const useEnterprise = () => {
 
   return {
     updateEnterpriseMutation,
-    useViewEnterpriseByIdMutation,
-    useViewEnterpriseByAdminEmailMutation,
+    useViewEnterpriseByIdQuery,
+    useViewEnterpriseByAdminEmailQuery,
   };
 };
 

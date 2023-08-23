@@ -18,10 +18,10 @@ const EnterpriseInfo = () => {
   const enterpriseId = userInfo?.enterpriseId;
 
   const { useViewBranchByIdQuery } = useEnterpriseBranch();
-  const { useViewEnterpriseByIdMutation } = useEnterprise();
+  const { useViewEnterpriseByIdQuery } = useEnterprise();
 
   const branch = useViewBranchByIdQuery(managerId || "");
-  const enterprise = useViewEnterpriseByIdMutation(enterpriseId);
+  const enterprise = useViewEnterpriseByIdQuery(enterpriseId);
 
   const { branchHeaders, branchBody, adminHeaders, adminBody, handleManagerClick } = useActions({
     enterprise,

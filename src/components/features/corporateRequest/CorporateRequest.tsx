@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Form } from "@/components/ui/form";
 import { useForm, useFormContext } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { corporateSearchSchema, corpSearchType, submitType } from "./constants";
+import { corporateSearchSchema, corpSearchType, registrationTypes, submitType } from "./constants";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import CMField from "./CMField";
@@ -17,8 +17,14 @@ import { RequestContext } from "@/app/(dashboard)/(home)/layout";
 const CorporateRequest = ({ className }: { className?: string }) => {
   const { createRequestMutation, updateRequestMutation } = useRequests();
   const { mutate, isLoading, isSuccess, isError } = createRequestMutation;
-  const [formValues, setFormValues] = useState({ name: "", registrationNumber: "" });
+  const [formValues, setFormValues] = useState({
+    name: "",
+    registrationType: "",
+    registrationNumber: "",
+  });
   const [openConfirm, setOpenConfirm] = useState(false);
+
+  const mergedRegNo = formValues.registrationType + formValues.registrationNumber;
 
   const requestContext = useContext(RequestContext);
   const editMode = requestContext?.regState?.regName && requestContext?.regState?.regNo;
@@ -42,7 +48,8 @@ const CorporateRequest = ({ className }: { className?: string }) => {
   const handleConfirm = () => {
     const userInfo = getUserInfo();
     const payload: submitType = {
-      ...formValues,
+      name: formValues.name,
+      registrationNumber: mergedRegNo,
       email: userInfo?.data?.email || "",
       enterpriseId: userInfo?.data?.enterpriseId || "",
     };
@@ -90,7 +97,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 w-4/6 ">
           <p className="text-white font-normal text-3xl w-max pb-5 ">Request Corporate Search</p>
-          <div className="flex flex-col space-y-8 py-2 bg-white rounded-lg relative ">
+          <div className="flex flex-col py-2 bg-white rounded-lg relative ">
             <CMField
               form={form}
               name="name"
@@ -108,8 +115,8 @@ const CorporateRequest = ({ className }: { className?: string }) => {
               label="Registration Number"
               placeholder="Enter Registration Number"
               tipText="Unique registration number assigned to your business when you registered"
-              type="text"
               defaultValue={requestContext?.regState?.regNo}
+              isRegNo
             />
           </div>
 
@@ -134,7 +141,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
             open={openConfirm}
             setOpen={setOpenConfirm}
             title="Confirm Request Information"
-            description={`Business name is "${formValues.name}" and Registration Number is "${formValues.registrationNumber}"`}
+            description={`Business name is "${formValues.name}" and Registration Number is "${mergedRegNo}"`}
             actionText="Request"
             action={handleConfirm}
             loading={isLoading || updateRequestMutation.isLoading}

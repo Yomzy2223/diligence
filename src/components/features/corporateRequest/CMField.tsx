@@ -1,10 +1,11 @@
+import CMSelect from "@/components/cmSelect";
 import CMToolTip from "@/components/cmTooltip";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { BsInfoCircle } from "react-icons/bs";
-import { propType } from "./constants";
+import { propType, registrationTypes } from "./constants";
 
 const CMField = ({
   form,
@@ -15,6 +16,7 @@ const CMField = ({
   placeholder,
   classNames,
   defaultValue,
+  isRegNo,
 }: propType) => {
   const { setValue, getValues } = useFormContext();
 
@@ -27,13 +29,17 @@ const CMField = ({
     }
   }, [defaultValue]);
 
+  const handleRegTypeSelect = (selected: string) => {
+    setValue("registrationType", selected);
+  };
+
   return (
     <FormField
       control={form.control}
       name={name}
       render={({ field }) => (
         <FormItem
-          className={`flex flex-col justify-center !mt-0 relative px-6 min-h-[60px]  ${classNames?.formItem} `}
+          className={`flex flex-col justify-center !mt-0  px-6 relative min-h-[60px] ${classNames?.formItem} `}
         >
           {value && (
             <div className="flex justify-between items-center">
@@ -53,7 +59,17 @@ const CMField = ({
             </div>
           )}
           <FormControl>
-            <div className="flex items-center !mt-0 ">
+            <div className="flex items-center gap-1 !mt-0 ">
+              {isRegNo && (
+                <CMSelect
+                  placeholder="Select type"
+                  options={registrationTypes}
+                  handleSelect={handleRegTypeSelect}
+                  className={{
+                    trigger: "justify-start border-none p-0 gap-1 w-max focus:ring-0",
+                  }}
+                />
+              )}
               <Input
                 type={type}
                 placeholder={placeholder}

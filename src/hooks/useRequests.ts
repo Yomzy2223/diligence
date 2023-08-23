@@ -69,7 +69,7 @@ export const useRequests = () => {
     useQuery({
       queryKey: ["Branch Requests"],
       queryFn: () => viewBranchRequests(formInfo),
-      enabled: formInfo.managerEmail && formInfo.managerId,
+      enabled: formInfo.managerEmail && formInfo.managerId ? true : false,
     });
 
   // const viewRequestDocumentQuery = useQuery({

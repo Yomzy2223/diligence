@@ -24,8 +24,8 @@ export const useActions = ({ status }: { status?: string }) => {
   // API calls
   const { deleteRequestMutation, useViewBranchRequests, verifyRequestMutation } = useRequests();
   const { data, isLoading, refetch } = useViewBranchRequests(branchPayload);
-  const { useViewEnterpriseByIdMutation } = useEnterprise();
-  const enterprise = useViewEnterpriseByIdMutation(userInfo?.enterpriseId);
+  const { useViewEnterpriseByIdQuery } = useEnterprise();
+  const enterprise = useViewEnterpriseByIdQuery(userInfo?.enterpriseId);
 
   // Enterprise and branch requests
   const enterpriseInfo = enterprise.data?.data?.data;
