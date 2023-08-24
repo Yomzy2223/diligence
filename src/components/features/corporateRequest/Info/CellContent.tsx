@@ -53,7 +53,7 @@ export const ActionCellContent = ({
           variant="ghost2"
           size="icon"
           onClick={() => setOpenVerifyConfirm(true)}
-          className="text-[#DE4A09] underline"
+          className="text-[#DE4A09] underline hover:text-[#de4909cf]"
         >
           Approve
         </Button>
@@ -102,12 +102,14 @@ export const ActionCellContent = ({
   else if (status === "completed") {
     return (
       <>
-        <div
-          className="cursor-pointer underline whitespace-nowrap text-[#de4909]"
+        <Button
+          variant="ghost2"
+          size="icon"
+          className="underline whitespace-nowrap text-[#de4909]  hover:text-[#de4909cf]"
           onClick={() => setOpenResult(true)}
         >
           See Result
-        </div>
+        </Button>
         <div>
           <Dialog
             open={openResult}
@@ -140,5 +142,5 @@ export const Status = ({ status }: { status: string }) => {
     return <div className={cn(className, "bg-green-500/10")}>{status}</div>;
 
   if (status === "completed")
-    return <div className={cn(className, "bg-[#d400cd43]")}>{status}</div>;
+    return <div className={cn(className, "bg-[#d400cd1d]")}>{status}</div>;
 };

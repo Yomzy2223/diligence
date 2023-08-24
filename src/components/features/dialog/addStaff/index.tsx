@@ -17,16 +17,17 @@ import { staffSchema, staffType, propType } from "./constants";
 import InputWithLabel from "@/components/input/inputWithLabel";
 import { getUserInfo } from "@/lib/globalFunctions";
 import { useEnterpriseBranch, useEnterpriseStaff } from "@/hooks/useEnterprise";
+import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 
 const AddStaff = ({ children }: propType) => {
   const [open, setOpen] = useState(false);
   const [staffToDelete, setStaffToDelete] = useState({});
+  const { managerId } = useGlobalFucntions();
 
   const { createStaffMutation, useViewAllBranchStaffQuery, deleteStaffMutation } =
     useEnterpriseStaff();
   const { mutate, isLoading, isSuccess, isError } = createStaffMutation;
 
-  const managerId = getUserInfo()?.data?.managerId;
   const viewBranchStaffQuery = useViewAllBranchStaffQuery(managerId);
   const allStaff = viewBranchStaffQuery.data?.data?.data;
 

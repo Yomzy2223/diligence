@@ -57,7 +57,8 @@
     "tinycolor2": "^1.6.0",
     "typescript": "5.1.6",
     "uuid": "^9.0.0",
-    "zod": "^3.21.4"
+    "zod": "^3.21.4",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.1.1",

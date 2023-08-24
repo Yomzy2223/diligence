@@ -6,11 +6,6 @@ export interface RegStateType {
   refetchData: boolean;
 }
 
-export interface RequestType {
-  regState: RegStateType;
-  setRegState: React.Dispatch<React.SetStateAction<RegStateType>>;
-}
-
 export const allStatus = [
   { text: "Search History", path: "/requests/all" },
   { text: "Unverified ", path: "/requests/unverified" },

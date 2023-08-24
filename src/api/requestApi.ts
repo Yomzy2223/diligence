@@ -11,11 +11,9 @@ interface updateType {
   formInfo: createType;
 }
 
-interface createDocumentType {
-  name: string;
-  description: string;
-  link: string;
-  type: string;
+interface viewBranchType {
+  managerId: string;
+  managerEmail: string;
 }
 
 // CORPORATE REQUEST FUNCTIONS
@@ -41,9 +39,9 @@ export const viewSingleRequest = (requestId: string) => {
   return client.get(`/diligence/request/${requestId}`);
 };
 
-// Function to view all requests
-export const viewAllRequests = () => {
-  return client.get("/diligence/request");
+// Function to view a branch's requests
+export const viewBranchRequests = (formInfo: viewBranchType) => {
+  return client.post("/diligence/managerRequest", formInfo);
 };
 
 // Function to verify a request
