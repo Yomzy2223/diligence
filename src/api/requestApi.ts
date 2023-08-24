@@ -1,48 +1,44 @@
-import { client } from "@/lib/globalFunctions";
+import { client } from "@/lib/config";
+
+interface createType {
+  name: string;
+  registrationNumber: string;
+  email: string;
+  enterpriseId: string;
+}
+interface updateType {
+  requestId: string;
+  formInfo: createType;
+}
+
+interface createDocumentType {
+  name: string;
+  description: string;
+  link: string;
+  type: string;
+}
 
 // CORPORATE REQUEST FUNCTIONS
 // --------------------------------------------------------------------------------
+
 // Function to create a request
-export const createRequest = async (formInfo: any) => {
-  try {
-    const data = await client.post("/diligence/request", formInfo);
-    return data
-  } catch (error) {
-    console.log("error here" , error)
-  }
-  
+export const createRequest = async (formInfo: createType) => {
+  return await client.post("/diligence/request", formInfo);
 };
 
 // Function to update a request
-export const updateRequest = (formInfo: any) => {
-  return client.put(`/diligence/request/update/${formInfo.id}`, formInfo);
+export const updateRequest = ({ requestId, formInfo }: updateType) => {
+  return client.put(`/diligence/request/update/${requestId}`, formInfo);
 };
 
 // Function to delete a request
-// export const deleteRequest = async (formInfo: any) => {
-//   try {
-//     const data = await client.delete(`/diligence/request/${formInfo.id}`, formInfo)
-//     return data
-//   } catch (error) {
-//     console.log(error)
-//   }
-// };
-
-
-export const deleteRequest = async (requestId: any) => {
-  console.log(requestId)
-  try {
-    const data = await client.delete(`/diligence/request/${requestId}`);
-    return data
-  } catch (error) {
-    console.log(error)
-  }
-  
+export const deleteRequest = (requestId: string) => {
+  return client.delete(`/diligence/request/${requestId}`);
 };
 
 // Function to view a request
-export const viewSingleRequest = (formInfo: any) => {
-  return client.get("", formInfo);
+export const viewSingleRequest = (requestId: string) => {
+  return client.get(`/diligence/request/${requestId}`);
 };
 
 // Function to view all requests
@@ -51,18 +47,18 @@ export const viewAllRequests = () => {
 };
 
 // Function to verify a request
-export const verifyRequest = (formInfo: any) => {
-  return client.put(`/diligence/request/verify/${formInfo.reqNumber}`, formInfo);
+export const verifyRequest = (requestId: string) => {
+  return client.put(`/diligence/request/verify/${requestId}`);
 };
 
-// Function to add request document
-export const addRequestDocument = (formInfo: any) => {
-  return client.post(`/diligence/document/${formInfo.reqNumber}`, formInfo);
+// Function to view single request document
+export const viewRequestDocument = (documentId: string) => {
+  return client.get(`/diligence/document/${documentId}`);
 };
 
-// Function to delete request document
-export const deleteRequestDocument = (formInfo: any) => {
-  return client.delete(`/diligence/deleteDocument/${formInfo.reqNumber}`, formInfo);
+// Function to view all request documents
+export const viewAllRequestDocuments = (requestId: string) => {
+  return client.get(`/diligence/document/${requestId}`);
 };
 
 

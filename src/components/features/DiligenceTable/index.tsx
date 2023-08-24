@@ -45,7 +45,7 @@ export const DiligenceTable = ({
         <TableRow className="w-full ">
           {header?.map((text, index) => (
             <TableHead
-              className="px-6 py-5 text-sm font-medium leading-5 text-left text-gray-900 border-b-0 max-w-max "
+              className="px-6 py-5 text-sm font-medium leading-5 text-left text-gray-900 border-b-0 max-w-max whitespace-nowrap "
               key={index}
             >
               {text}

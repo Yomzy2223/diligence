@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const CMToolTip = ({
   trigger,
@@ -17,7 +12,7 @@ const CMToolTip = ({
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger type="button">{trigger}</TooltipTrigger>
-        <TooltipContent>{content}</TooltipContent>
+        <TooltipContent className="text-[10px]">{content}</TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );

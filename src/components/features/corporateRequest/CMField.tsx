@@ -1,30 +1,28 @@
 import CMToolTip from "@/components/cmTooltip";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { BsInfoCircle } from "react-icons/bs";
 import { propType } from "./constants";
 
-const CMField = ({ form, name, label, tipText, type, placeholder, classNames }: propType) => {
-  const [value, setvalue] = useState("");
+const CMField = ({
+  form,
+  name,
+  label,
+  tipText,
+  type,
+  placeholder,
+  classNames,
+  defaultValue,
+}: propType) => {
+  const { setValue, getValues } = useFormContext();
 
-  const handleChange = (e: any, onChange: (e: any[]) => void) => {
-    const val = e.target.value;
-    setvalue(val);
-    onChange(e);
-  };
+  const value = getValues()?.[name];
 
-  const Tooltip = (
-    <CMToolTip
-      content={
-        <p className={`text-xs text-muted-foreground ${classNames?.toolTipCo} `}>{tipText}</p>
-      }
-      trigger={
-        <BsInfoCircle className={`relative text-muted-foreground ${classNames?.toolTipTr} `} />
-      }
-    />
-  );
+  useEffect(() => {
+    if (defaultValue) setValue(name, defaultValue, { shouldValidate: true });
+  }, [defaultValue]);
 
   return (
     <FormField
@@ -35,15 +33,20 @@ const CMField = ({ form, name, label, tipText, type, placeholder, classNames }: 
           className={`flex flex-col justify-center !mt-0 relative px-6 min-h-[60px]  ${classNames?.formItem} `}
         >
           {value && (
-            <div
-              className={`flex justify-start align-middle gap-2 text-xs ${classNames?.formItemT} `}
-            >
-              <FormLabel
-                className={`text-xs leading-3 font-normal text-foreground-label ${classNames?.formLabel} `}
+            <div className="flex justify-between items-center">
+              <div
+                className={`flex justify-start align-middle gap-2 text-xs ${classNames?.formItemT} `}
               >
-                {label}
-              </FormLabel>
-              {Tooltip}
+                <FormLabel
+                  className={`text-xs leading-3 font-normal text-foreground-label ${classNames?.formLabel} `}
+                >
+                  {label}
+                </FormLabel>
+                {tipText && <Tooltip tipText={tipText} />}
+              </div>
+              <FormMessage
+                className={`min-w-max text-xs leading-3 font-normal ${classNames?.formMessage} `}
+              />
             </div>
           )}
           <FormControl>
@@ -53,7 +56,6 @@ const CMField = ({ form, name, label, tipText, type, placeholder, classNames }: 
                 placeholder={placeholder}
                 variant="transparent"
                 {...field}
-                onChange={(e) => handleChange(e, field.onChange)}
                 className={classNames?.input}
               />
               {!value && (
@@ -61,7 +63,7 @@ const CMField = ({ form, name, label, tipText, type, placeholder, classNames }: 
                   <FormMessage
                     className={`min-w-max text-xs leading-3 font-normal ${classNames?.formMessage} `}
                   />
-                  {Tooltip}
+                  {tipText && <Tooltip tipText={tipText} />}
                 </div>
               )}
             </div>
@@ -73,3 +75,10 @@ const CMField = ({ form, name, label, tipText, type, placeholder, classNames }: 
 };
 
 export default CMField;
+
+const Tooltip = ({ tipText }: { tipText: string }) => (
+  <CMToolTip
+    content={<p className={`text-xs text-muted-foreground `}>{tipText}</p>}
+    trigger={<BsInfoCircle className={`relative text-muted-foreground`} />}
+  />
+);

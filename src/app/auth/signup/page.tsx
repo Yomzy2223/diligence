@@ -9,10 +9,12 @@ import { signUpSchema, signUpType } from "./constants";
 import InputWithLabel from "@/components/input/inputWithLabel";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
-import { AuthLayout } from "@/layouts/AuthLayout";
+import { ToastAction } from "@/components/ui/toast";
+import { Oval } from "react-loading-icons";
 
 const SignUp = () => {
-  const { signUp } = useAuth();
+  const { signUp, signUpMutation } = useAuth();
+  const { isLoading } = signUpMutation;
 
   // Form definition
   const form = useForm<signUpType>({
@@ -61,17 +63,12 @@ const SignUp = () => {
             placeholder="Enter password"
             tipText="Must be at least 6 characters"
             type="password"
-            bottom={
-              <Link href="/auth/forgot-password" className="flex self-end text-sm">
-                Forgot password?
-              </Link>
-            }
           />
         </div>
 
         <div className="flex flex-col items-center gap-8">
-          <Button type="submit" size="full">
-            Create account
+          <Button type="submit" size="full" disabled={isLoading}>
+            {isLoading ? <Oval stroke="#fff" className="w-5 h-5" /> : "Create account"}
           </Button>
           <p>
             Already have an account?{" "}

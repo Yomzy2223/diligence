@@ -2,6 +2,7 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import Tcolor from "tinycolor2";
+import { Oval } from "react-loading-icons";
 
 import { cn } from "@/lib/utils";
 
@@ -15,10 +16,10 @@ const buttonVariants = cva(
         outline: "border border-primary text-primary bg-transparent hover:bg-accent",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
+        ghost2: "",
         link: "text-primary underline-offset-4 hover:underline",
         transparent: "bg-none text-muted-foreground",
-        orangeOutline: " flex justify-center item-center border border-[#DE4A09]"
-
+        orangeOutline: " flex justify-center item-center border border-[#DE4A09]",
       },
       size: {
         default: "h-10 px-4 py-2 w-max min-w-[126px]",
@@ -42,10 +43,11 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   color?: string;
+  loading?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, color, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, color, loading, children, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
 
     const luminence = Tcolor(color).getLuminance();
@@ -64,8 +66,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             : {}
         }
         ref={ref}
+        disabled={loading}
         {...props}
-      />
+      >
+        {loading ? <Oval stroke="#fff" className="w-5 h-5" /> : children}
+      </Comp>
     );
   }
 );

@@ -12,7 +12,8 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 
 const ForgotPassword = () => {
-  const { forgotPassword } = useAuth();
+  const { forgotPassword, forgotPasswordMutation } = useAuth();
+  const { isLoading } = forgotPasswordMutation;
 
   const router = useRouter();
   // Form definition
@@ -25,6 +26,7 @@ const ForgotPassword = () => {
 
   // Submit handler
   function onSubmit(values: forgotPasswordType) {
+    console.log(values);
     forgotPassword(values);
   }
 
@@ -47,7 +49,7 @@ const ForgotPassword = () => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Button type="submit" size="full">
+          <Button type="submit" size="full" loading={isLoading}>
             Send
           </Button>
         </div>

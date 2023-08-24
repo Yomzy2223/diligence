@@ -10,7 +10,8 @@ import { forgotPasswordSchema, forgotPasswordType } from "./constants";
 import { useAuth } from "@/hooks/useAuth";
 
 const ForgotPassword = () => {
-  const { changePassword } = useAuth();
+  const { changePassword, changePasswordMutation } = useAuth();
+  const { isLoading } = changePasswordMutation;
 
   // Form definition
   const form = useForm<forgotPasswordType>({
@@ -23,7 +24,10 @@ const ForgotPassword = () => {
 
   // Submit handler
   function onSubmit(values: forgotPasswordType) {
-    changePassword(values);
+    let userInfo = localStorage.getItem("userInfo");
+    if (userInfo) userInfo = JSON.parse(userInfo);
+    const payload = { password: values.password, email: userInfo?.data?.email, token: "" };
+    changePassword(payload);
   }
 
   return (
@@ -50,7 +54,7 @@ const ForgotPassword = () => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Button type="submit" size="full">
+          <Button type="submit" size="full" loading={isLoading}>
             Reset password
           </Button>
         </div>

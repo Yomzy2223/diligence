@@ -1,15 +1,25 @@
-import { client } from "@/lib/globalFunctions";
-
+import { client } from "@/lib/config";
 // CORPORATE REQUEST FUNCTIONS
 // --------------------------------------------------------------------------------
+
+interface signInType {
+  email: string;
+  password: string;
+}
+
+interface signUpType extends signInType {
+  firstName: string;
+  lastName: string;
+}
+
 // Function to sign in
-export const signIn = (formInfo: any) => {
-  return client.post("/diligence/user/login", formInfo);
+export const signIn = async (formInfo: signInType) => {
+  return await client.post("/diligence/user/login", formInfo);
 };
 
 // Function to sign up
-export const signUp = (formInfo: any) => {
-  return client.post("/diligence/user", formInfo);
+export const signUp = async (formInfo: signUpType) => {
+  return await client.post("/diligence/user", formInfo);
 };
 
 // Function to forgot password
