@@ -114,12 +114,12 @@ const ConfirmButton = ({ action, actionText, loading, cancelText }: propType) =>
         className={buttonVariants({
           size: "full",
           variant: "outline",
-          className: "border-secondary text-secondary",
+          className: "border-primary text-primary",
         })}
       >
         {cancelText || "Cancel"}
       </DialogClose>
-      <Button type="submit" variant="secondary" size="full" onClick={action} loading={loading}>
+      <Button type="submit" size="full" onClick={action} loading={loading}>
         {actionText || "Submit"}
       </Button>
     </div>

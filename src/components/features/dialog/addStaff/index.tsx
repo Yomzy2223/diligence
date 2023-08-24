@@ -17,16 +17,17 @@ import { staffSchema, staffType, propType } from "./constants";
 import InputWithLabel from "@/components/input/inputWithLabel";
 import { getUserInfo } from "@/lib/globalFunctions";
 import { useEnterpriseBranch, useEnterpriseStaff } from "@/hooks/useEnterprise";
+import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 
 const AddStaff = ({ children }: propType) => {
   const [open, setOpen] = useState(false);
   const [staffToDelete, setStaffToDelete] = useState({});
+  const { managerId } = useGlobalFucntions();
 
   const { createStaffMutation, useViewAllBranchStaffQuery, deleteStaffMutation } =
     useEnterpriseStaff();
   const { mutate, isLoading, isSuccess, isError } = createStaffMutation;
 
-  const managerId = getUserInfo()?.data?.managerId;
   const viewBranchStaffQuery = useViewAllBranchStaffQuery(managerId);
   const allStaff = viewBranchStaffQuery.data?.data?.data;
 
@@ -60,9 +61,7 @@ const AddStaff = ({ children }: propType) => {
 
   return (
     <Dialog open={open}>
-      <Button variant="secondary" onClick={() => setOpen(true)}>
-        {children}
-      </Button>
+      <Button onClick={() => setOpen(true)}>{children}</Button>
       <DialogContent
         className="sm:max-w-[425px] md:max-w-[570px] py-14 bg-white gap-0"
         cancel={() => setOpen(false)}
@@ -94,8 +93,8 @@ const AddStaff = ({ children }: propType) => {
                 variant="ghost2"
                 size="icon"
                 loading={isLoading}
-                loadingStroke="hsl(var(--secondary))"
-                className="relative top-5 text-secondary underline px-1"
+                loadingStroke="hsl(var(--primary))"
+                className="relative top-5 underline px-1"
               >
                 Add
               </Button>
@@ -125,7 +124,7 @@ const AddStaff = ({ children }: propType) => {
         )}
 
         <div className="flex justify-end">
-          <Button type="button" variant="secondary" onClick={() => setOpen(false)}>
+          <Button type="button" onClick={() => setOpen(false)}>
             Done
           </Button>
         </div>

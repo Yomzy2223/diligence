@@ -12,8 +12,8 @@ import { getUserInfo } from "@/lib/globalFunctions";
 import { useSearchParams } from "next/navigation";
 
 const NewPassword = () => {
-  const { changePassword, changePasswordMutation } = useAuth();
-  const { isLoading } = changePasswordMutation;
+  const { changePasswordMutation } = useAuth();
+  const { mutate, isLoading } = changePasswordMutation;
 
   const params = useSearchParams();
   const token = params.get("token");
@@ -31,7 +31,7 @@ const NewPassword = () => {
   function onSubmit(values: forgotPasswordType) {
     const email = getUserInfo()?.data?.email;
     const payload = { password: values.password, email, token };
-    changePassword(payload);
+    mutate(payload);
   }
 
   return (
@@ -58,7 +58,7 @@ const NewPassword = () => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Button type="submit" size="full" loading={isLoading}>
+          <Button type="submit" variant="secondary" size="full" loading={isLoading}>
             Reset password
           </Button>
         </div>

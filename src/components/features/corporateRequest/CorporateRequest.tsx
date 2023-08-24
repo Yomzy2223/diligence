@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Form } from "@/components/ui/form";
 import { useForm, useFormContext } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { corporateSearchSchema, corpSearchType, submitType } from "./constants";
+import { corporateSearchSchema, corpSearchType, registrationTypes, submitType } from "./constants";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import CMField from "./CMField";
@@ -12,16 +12,33 @@ import { cn } from "@/lib/utils";
 import { useRequests } from "@/hooks/useRequests";
 import { getUserInfo } from "@/lib/globalFunctions";
 import ConfirmAction from "../dialog/confirmAction";
-import { RequestContext } from "@/app/(dashboard)/(home)/layout";
+import { useRequestStore } from "@/store/requestStore";
 
 const CorporateRequest = ({ className }: { className?: string }) => {
   const { createRequestMutation, updateRequestMutation } = useRequests();
   const { mutate, isLoading, isSuccess, isError } = createRequestMutation;
-  const [formValues, setFormValues] = useState({ name: "", registrationNumber: "" });
+  const [formValues, setFormValues] = useState({
+    name: "",
+    registrationType: "",
+    registrationNumber: "",
+  });
   const [openConfirm, setOpenConfirm] = useState(false);
 
-  const requestContext = useContext(RequestContext);
-  const editMode = requestContext?.regState?.regName && requestContext?.regState?.regNo;
+  const mergedRegNo = formValues.registrationType + formValues.registrationNumber;
+
+  const {
+    requestId,
+    regNo,
+    regName,
+    regType,
+    refetchData,
+    setRegName,
+    setRegNo,
+    setRegType,
+    setRefetchData,
+  } = useRequestStore();
+
+  const editMode = regName && regNo;
 
   // Form definition
   const form = useForm<corpSearchType>({
@@ -42,14 +59,15 @@ const CorporateRequest = ({ className }: { className?: string }) => {
   const handleConfirm = () => {
     const userInfo = getUserInfo();
     const payload: submitType = {
-      ...formValues,
+      name: formValues.name,
+      registrationNumber: mergedRegNo,
       email: userInfo?.data?.email || "",
       enterpriseId: userInfo?.data?.enterpriseId || "",
     };
 
     editMode
       ? updateRequestMutation?.mutate({
-          requestId: requestContext?.regState?.requestId,
+          requestId,
           formInfo: payload,
         })
       : mutate(payload);
@@ -57,11 +75,9 @@ const CorporateRequest = ({ className }: { className?: string }) => {
 
   // Cancel request update
   const cancelEdit = () => {
-    requestContext?.setRegState({
-      ...requestContext?.regState,
-      regName: "",
-      regNo: "",
-    });
+    setRegName("");
+    setRegNo("");
+    setRegType("");
   };
 
   // Close dialog and refetch data after creating or updating a request
@@ -72,10 +88,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
         : isSuccess || isError
     ) {
       setOpenConfirm(false);
-      requestContext?.setRegState({
-        ...requestContext?.regState,
-        refetchData: !requestContext?.regState?.refetchData,
-      });
+      setRefetchData(!refetchData);
     }
     if (updateRequestMutation.isSuccess) cancelEdit();
   }, [isLoading, updateRequestMutation.isLoading]);
@@ -90,14 +103,14 @@ const CorporateRequest = ({ className }: { className?: string }) => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 w-4/6 ">
           <p className="text-white font-normal text-3xl w-max pb-5 ">Request Corporate Search</p>
-          <div className="flex flex-col space-y-8 py-2 bg-white rounded-lg relative ">
+          <div className="flex flex-col py-2 bg-white rounded-lg relative ">
             <CMField
               form={form}
               name="name"
               label="Business/Company Name"
               placeholder="Enter Business/Company Name"
               tipText="Must be registered with CAC"
-              defaultValue={requestContext?.regState?.regName}
+              defaultValue={regName}
             />
 
             <Separator className="!mt-0 " />
@@ -108,8 +121,9 @@ const CorporateRequest = ({ className }: { className?: string }) => {
               label="Registration Number"
               placeholder="Enter Registration Number"
               tipText="Unique registration number assigned to your business when you registered"
-              type="text"
-              defaultValue={requestContext?.regState?.regNo}
+              defaultValue={regNo}
+              defaultRegType={regType}
+              isRegNo
             />
           </div>
 
@@ -117,14 +131,15 @@ const CorporateRequest = ({ className }: { className?: string }) => {
             {editMode && (
               <Button
                 type="button"
-                variant="outline-secondary"
+                variant="outline"
+                className="bg-background"
                 loading={isLoading}
                 onClick={cancelEdit}
               >
                 Cancel
               </Button>
             )}
-            <Button type="submit" variant="secondary" loading={isLoading}>
+            <Button type="submit" loading={isLoading}>
               {editMode ? "Update" : "Submit"}
             </Button>
           </div>
@@ -133,14 +148,12 @@ const CorporateRequest = ({ className }: { className?: string }) => {
             open={openConfirm}
             setOpen={setOpenConfirm}
             title="Confirm Request Information"
-            description={`Business name is "${formValues.name}" and Registration Number is "${formValues.registrationNumber}"`}
+            description={`Business name is "${formValues.name}" and Registration Number is "${mergedRegNo}"`}
             actionText="Request"
             action={handleConfirm}
             loading={isLoading || updateRequestMutation.isLoading}
           />
         </form>
-        {/* {mutation.status === "loading" && <p>Loading...</p>}
-      {mutation.status === "error" && <p>Error creating request</p>} */}
       </Form>
     </div>
   );

@@ -3,10 +3,10 @@ import {
   updateRequest,
   deleteRequest,
   verifyRequest,
-  viewAllRequests,
   viewSingleRequest,
   viewRequestDocument,
   viewAllRequestDocuments,
+  viewBranchRequests,
 } from "@/api/requestApi";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ReactNode } from "react";
@@ -54,11 +54,6 @@ export const useRequests = () => {
   //   queryFn: ()=> viewSingleRequest(requestId),
   // });
 
-  const viewAllRequestsQuery = useQuery({
-    queryKey: ["All Requests"],
-    queryFn: viewAllRequests,
-  });
-
   const verifyRequestMutation = useMutation({
     mutationFn: verifyRequest,
     onError(error, variables, context) {
@@ -69,6 +64,13 @@ export const useRequests = () => {
     },
     retry: 3,
   });
+
+  const useViewBranchRequests = (formInfo: { managerId: string; managerEmail: string }) =>
+    useQuery({
+      queryKey: ["Branch Requests"],
+      queryFn: () => viewBranchRequests(formInfo),
+      enabled: formInfo.managerEmail && formInfo.managerId ? true : false,
+    });
 
   // const viewRequestDocumentQuery = useQuery({
   //   queryKey: ["Request Document"],
@@ -86,8 +88,8 @@ export const useRequests = () => {
     updateRequestMutation,
     deleteRequestMutation,
     // viewRequestQuery,
-    viewAllRequestsQuery,
     verifyRequestMutation,
+    useViewBranchRequests,
     // viewRequestDocumentQuery,
     // viewRequestsDocumentQuery,
   };

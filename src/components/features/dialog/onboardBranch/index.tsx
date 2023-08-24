@@ -49,9 +49,7 @@ const BranchOnboard = ({ children }: propType) => {
 
   return (
     <Dialog open={open}>
-      <Button variant="secondary" onClick={() => setOpen(true)}>
-        {children}
-      </Button>
+      <Button onClick={() => setOpen(true)}>{children}</Button>
       <DialogContent
         className="sm:max-w-[425px] md:max-w-[570px] py-14 bg-white "
         cancel={() => setOpen(false)}
@@ -93,7 +91,7 @@ const BranchOnboard = ({ children }: propType) => {
             </div>
 
             <div className="flex flex-col gap-2">
-              <Button type="submit" variant="secondary" size="full" loading={isLoading}>
+              <Button type="submit" size="full" loading={isLoading}>
                 Onboard
               </Button>
               <Button size="full" variant="transparent" onClick={() => setOpen(false)}>

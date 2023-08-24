@@ -7,7 +7,7 @@ import { Oval } from "react-loading-icons";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-95 transition-all ",
+  "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-95 transition-all ",
   {
     variants: {
       variant: {
@@ -18,7 +18,7 @@ const buttonVariants = cva(
         ["outline-secondary"]: "border border-secondary text-secondary bg-white hover:bg-white/90",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
-        ghost2: "",
+        ghost2: "text-primary hover:text-primary/90",
         link: "text-primary underline-offset-4 hover:underline",
         transparent: "bg-none text-muted-foreground",
         orangeOutline: " flex justify-center item-center border border-secondary",

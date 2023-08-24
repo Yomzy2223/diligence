@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiMenu } from "react-icons/bi";
 import HomeIcon from "@/assets/icons/homeIcon";
 import DetailsIcon from "@/assets/icons/detailsIcon";
@@ -11,6 +11,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { getEnterpriseInfo, getUserInfo, setColor } from "@/lib/globalFunctions";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
@@ -22,6 +23,21 @@ const Sidebar = () => {
     localStorage.clear();
     router.push("/auth/login");
   };
+
+  useEffect(() => {
+    const brandColor = getEnterpriseInfo()?.data?.color;
+    setColor(brandColor || "hsl(194 100% 42%)");
+  }, []);
+
+  const userRole = getUserInfo()?.data?.role?.toLowerCase();
+  //
+  let sidebarItems = [
+    { href: "/", text: "Home", icon: HomeIcon },
+    { href: "/details", text: "Details", icon: DetailsIcon },
+    { href: "/settings", text: "Settings", icon: SettingsIcon },
+  ];
+
+  if (userRole === "staff") sidebarItems = sidebarItems.filter((el) => el.href !== "/details");
 
   return (
     <motion.div
@@ -50,7 +66,7 @@ const Sidebar = () => {
                 key={i}
                 className={cn(
                   "group flex px-4 py-3 rounded-lg ",
-                  active && "bg-background-blue text-primary "
+                  active && "bg-background-light text-primary "
                 )}
               >
                 <div className="flex items-center gap-2 ">
@@ -84,13 +100,6 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-
-//
-const sidebarItems = [
-  { href: "/", text: "Home", icon: HomeIcon },
-  { href: "/details", text: "Details", icon: DetailsIcon },
-  { href: "/settings", text: "Settings", icon: SettingsIcon },
-];
 
 //
 const variants = {
