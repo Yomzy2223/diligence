@@ -1,5 +1,5 @@
 import { itemsPerPage } from "@/lib/config";
-import { getUserInfo, roundToNearestMultiple } from "@/lib/globalFunctions";
+import { getUserInfo } from "@/lib/globalFunctions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 
@@ -31,18 +31,22 @@ export const useGlobalFucntions = () => {
       ? userInfo?.managerId
       : searchParams.get("managerId");
 
-  // Set a new offset depending on the data length
-  const setNewOffset = (data: any[]) => {
-    if (data) {
-      const itemOffset = roundToNearestMultiple(data?.length, itemsPerPage);
-      setQuery("itemOffset", itemOffset);
-    }
-  };
-
   return {
     createQueryString,
     setQuery,
     managerId,
-    setNewOffset,
   };
 };
+
+//  // Set a new offset depending on the data length
+//   const setNewOffset = (data: any[], newOffset?: number) => {
+//     if (newOffset) {
+//       setQuery("itemOffset", newOffset);
+//       return;
+//     }
+//     if (data) {
+//       let newOffset = Math.floor(data?.length / itemsPerPage) * itemsPerPage;
+//       if (newOffset >= 5 && data?.length % itemsPerPage === 0) newOffset = newOffset - 5;
+//       setQuery("itemOffset", newOffset);
+//     }
+//   };

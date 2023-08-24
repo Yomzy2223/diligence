@@ -1,9 +1,9 @@
-import { RequestContext } from "@/app/(dashboard)/(home)/layout";
 import { useEnterprise } from "@/hooks/useEnterprise";
 import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 import { useRequests } from "@/hooks/useRequests";
-import { getUserInfo } from "@/lib/globalFunctions";
+import { getRegNumberInfo, getUserInfo } from "@/lib/globalFunctions";
 import { getTimeInfo } from "@/lib/utils";
+import { useRequestStore } from "@/store/requestStore";
 import { format } from "date-fns";
 import numeral from "numeral";
 import { useContext, useEffect, useState } from "react";
@@ -13,13 +13,20 @@ export const useActions = ({ status }: { status?: string }) => {
   const [openResult, setOpenResult] = useState(false);
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
   const [openVerifyConfirm, setOpenVerifyConfirm] = useState(false);
-  const { setNewOffset } = useGlobalFucntions();
+  const { setQuery } = useGlobalFucntions();
 
-  const reqContext = useContext(RequestContext);
+  // Fron request store
+  const { refetchData, searchValue, setRequestId, setRegName, setRegNo, setRegType } =
+    useRequestStore();
+  // console.log(searchValue);
+
   const userInfo = getUserInfo()?.data;
   const role = userInfo?.role?.toLowerCase();
 
-  const branchPayload = { managerEmail: userInfo?.email, managerId: userInfo?.managerId };
+  const branchPayload = {
+    managerEmail: userInfo?.managerEmail || userInfo?.email,
+    managerId: userInfo?.managerId,
+  };
 
   // API calls
   const { deleteRequestMutation, useViewBranchRequests, verifyRequestMutation } = useRequests();
@@ -37,7 +44,7 @@ export const useActions = ({ status }: { status?: string }) => {
   let requests = role === "admin" ? enterpriseRequests : branchRequests;
   if (status) requests = requests?.filter((el: any) => el?.status?.toLowerCase() === status);
 
-  //
+  // Close diolog and refetch a request is created and deleted
   useEffect(() => {
     if (deleteRequestMutation.isSuccess || deleteRequestMutation.isError) {
       refetch();
@@ -56,25 +63,23 @@ export const useActions = ({ status }: { status?: string }) => {
 
   useEffect(() => {
     refetch();
-  }, [reqContext?.regState?.refetchData]);
+  }, [refetchData]);
 
   const normalize = (text: string) => text.trim().toLowerCase();
-  const searchValue = normalize(reqContext?.regState?.searchValue || "");
 
   // Filter requests
   const filteredRequests = requests?.filter(
     (el: any) =>
       normalize(el?.createdBy)?.includes(searchValue) ||
       normalize(el?.name)?.includes(searchValue) ||
-      el?.registrationNumber?.includes(reqContext?.regState?.searchValue) ||
+      el?.registrationNumber?.includes(searchValue) ||
       normalize(el?.status)?.includes(searchValue)
   );
 
   // Set new offset when searching
   useEffect(() => {
-    if (searchValue) setNewOffset(filteredRequests);
-    else setNewOffset([]);
-  }, [filteredRequests?.length]);
+    if (searchValue) setQuery("itemOffset", 0);
+  }, [searchValue]);
 
   // Delete request
   const handleDeleteConfirm = (request: any) => {
@@ -88,17 +93,19 @@ export const useActions = ({ status }: { status?: string }) => {
 
   // Edit request
   const handleEdit = (request: any) => {
-    reqContext?.setRegState({
-      ...reqContext?.regState,
-      requestId: request?.id,
-      regNo: request?.registrationNumber,
-      regName: request?.name,
-    });
+    const regNumberInfo = getRegNumberInfo(request?.registrationNumber);
+
+    setRequestId(request?.id);
+    setRegName(request?.name);
+    setRegNo(regNumberInfo.number);
+    setRegType(regNumberInfo.type);
   };
 
+  // Requests table header
   let headers = ["S/N", "Business Name", "Reg Number", "Requested by", "Date", "Status", "Action"];
   if (status) headers = headers.filter((el) => el !== "Status");
 
+  // Requests table body
   const dataBody = filteredRequests?.map((request: any, id: number) => {
     const formattedDate = format(new Date(request?.createdAt), "dd/MM/yyyy");
     const formattedTime = getTimeInfo(request?.createdAt);

@@ -2,6 +2,7 @@ import CMSelect from "@/components/cmSelect";
 import CMToolTip from "@/components/cmTooltip";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useRequestStore } from "@/store/requestStore";
 import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { BsInfoCircle } from "react-icons/bs";
@@ -16,9 +17,12 @@ const CMField = ({
   placeholder,
   classNames,
   defaultValue,
+  defaultRegType,
   isRegNo,
 }: propType) => {
   const { setValue, getValues } = useFormContext();
+
+  const { regType, setRegType } = useRequestStore();
 
   const value = getValues()?.[name];
 
@@ -27,10 +31,16 @@ const CMField = ({
     else {
       setValue(name, "", { shouldValidate: false });
     }
-  }, [defaultValue]);
+    if (defaultRegType) {
+      handleRegTypeSelect(defaultRegType);
+    } else {
+      handleRegTypeSelect("");
+    }
+  }, [defaultValue, defaultRegType]);
 
   const handleRegTypeSelect = (selected: string) => {
     setValue("registrationType", selected);
+    setRegType(selected);
   };
 
   return (
@@ -65,6 +75,8 @@ const CMField = ({
                   placeholder="Select type"
                   options={registrationTypes}
                   handleSelect={handleRegTypeSelect}
+                  value={regType}
+                  defaultValue={"LLC"}
                   className={{
                     trigger: "justify-start border-none p-0 gap-1 w-max focus:ring-0",
                   }}

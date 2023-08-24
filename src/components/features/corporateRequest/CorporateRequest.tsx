@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { useRequests } from "@/hooks/useRequests";
 import { getUserInfo } from "@/lib/globalFunctions";
 import ConfirmAction from "../dialog/confirmAction";
-import { RequestContext } from "@/app/(dashboard)/(home)/layout";
+import { useRequestStore } from "@/store/requestStore";
 
 const CorporateRequest = ({ className }: { className?: string }) => {
   const { createRequestMutation, updateRequestMutation } = useRequests();
@@ -26,8 +26,19 @@ const CorporateRequest = ({ className }: { className?: string }) => {
 
   const mergedRegNo = formValues.registrationType + formValues.registrationNumber;
 
-  const requestContext = useContext(RequestContext);
-  const editMode = requestContext?.regState?.regName && requestContext?.regState?.regNo;
+  const {
+    requestId,
+    regNo,
+    regName,
+    regType,
+    refetchData,
+    setRegName,
+    setRegNo,
+    setRegType,
+    setRefetchData,
+  } = useRequestStore();
+
+  const editMode = regName && regNo;
 
   // Form definition
   const form = useForm<corpSearchType>({
@@ -56,7 +67,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
 
     editMode
       ? updateRequestMutation?.mutate({
-          requestId: requestContext?.regState?.requestId,
+          requestId,
           formInfo: payload,
         })
       : mutate(payload);
@@ -64,11 +75,9 @@ const CorporateRequest = ({ className }: { className?: string }) => {
 
   // Cancel request update
   const cancelEdit = () => {
-    requestContext?.setRegState({
-      ...requestContext?.regState,
-      regName: "",
-      regNo: "",
-    });
+    setRegName("");
+    setRegNo("");
+    setRegType("");
   };
 
   // Close dialog and refetch data after creating or updating a request
@@ -79,10 +88,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
         : isSuccess || isError
     ) {
       setOpenConfirm(false);
-      requestContext?.setRegState({
-        ...requestContext?.regState,
-        refetchData: !requestContext?.regState?.refetchData,
-      });
+      setRefetchData(!refetchData);
     }
     if (updateRequestMutation.isSuccess) cancelEdit();
   }, [isLoading, updateRequestMutation.isLoading]);
@@ -104,7 +110,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
               label="Business/Company Name"
               placeholder="Enter Business/Company Name"
               tipText="Must be registered with CAC"
-              defaultValue={requestContext?.regState?.regName}
+              defaultValue={regName}
             />
 
             <Separator className="!mt-0 " />
@@ -115,7 +121,8 @@ const CorporateRequest = ({ className }: { className?: string }) => {
               label="Registration Number"
               placeholder="Enter Registration Number"
               tipText="Unique registration number assigned to your business when you registered"
-              defaultValue={requestContext?.regState?.regNo}
+              defaultValue={regNo}
+              defaultRegType={regType}
               isRegNo
             />
           </div>
@@ -147,8 +154,6 @@ const CorporateRequest = ({ className }: { className?: string }) => {
             loading={isLoading || updateRequestMutation.isLoading}
           />
         </form>
-        {/* {mutation.status === "loading" && <p>Loading...</p>}
-      {mutation.status === "error" && <p>Error creating request</p>} */}
       </Form>
     </div>
   );

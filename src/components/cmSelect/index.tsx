@@ -19,6 +19,7 @@ const CMSelect = ({
   handleSelect,
   className,
   defaultValue,
+  value,
 }: {
   label?: string;
   placeholder: string;
@@ -26,9 +27,10 @@ const CMSelect = ({
   handleSelect?: (v: any) => void;
   className?: { trigger?: string };
   defaultValue?: string;
+  value: string;
 }) => {
   return (
-    <Select onValueChange={handleSelect} defaultValue={defaultValue}>
+    <Select onValueChange={handleSelect} defaultValue={defaultValue} value={value}>
       <SelectTrigger className={cn("w-[140px] rounded-lg bg-white/50 ", className?.trigger)}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

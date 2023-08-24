@@ -8,7 +8,6 @@ interface BankInfoProps {
   address: string;
   adminName: string;
   adminEmail: string;
-  regUrl: string;
   brandColor?: string;
   branch?: boolean;
   className?: {};
@@ -36,8 +35,7 @@ export const BankSettingInfo = ({
             <Detail detailName="Bank name" detail={name} />
             <Detail detailName="Bank headquarters address" detail={address} />
           </div>
-          <div className="flex flex-col px-6 divide-y grow">
-            <Detail detailName="Account admin name" detail={adminName} />
+          <div className="flex flex-col justify-start px-6 divide-y grow">
             <Detail detailName="Account admin email" detail={adminEmail} />
           </div>
         </div>
@@ -48,11 +46,11 @@ export const BankSettingInfo = ({
 
 const Detail = ({ detail, detailName }: { detailName: string; detail: string }) => {
   return (
-    <div className="flex flex-col justify-center space-y-2 grow">
+    <div className="flex flex-col space-y-2 grow">
       <p className="text-base font-medium leading-snug text-foreground tracking-[0.32px]">
         {detailName}
       </p>
-      <p className="text-base leading-relaxed text-[#959697]">{detail}</p>
+      <p className="text-base leading-relaxed text-[#959697]">{detail || "--"}</p>
     </div>
   );
 };

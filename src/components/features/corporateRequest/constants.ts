@@ -39,6 +39,7 @@ export interface propType {
   type?: string;
   placeholder?: string;
   defaultValue?: string;
+  defaultRegType?: string;
   isRegNo?: boolean;
   classNames?: {
     formItem?: string;

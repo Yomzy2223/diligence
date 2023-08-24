@@ -51,7 +51,63 @@ export const setColor = (color: string) => {
   }
 };
 
-export const roundToNearestMultiple = (number: number, multiple: number) => {
-  if (number && multiple) return Math.floor(number / multiple) * multiple;
-  else return 0;
+export const getRegNumberInfo = (regNo: string) => {
+  let type = "";
+  let number = "";
+  let amount = 0;
+
+  if (regNo) {
+    regNo = regNo.toString().toLowerCase();
+    const firstTwo = regNo.slice(0, 2);
+    const firstThree = regNo.slice(0, 3);
+    const firstFour = regNo.slice(0, 4);
+
+    if (firstTwo === "rc") {
+      type = "RC";
+      number = regNo.slice(2);
+      amount = 10000;
+    } else if (firstThree === "llc") {
+      type = "LLC";
+      number = regNo.slice(3);
+      amount = 10000;
+    } else if (firstTwo === "lp") {
+      type = "LP";
+      number = regNo.slice(2);
+      amount = 10000;
+    } else if (firstThree === "llp") {
+      type = "LLP";
+      number = regNo.slice(3);
+      amount = 10000;
+    } else if (firstTwo === "sp") {
+      type = "SP";
+      number = regNo.slice(2);
+      amount = 10000;
+    } else if (firstThree === "plc") {
+      type = "PLC";
+      number = regNo.slice(3);
+      amount = 10000;
+    } else if (firstThree === "npo") {
+      type = "NPO";
+      number = regNo.slice(3);
+      amount = 10000;
+    } else if (firstFour === "co-op") {
+      type = "Co-op";
+      number = regNo.slice(4);
+      amount = 10000;
+    } else if (firstTwo === "pc") {
+      type = "PC";
+      number = regNo.slice(2);
+      amount = 10000;
+    } else if (firstThree === "jv") {
+      type = "JV";
+      number = regNo.slice(2);
+      amount = 10000;
+    }
+  }
+
+  return {
+    type,
+    number,
+    amount,
+  };
 };
