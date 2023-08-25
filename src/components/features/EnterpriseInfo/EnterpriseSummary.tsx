@@ -5,6 +5,8 @@ import Image from "next/image";
 import React from "react";
 import imageLoading from "@/assets/images/imageLoading.png";
 import { Separator } from "@/components/ui/separator";
+import BranchOnboard from "../dialog/onboardBranch";
+import { useRequests } from "@/hooks/useRequests";
 
 const EnterpriseSummary = ({
   role,
@@ -18,11 +20,15 @@ const EnterpriseSummary = ({
   branch: any;
 }) => {
   enterprise = enterprise?.data?.data?.data;
-  branch = branch?.data?.data?.data;
+  const branchInfo = branch?.data?.data?.data;
 
-  const branchRequests = enterprise?.diligenceRequest?.filter(
-    (el: any) => el?.status?.toLowerCase() === "completed"
+  const { useViewBranchRequests } = useRequests();
+  const { data } = useViewBranchRequests({ managerId, managerEmail: branchInfo?.managerEmail });
+  const branchRequests = data?.data?.data;
+  const verifiedBranchReq = branchRequests?.filter(
+    (el: any) => el?.status?.toLowerCase() === "verified"
   );
+
   const verifiedRequests = enterprise?.diligenceRequest?.filter(
     (el: any) => el?.status?.toLowerCase() === "completed"
   );
@@ -68,26 +74,36 @@ const EnterpriseSummary = ({
           <div className="flex flex-col gap-2 justify-between ">
             <div>
               <p className="text-sm font-normal">Branch name</p>
-              <p className="text-sm font-normal text-muted-foreground ">{branch?.name || "--"}</p>
+              <p className="text-sm font-normal text-muted-foreground ">
+                {branchInfo?.name || "--"}
+              </p>
             </div>
             <Separator />
             <div>
               <p className="text-sm font-normal">Branch admin email</p>
               <p className="text-sm font-normal text-muted-foreground">
-                {branch?.managerEmail || "--"}
+                {branchInfo?.managerEmail || "--"}
               </p>
             </div>
-            <Button variant="ghost2" size="icon" className="underline">
-              Edit
-            </Button>
+            {role === "admin" && (
+              <BranchOnboard
+                variant="ghost2"
+                size="icon"
+                className="underline"
+                branch={branch}
+                managerId={managerId}
+              >
+                Edit
+              </BranchOnboard>
+            )}
           </div>
           <div className="p-6 border border-border rounded">
             <p className="text-sm font-normal mb-6">BUSINESSES VERIFIED</p>
-            <p className="text-3xl">{"--"}</p>
+            <p className="text-2xl">{verifiedBranchReq?.length || "--"}</p>
           </div>
           <div className="p-6 border border-border rounded">
             <p className="text-sm font-normal mb-6">TOTAL REQUESTS</p>
-            <p className="text-3xl">{"--"}</p>
+            <p className="text-2xl">{branchRequests?.length || "--"}</p>
           </div>
         </div>
       </div>

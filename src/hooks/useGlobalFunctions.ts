@@ -46,7 +46,7 @@ export const useGlobalFucntions = () => {
 //     }
 //     if (data) {
 //       let newOffset = Math.floor(data?.length / itemsPerPage) * itemsPerPage;
-//       if (newOffset >= 5 && data?.length % itemsPerPage === 0) newOffset = newOffset - 5;
+//       if (newOffset >= 5 && data?.length % itemsPerPage === 0) newOffset = newOffset - itemsPerPage;
 //       setQuery("itemOffset", newOffset);
 //     }
 //   };

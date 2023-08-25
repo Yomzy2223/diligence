@@ -20,7 +20,12 @@ const CMField = ({
   defaultRegType,
   isRegNo,
 }: propType) => {
-  const { setValue, getValues } = useFormContext();
+  const [regTypeErrorMsg, setRegTypeErrorMsg] = useState("");
+
+  const { setValue, getValues, getFieldState } = useFormContext();
+
+  const regTypeError = getFieldState("registrationType");
+  const regNumInvalid = getFieldState("registrationNumber").invalid;
 
   const { regType, setRegType } = useRequestStore();
 
@@ -37,6 +42,13 @@ const CMField = ({
       handleRegTypeSelect("");
     }
   }, [defaultValue, defaultRegType]);
+
+  useEffect(() => {
+    if (isRegNo && !regNumInvalid && regTypeError.invalid) {
+      setRegTypeErrorMsg(regTypeError.error?.message || "");
+    } else setRegTypeErrorMsg("");
+  }, [regTypeError && regNumInvalid]);
+  console.log(regTypeErrorMsg);
 
   const handleRegTypeSelect = (selected: string) => {
     setValue("registrationType", selected);
@@ -94,6 +106,7 @@ const CMField = ({
                   <FormMessage
                     className={`min-w-max text-xs leading-3 font-normal ${classNames?.formMessage} `}
                   />
+                  <span>{regTypeErrorMsg}</span>
                   {tipText && <Tooltip tipText={tipText} />}
                 </div>
               )}

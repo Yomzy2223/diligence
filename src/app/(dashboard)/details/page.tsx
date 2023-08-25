@@ -10,15 +10,14 @@ import arrowBack from "@/assets/icons/arrowBack.svg";
 import { useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 
 const Details = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const { managerId } = useGlobalFucntions();
 
   const userInfo = getUserInfo()?.data;
   const isManager = userInfo?.role?.toLowerCase() === "manager";
-
-  const managerId = isManager ? userInfo?.managerId : searchParams.get("managerId");
 
   return (
     <div>
