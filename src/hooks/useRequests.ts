@@ -72,11 +72,12 @@ export const useRequests = () => {
       enabled: formInfo.managerEmail && formInfo.managerId ? true : false,
     });
 
-  // const viewRequestDocumentQuery = useQuery({
-  //   queryKey: ["Request Document"],
-  //   queryFn:()=> viewRequestDocument,
-
-  // });
+  const useViewRequestDocumentQuery = (requestId: string) =>
+    useQuery({
+      queryKey: ["Request Document", requestId],
+      queryFn: ({ queryKey }) => viewRequestDocument(queryKey[1]),
+      enabled: requestId ? true : false,
+    });
 
   // const viewRequestsDocumentQuery = useQuery({
   //   queryKey: ["Request Documents"],
@@ -90,7 +91,7 @@ export const useRequests = () => {
     // viewRequestQuery,
     verifyRequestMutation,
     useViewBranchRequests,
-    // viewRequestDocumentQuery,
+    useViewRequestDocumentQuery,
     // viewRequestsDocumentQuery,
   };
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { DeleteIcon, EditIcon } from "@/assets/icons";
 import ConfirmAction from "../../dialog/confirmAction";
 import Dialog from "@/components/customdialog";
@@ -14,6 +14,9 @@ interface propsType {
   request: any;
   openResult: boolean;
   setOpenResult: (arg: boolean) => void;
+  requestDocument: any;
+  handleFileDownload: (arg: any) => void;
+  setClickedRequest: (arg: any) => void;
   openDeleteConfirm: boolean;
   setOpenDeleteConfirm: (arg: boolean) => void;
   isLoading: boolean;
@@ -31,6 +34,9 @@ export const ActionCellContent = ({
   propStatus,
   openResult,
   setOpenResult,
+  setClickedRequest,
+  requestDocument,
+  handleFileDownload,
   openDeleteConfirm,
   setOpenDeleteConfirm,
   handleEdit,
@@ -45,6 +51,14 @@ export const ActionCellContent = ({
 
   const status = request?.status?.toLowerCase();
   const userRole = getUserInfo()?.data?.role?.toLowerCase();
+  requestDocument = requestDocument.data?.data?.data;
+
+  const handleClickedRequest = () => {
+    {
+      setClickedRequest(request);
+      setOpenResult(true);
+    }
+  };
 
   if (status === "unverified") {
     return propStatus && (userRole === "manager" || userRole === "admin") ? (
@@ -106,7 +120,7 @@ export const ActionCellContent = ({
           variant="ghost2"
           size="icon"
           className="underline whitespace-nowrap text-[#de4909]  hover:text-[#de4909cf]"
-          onClick={() => setOpenResult(true)}
+          onClick={handleClickedRequest}
         >
           See Result
         </Button>
@@ -120,7 +134,11 @@ export const ActionCellContent = ({
             brandColor="red"
             footer={false}
           >
-            <FileDisplay>CAC Certificate</FileDisplay>
+            {requestDocument?.map((el: any, i: number) => (
+              <FileDisplay key={i} onDownloadClick={() => handleFileDownload(el)}>
+                {el?.name || "--"}
+              </FileDisplay>
+            ))}
           </Dialog>
         </div>
       </>

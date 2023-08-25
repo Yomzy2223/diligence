@@ -48,7 +48,6 @@ const CMField = ({
       setRegTypeErrorMsg(regTypeError.error?.message || "");
     } else setRegTypeErrorMsg("");
   }, [regTypeError && regNumInvalid]);
-  console.log(regTypeErrorMsg);
 
   const handleRegTypeSelect = (selected: string) => {
     setValue("registrationType", selected);

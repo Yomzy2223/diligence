@@ -18,10 +18,11 @@ const Details = () => {
 
   const userInfo = getUserInfo()?.data;
   const isManager = userInfo?.role?.toLowerCase() === "manager";
+  const isAdmin = userInfo?.role?.toLowerCase() === "admin";
 
   return (
     <div>
-      {managerId && (
+      {isAdmin && managerId && (
         <div className="flex pl-10 pb-2 pt-6 pr-6">
           <Button variant="ghost2" size="icon" onClick={() => router.push("/details")}>
             <Image src={arrowBack} alt="" />

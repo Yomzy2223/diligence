@@ -45,7 +45,6 @@ const AddStaff = ({ children }: propType) => {
       managerId: getUserInfo()?.data?.id,
       formInfo: { email: values.email },
     };
-    console.log(payload);
     mutate(payload);
   };
 

@@ -50,8 +50,8 @@ export const verifyRequest = (requestId: string) => {
 };
 
 // Function to view single request document
-export const viewRequestDocument = (documentId: string) => {
-  return client.get(`/diligence/document/${documentId}`);
+export const viewRequestDocument = async (documentId: string) => {
+  return await client.get(`/diligence/document/${documentId}`);
 };
 
 // Function to view all request documents

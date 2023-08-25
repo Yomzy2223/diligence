@@ -2,7 +2,6 @@ import axios from "axios";
 import { saveAs } from "file-saver";
 import tinycolor from "tinycolor2";
 
-
 export const getAllYearsUpToCurrentYear = () => {
   const currentYear = new Date().getFullYear();
   const startYear = 2022;
@@ -35,6 +34,7 @@ export const handleDownloadFile = (cloudinaryLink: string, fileName: string) => 
     });
 
   return result;
+};
 
 export const getEnterpriseInfo = () => {
   let enterpriseInfo = localStorage.getItem("enterpriseInfo");

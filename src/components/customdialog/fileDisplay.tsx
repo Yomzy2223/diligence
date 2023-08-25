@@ -22,17 +22,22 @@ const FileDisplayVariants = cva(
 interface FileDisplayProps extends VariantProps<typeof FileDisplayVariants> {
   className?: string;
   children?: string;
+  onDownloadClick?: () => void;
 }
 
-export const FileDisplay = ({ variant, className , children}: FileDisplayProps) => {
+export const FileDisplay = ({
+  variant,
+  className,
+  children,
+  onDownloadClick,
+}: FileDisplayProps) => {
   return (
     <div className={cn(FileDisplayVariants({ variant }), className)}>
       <div className="flex items-center gap-2">
         <Image src={Pdf} alt={"file type"} />
         <p className="text-base leading-7 underline">{children}</p>
-
       </div>
-      <Button variant={"ghost"} size={"slim"}>
+      <Button variant={"ghost"} size={"slim"} onClick={onDownloadClick}>
         <Image src={Download} alt="" />
       </Button>
     </div>

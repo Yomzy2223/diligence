@@ -12,7 +12,6 @@ export default function Settings() {
   const { useViewEnterpriseByIdQuery } = useEnterprise();
   const { data } = useViewEnterpriseByIdQuery(getUserInfo()?.data?.enterpriseId);
   const enterprise = data?.data?.data;
-  console.log(enterprise);
 
   return (
     <main className="flex flex-col ml-4 px-6 ">

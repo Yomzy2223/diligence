@@ -1,6 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { useEnterprise, useEnterpriseBranch } from "@/hooks/useEnterprise";
-import { getEnterpriseInfo, getUserInfo } from "@/lib/globalFunctions";
 import Image from "next/image";
 import React from "react";
 import imageLoading from "@/assets/images/imageLoading.png";
@@ -46,15 +43,25 @@ const EnterpriseSummary = ({
         <div className="flex flex-1 gap-6 p-6 border border-border rounded">
           <div className="p-6 border border-border rounded">
             <p className="text-sm font-normal mb-6">ONBOARDED BRANCHES</p>
-            <p className="text-3xl">{enterprise?.diligenceManager?.length || 0}</p>
+            <p className="text-3xl">
+              {enterprise?.diligenceManager?.length >= 0
+                ? enterprise?.diligenceManager?.length
+                : "--"}
+            </p>
           </div>
           <div className="p-6 border border-border rounded">
             <p className="text-sm font-normal mb-6">BUSINESSES VERIFIED</p>
-            <p className="text-3xl">{verifiedRequests?.length || 0}</p>
+            <p className="text-3xl">
+              {verifiedRequests?.length >= 0 ? verifiedRequests?.length : "--"}
+            </p>
           </div>
           <div className="p-6 border border-border rounded">
             <p className="text-sm font-normal mb-6">TOTAL REQUESTS</p>
-            <p className="text-3xl">{enterprise?.diligenceRequest?.length || 0}</p>
+            <p className="text-3xl">
+              {enterprise?.diligenceRequest?.length >= 0
+                ? enterprise?.diligenceRequest?.length
+                : "--"}
+            </p>
           </div>
         </div>
       </div>
@@ -99,11 +106,15 @@ const EnterpriseSummary = ({
           </div>
           <div className="p-6 border border-border rounded">
             <p className="text-sm font-normal mb-6">BUSINESSES VERIFIED</p>
-            <p className="text-2xl">{verifiedBranchReq?.length || "--"}</p>
+            <p className="text-2xl">
+              {verifiedBranchReq?.length >= 0 ? verifiedBranchReq?.length : "--"}
+            </p>
           </div>
           <div className="p-6 border border-border rounded">
             <p className="text-sm font-normal mb-6">TOTAL REQUESTS</p>
-            <p className="text-2xl">{branchRequests?.length || "--"}</p>
+            <p className="text-2xl">
+              {branchRequests?.length >= 0 ? branchRequests?.length : "--"}
+            </p>
           </div>
         </div>
       </div>

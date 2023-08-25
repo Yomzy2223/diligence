@@ -1,24 +1,24 @@
 import { useEnterprise } from "@/hooks/useEnterprise";
 import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 import { useRequests } from "@/hooks/useRequests";
-import { getRegNumberInfo, getUserInfo } from "@/lib/globalFunctions";
+import { getRegNumberInfo, getUserInfo, handleDownloadFile } from "@/lib/globalFunctions";
 import { getTimeInfo } from "@/lib/utils";
 import { useRequestStore } from "@/store/requestStore";
 import { format } from "date-fns";
 import numeral from "numeral";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ActionCellContent, Status } from "./CellContent";
 
 export const useActions = ({ status }: { status?: string }) => {
   const [openResult, setOpenResult] = useState(false);
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
   const [openVerifyConfirm, setOpenVerifyConfirm] = useState(false);
+  const [clickedRequest, setClickedRequest] = useState({ id: "" });
   const { setQuery } = useGlobalFucntions();
 
   // Fron request store
   const { refetchData, searchValue, setRequestId, setRegName, setRegNo, setRegType } =
     useRequestStore();
-  // console.log(searchValue);
 
   const userInfo = getUserInfo()?.data;
   const role = userInfo?.role?.toLowerCase();
@@ -29,8 +29,14 @@ export const useActions = ({ status }: { status?: string }) => {
   };
 
   // API calls
-  const { deleteRequestMutation, useViewBranchRequests, verifyRequestMutation } = useRequests();
+  const {
+    deleteRequestMutation,
+    useViewBranchRequests,
+    verifyRequestMutation,
+    useViewRequestDocumentQuery,
+  } = useRequests();
   const { data, isLoading, refetch } = useViewBranchRequests(branchPayload);
+  const requestDocument = useViewRequestDocumentQuery(clickedRequest?.id);
   const { useViewEnterpriseByIdQuery } = useEnterprise();
   const enterprise = useViewEnterpriseByIdQuery(userInfo?.enterpriseId);
 
@@ -91,6 +97,10 @@ export const useActions = ({ status }: { status?: string }) => {
     verifyRequestMutation.mutate(request.id);
   };
 
+  const handleFileDownload = (document: any) => {
+    if (document.link && document.name) handleDownloadFile(document.link, document.name);
+  };
+
   // Edit request
   const handleEdit = (request: any) => {
     const regNumberInfo = getRegNumberInfo(request?.registrationNumber);
@@ -115,14 +125,17 @@ export const useActions = ({ status }: { status?: string }) => {
       propStatus: status,
       handleConfirm: handleDeleteConfirm,
       isLoading: deleteRequestMutation.isLoading,
-      openDeleteConfirm: openDeleteConfirm,
-      setOpenDeleteConfirm: setOpenDeleteConfirm,
+      openDeleteConfirm,
+      setOpenDeleteConfirm,
       handleEdit,
-      openResult: openResult,
-      setOpenResult: setOpenResult,
-      openVerifyConfirm: openVerifyConfirm,
-      setOpenVerifyConfirm: setOpenVerifyConfirm,
-      handleVerifyConfirm: handleVerifyConfirm,
+      openResult,
+      setOpenResult,
+      setClickedRequest,
+      requestDocument,
+      handleFileDownload,
+      openVerifyConfirm,
+      setOpenVerifyConfirm,
+      handleVerifyConfirm,
       verifyLoading: verifyRequestMutation.isLoading,
     });
 
