@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { BsInfoCircle } from "react-icons/bs";
 import { cmFieldPropType } from "./constants";
@@ -26,10 +26,11 @@ const InputWithLabel = ({
   textSize,
   bottom,
   classNames,
+  defaultValue,
 }: cmFieldPropType) => {
   const [typeM, setTypeM] = useState(type);
 
-  const { getFieldState, formState } = useFormContext();
+  const { getFieldState, formState, setValue } = useFormContext();
 
   const fieldState = getFieldState(name, formState);
 
@@ -47,6 +48,10 @@ const InputWithLabel = ({
       {typeM === "password" ? "Show" : "Hide"}
     </p>
   );
+
+  useEffect(() => {
+    if (defaultValue) setValue(name, defaultValue, { shouldValidate: true });
+  }, [defaultValue]);
 
   return (
     <FormField
