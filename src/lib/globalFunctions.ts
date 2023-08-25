@@ -1,4 +1,7 @@
+import axios from "axios";
+import { saveAs } from "file-saver";
 import tinycolor from "tinycolor2";
+
 
 export const getAllYearsUpToCurrentYear = () => {
   const currentYear = new Date().getFullYear();
@@ -21,6 +24,17 @@ export const getUserInfo = () => {
   }
   return parsedUserInfo || {};
 };
+
+export const handleDownloadFile = (cloudinaryLink: string, fileName: string) => {
+  const result = axios
+    .get(cloudinaryLink, {
+      responseType: "blob",
+    })
+    .then((res) => {
+      saveAs(res.data, fileName);
+    });
+
+  return result;
 
 export const getEnterpriseInfo = () => {
   let enterpriseInfo = localStorage.getItem("enterpriseInfo");
