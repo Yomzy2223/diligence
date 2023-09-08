@@ -4,7 +4,7 @@ import BranchOnboard from "@/components/features/dialog/onboardBranch";
 import CorporateRequest from "@/components/features/corporateRequest/CorporateRequest";
 import Image from "next/image";
 import { ReactNode } from "react";
-import ActiveNav2 from "@/components/features/activeNav/ActiveNav2";
+import ActiveNav2 from "@/components/activeNav/ActiveNav2";
 import { Input } from "@/components/ui/input";
 import { allStatus, RegStateType } from "./constants";
 import { getEnterpriseInfo, getUserInfo } from "@/lib/globalFunctions";

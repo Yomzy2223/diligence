@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useEnterprise, useEnterpriseBranch } from "@/hooks/useEnterprise";
 import { getUserInfo } from "@/lib/globalFunctions";
 import EnterpriseSummary from "./EnterpriseSummary";
-import { DiligenceTable } from "../DiligenceTable";
+import { DiligenceTable } from "../../DiligenceTable";
 import { useActions } from "./actions";
 import { Input } from "@/components/ui/input";
 import DoCheck from "@/components/DoCheck";

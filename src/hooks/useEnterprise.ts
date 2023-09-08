@@ -13,12 +13,13 @@ import {
   viewEnterpriseById,
   viewEnterpriseByAdminEmail,
 } from "@/api/enterpriseApi";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useResponse } from "./useResponse";
 
 // React Query hooks for bank
 export const useEnterprise = () => {
   const { handleError, handleSuccess } = useResponse();
+  const queryClient = useQueryClient();
 
   const updateEnterpriseMutation = useMutation({
     mutationFn: updateEnterprise,
@@ -27,6 +28,7 @@ export const useEnterprise = () => {
     },
     onSuccess(data, variables, context) {
       handleSuccess({ data });
+      queryClient.invalidateQueries({ queryKey: ["Enterprise"] });
     },
     retry: 3,
   });

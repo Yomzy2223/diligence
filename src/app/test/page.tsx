@@ -1,7 +1,7 @@
 "use client";
 
-import { DiligenceTable } from "@/components/features/DiligenceTable";
-import { dataBody, headers } from "@/components/features/DiligenceTable/constant";
+import { DiligenceTable } from "@/components/DiligenceTable";
+import { dataBody, headers } from "@/components/DiligenceTable/constant";
 import React from "react";
 
 const Test = () => {

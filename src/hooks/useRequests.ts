@@ -8,13 +8,13 @@ import {
   viewAllRequestDocuments,
   viewBranchRequests,
 } from "@/api/requestApi";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { ReactNode } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useResponse } from "./useResponse";
 
 // React Query hooks for corporate request
 export const useRequests = () => {
   const { handleError, handleSuccess } = useResponse();
+  const queryClient = useQueryClient();
 
   const createRequestMutation = useMutation({
     mutationFn: createRequest,
@@ -23,6 +23,8 @@ export const useRequests = () => {
     },
     onSuccess(data, variables, context) {
       handleSuccess({ data });
+      queryClient.invalidateQueries({ queryKey: ["Branch Requests"] });
+      queryClient.invalidateQueries({ queryKey: ["Enterprise"] });
     },
     retry: 3,
   });
@@ -33,6 +35,8 @@ export const useRequests = () => {
       handleError({ error });
     },
     onSuccess(data, variables, context) {
+      queryClient.invalidateQueries({ queryKey: ["Branch Requests"] });
+      queryClient.invalidateQueries({ queryKey: ["Enterprise"] });
       handleSuccess({ data });
     },
     retry: 3,
@@ -45,6 +49,8 @@ export const useRequests = () => {
     },
     onSuccess(data, variables, context) {
       handleSuccess({ data });
+      queryClient.invalidateQueries({ queryKey: ["Branch Requests"] });
+      queryClient.invalidateQueries({ queryKey: ["Enterprise"] });
     },
     retry: 3,
   });
@@ -61,6 +67,8 @@ export const useRequests = () => {
     },
     onSuccess(data, variables, context) {
       handleSuccess({ data });
+      queryClient.invalidateQueries({ queryKey: ["Branch Requests"] });
+      queryClient.invalidateQueries({ queryKey: ["Enterprise"] });
     },
     retry: 3,
   });
@@ -69,7 +77,7 @@ export const useRequests = () => {
     useQuery({
       queryKey: ["Branch Requests"],
       queryFn: () => viewBranchRequests(formInfo),
-      enabled: formInfo.managerEmail && formInfo.managerId ? true : false,
+      // enabled: formInfo.managerEmail && formInfo.managerId ? true : false,
     });
 
   const useViewRequestDocumentQuery = (requestId: string) =>

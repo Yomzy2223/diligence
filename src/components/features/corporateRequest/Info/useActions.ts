@@ -4,7 +4,7 @@ import { useRequests } from "@/hooks/useRequests";
 import { getRegNumberInfo, getUserInfo, handleDownloadFile } from "@/lib/globalFunctions";
 import { getTimeInfo } from "@/lib/utils";
 import { useRequestStore } from "@/store/requestStore";
-import { format } from "date-fns";
+import { compareAsc, format } from "date-fns";
 import numeral from "numeral";
 import { useEffect, useState } from "react";
 import { ActionCellContent, Status } from "./CellContent";
@@ -74,12 +74,16 @@ export const useActions = ({ status }: { status?: string }) => {
   const normalize = (text: string) => text.trim().toLowerCase();
 
   // Filter requests
-  const filteredRequests = requests?.filter(
+  let filteredRequests = requests?.filter(
     (el: any) =>
       normalize(el?.createdBy)?.includes(searchValue) ||
       normalize(el?.name)?.includes(searchValue) ||
       el?.registrationNumber?.includes(searchValue) ||
       normalize(el?.status)?.includes(searchValue)
+  );
+
+  filteredRequests?.sort((a: any, b: any) =>
+    compareAsc(new Date(b?.createdAt), new Date(a?.createdAt))
   );
 
   // Set new offset when searching
