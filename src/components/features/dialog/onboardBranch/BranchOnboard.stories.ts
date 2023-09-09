@@ -20,13 +20,11 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     children: "Onboard",
-    buttonVariant: "default",
   },
 };
 
 export const Transparent: Story = {
   args: {
     children: "Onboard",
-    buttonVariant: "transparent",
   },
 };
