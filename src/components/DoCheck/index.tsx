@@ -2,6 +2,8 @@
 
 import React, { ReactNode } from "react";
 import { Puff } from "react-loading-icons";
+import ActiveNav2Skeleton from "../activeNav/ActiveNav2/ActiveNav2Skeleton";
+import TableSkeleton from "../DiligenceTable/TableSkeleton";
 import { EmptyList } from "../features/emptyList";
 
 const DoCheck = ({
@@ -21,7 +23,8 @@ const DoCheck = ({
   if (isLoading)
     return (
       <div className="flex items-center justify-center h-24 ">
-        <Puff stroke="hsl(var(--primary))" />
+        {/* <Puff stroke="hsl(var(--primary))" /> */}
+        <TableSkeleton />
       </div>
     );
 

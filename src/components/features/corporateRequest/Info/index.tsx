@@ -2,9 +2,7 @@
 
 import DoCheck from "@/components/DoCheck";
 import React from "react";
-import { Puff } from "react-loading-icons";
 import { DiligenceTable } from "../../../DiligenceTable";
-import { EmptyList } from "../../emptyList";
 import { useActions } from "./useActions";
 
 const CorporateRequestInfo = ({ status }: { status?: string }) => {
