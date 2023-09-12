@@ -1,5 +1,5 @@
 import Image from "next/image";
-import imageLoading from "@/assets/images/imageLoading.png";
+import imageLoading from "@/assets/Images/imagePlaceholder.png";
 
 interface BankInfoProps {
   image: any;
