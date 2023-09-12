@@ -23,7 +23,7 @@ interface FileDisplayProps extends VariantProps<typeof FileDisplayVariants> {
   className?: string;
   children?: string;
   onDownloadClick?: () => void;
-  type: string;
+  type?: string;
 }
 
 export const FileDisplay = ({
