@@ -22,7 +22,15 @@ const EnterpriseInfo = () => {
   const branch = useViewBranchByIdQuery(managerId || "");
   const enterprise = useViewEnterpriseByIdQuery(enterpriseId);
 
-  const { branchHeaders, branchBody, adminHeaders, adminBody, handleManagerClick } = useActions({
+  const {
+    branchHeaders,
+    branchBody,
+    adminHeaders,
+    adminBody,
+    handleManagerClick,
+    diligenceManagers,
+    diligenceStaff,
+  } = useActions({
     enterprise,
     searchValue,
     managerId,
@@ -41,7 +49,7 @@ const EnterpriseInfo = () => {
         <div>
           <div className="flex justify-between items-center gap-8 mb-4">
             <p className="font-semibold">Onboarded Branches</p>
-            {adminBody?.length > 0 && (
+            {diligenceManagers?.length > 0 && (
               <Input
                 variant="search"
                 placeholder="Search branch..."
@@ -63,7 +71,7 @@ const EnterpriseInfo = () => {
         <div>
           <div className="flex justify-between items-center gap-8 mb-4">
             <p className="font-semibold">All Staff</p>
-            {branchBody?.length > 0 && (
+            {diligenceStaff?.length > 0 && (
               <Input
                 variant="search"
                 placeholder="Search staff..."

@@ -23,6 +23,7 @@ interface FileDisplayProps extends VariantProps<typeof FileDisplayVariants> {
   className?: string;
   children?: string;
   onDownloadClick?: () => void;
+  type: string;
 }
 
 export const FileDisplay = ({
@@ -30,6 +31,7 @@ export const FileDisplay = ({
   className,
   children,
   onDownloadClick,
+  type,
 }: FileDisplayProps) => {
   return (
     <div className={cn(FileDisplayVariants({ variant }), "bg-muted", className)}>

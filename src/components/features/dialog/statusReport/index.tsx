@@ -2,12 +2,9 @@ import React from "react";
 import {
   Dialog as DialogRoot,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-  DialogClose,
 } from "@/components/ui/dialog";
 import { FileDisplay } from "@/components/customdialog/fileDisplay";
 import { Button } from "@/components/ui/button";
@@ -16,7 +13,13 @@ import { useRequests } from "@/hooks/useRequests";
 import { handleDownloadFile } from "@/lib/globalFunctions";
 import StatusReportSkeleton from "./StatusReportSkeleton";
 
-const StatusReport = ({ clickedRequest, open, setOpenResult }) => {
+interface propType {
+  clickedRequest: any;
+  open: boolean;
+  setOpenResult: any;
+}
+
+const StatusReport = ({ clickedRequest, open, setOpenResult }: propType) => {
   const { useViewRequestDocumentQuery } = useRequests();
   const requestDocument = useViewRequestDocumentQuery(clickedRequest?.id);
   const reqDocumentInfo = requestDocument.data?.data?.data;
@@ -26,7 +29,6 @@ const StatusReport = ({ clickedRequest, open, setOpenResult }) => {
     if (document.link && document.name) handleDownloadFile(document.link, document.name);
   };
 
-  console.log(requestDocument.isLoading);
   return (
     <DialogRoot open={open}>
       <DialogContent
