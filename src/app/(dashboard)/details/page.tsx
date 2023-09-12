@@ -7,13 +7,17 @@ import { getUserInfo } from "@/lib/globalFunctions";
 import React from "react";
 import Image from "next/image";
 import arrowBack from "@/assets/icons/arrowBack.svg";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 
 const Details = () => {
   const router = useRouter();
+
+  const userToken = getUserInfo()?.data?.token;
+  if (!userToken) router.push("/auth/login");
+
   const { managerId } = useGlobalFucntions();
 
   const userInfo = getUserInfo()?.data;

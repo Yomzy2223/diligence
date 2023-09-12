@@ -26,7 +26,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     const brandColor = getEnterpriseInfo()?.data?.color;
-    setColor(brandColor || "hsl(194 100% 42%)");
+    if (brandColor) setColor(brandColor);
   }, []);
 
   const userRole = getUserInfo()?.data?.role?.toLowerCase();

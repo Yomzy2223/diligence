@@ -20,13 +20,13 @@ export const getUserInfo = () => {
   let userInfo;
   let parsedUserInfo;
 
-  if (typeof localStorage !== "undefined") {
-    userInfo = localStorage.getItem("userInfo");
+  // if (typeof localStorage !== "undefined") {
+  userInfo = localStorage.getItem("userInfo");
 
-    if (userInfo) {
-      parsedUserInfo = JSON.parse(userInfo);
-    }
+  if (userInfo) {
+    parsedUserInfo = JSON.parse(userInfo);
   }
+  // }
 
   return parsedUserInfo || {};
 };
@@ -47,12 +47,12 @@ export const getEnterpriseInfo = () => {
   let enterpriseInfo;
   let parsedEnterpriseInfo;
 
-  if (typeof localStorage !== "undefined") {
-    enterpriseInfo = localStorage.getItem("enterpriseInfo");
-    if (enterpriseInfo) {
-      parsedEnterpriseInfo = JSON.parse(enterpriseInfo);
-    }
+  // if (typeof localStorage !== "undefined") {
+  enterpriseInfo = localStorage.getItem("enterpriseInfo");
+  if (enterpriseInfo) {
+    parsedEnterpriseInfo = JSON.parse(enterpriseInfo);
   }
+  // }
   return parsedEnterpriseInfo || {};
 };
 

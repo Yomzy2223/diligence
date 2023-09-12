@@ -23,7 +23,6 @@ const StatusReport = ({ clickedRequest, open, setOpenResult }: propType) => {
   const { useViewRequestDocumentQuery } = useRequests();
   const requestDocument = useViewRequestDocumentQuery(clickedRequest?.id);
   const reqDocumentInfo = requestDocument.data?.data?.data;
-  console.log(reqDocumentInfo);
 
   const handleFileDownload = (document: any) => {
     if (document.link && document.name) handleDownloadFile(document.link, document.name);
