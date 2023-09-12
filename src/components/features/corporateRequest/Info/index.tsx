@@ -9,8 +9,6 @@ import { DiligenceTable } from "../../../DiligenceTable";
 import { useActions } from "./useActions";
 
 const CorporateRequestInfo = ({ status }: { status?: string }) => {
-  const [clickedRequest, setClickedRequest] = useState({ id: "" });
-
   const userInfo = getUserInfo()?.data;
   const role = userInfo?.role?.toLowerCase();
 
@@ -22,18 +20,17 @@ const CorporateRequestInfo = ({ status }: { status?: string }) => {
     useViewRequestDocumentQuery,
   } = useRequests();
   const { data, isLoading } = useViewBranchRequests(userInfo?.managerId);
-  const requestDocument = useViewRequestDocumentQuery(clickedRequest?.id);
   const { useViewEnterpriseByIdQuery } = useEnterprise();
   const enterprise = useViewEnterpriseByIdQuery(userInfo?.enterpriseId);
 
   // Actions
   const { headers, dataBody, requests } = useActions({
     data,
-    requestDocument,
+    // requestDocument,
     enterprise,
     deleteRequestMutation,
     verifyRequestMutation,
-    setClickedRequest,
+    // setClickedRequest,
     status,
   });
 

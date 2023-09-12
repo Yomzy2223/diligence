@@ -11,26 +11,27 @@ import { ActionCellContent, Status } from "./CellContent";
 
 interface actionArgsType {
   data: any;
-  requestDocument: any;
+  // requestDocument: any;
   enterprise: any;
   deleteRequestMutation: any;
   verifyRequestMutation: any;
-  setClickedRequest: any;
+  // setClickedRequest: any;
   status: string | undefined;
 }
 
 export const useActions = ({
   data,
-  requestDocument,
+  // requestDocument,
   enterprise,
   deleteRequestMutation,
   verifyRequestMutation,
-  setClickedRequest,
+  // setClickedRequest,
   status,
 }: actionArgsType) => {
   const [openResult, setOpenResult] = useState(false);
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
   const [openVerifyConfirm, setOpenVerifyConfirm] = useState(false);
+  const [clickedRequest, setClickedRequest] = useState({ id: "" });
   const { setQuery } = useGlobalFucntions();
 
   // Fron request store
@@ -94,10 +95,6 @@ export const useActions = ({
     verifyRequestMutation.mutate(request.id);
   };
 
-  const handleFileDownload = (document: any) => {
-    if (document.link && document.name) handleDownloadFile(document.link, document.name);
-  };
-
   // Edit request
   const handleEdit = (request: any) => {
     const regNumberInfo = getRegNumberInfo(request?.registrationNumber);
@@ -127,9 +124,8 @@ export const useActions = ({
       handleEdit,
       openResult,
       setOpenResult,
+      clickedRequest,
       setClickedRequest,
-      requestDocument,
-      handleFileDownload,
       openVerifyConfirm,
       setOpenVerifyConfirm,
       handleVerifyConfirm,

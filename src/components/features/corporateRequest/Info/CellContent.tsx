@@ -8,7 +8,7 @@ import Dialog from "@/components/customdialog";
 import { FileDisplay } from "@/components/customdialog/fileDisplay";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { getUserInfo } from "@/lib/globalFunctions";
+import { getUserInfo, handleDownloadFile } from "@/lib/globalFunctions";
 import {
   Dialog as DialogRoot,
   DialogContent,
@@ -19,12 +19,13 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
+import { format } from "date-fns";
+import StatusReport from "../../dialog/statusReport";
 interface propsType {
   request: any;
   openResult: boolean;
   setOpenResult: (arg: boolean) => void;
-  requestDocument: any;
-  handleFileDownload: (arg: any) => void;
+  clickedRequest: any;
   setClickedRequest: (arg: any) => void;
   openDeleteConfirm: boolean;
   setOpenDeleteConfirm: (arg: boolean) => void;
@@ -43,9 +44,8 @@ export const ActionCellContent = ({
   propStatus,
   openResult,
   setOpenResult,
+  clickedRequest,
   setClickedRequest,
-  requestDocument,
-  handleFileDownload,
   openDeleteConfirm,
   setOpenDeleteConfirm,
   handleEdit,
@@ -60,7 +60,6 @@ export const ActionCellContent = ({
 
   const status = request?.status?.toLowerCase();
   const userRole = getUserInfo()?.data?.role?.toLowerCase();
-  requestDocument = requestDocument.data?.data?.data;
 
   const handleClickedRequest = () => {
     {
@@ -123,7 +122,6 @@ export const ActionCellContent = ({
 
   //
   else if (status === "completed") {
-    console.log(requestDocument);
     return (
       <>
         <Button
@@ -134,33 +132,12 @@ export const ActionCellContent = ({
         >
           See Result
         </Button>
+        <StatusReport
+          clickedRequest={clickedRequest}
+          open={openResult}
+          setOpenResult={setOpenResult}
+        />
         <div>
-          <DialogRoot open={openResult}>
-            <DialogContent
-              className="sm:max-w-[554px] p-6"
-              showClose={true}
-              cancel={() => setOpenResult(false)}
-            >
-              <DialogHeader className="space-y-[24px] mb-4">
-                <DialogTitle className="text-2xl leading-[1.3] text-foreground-dark">
-                  Status Report
-                </DialogTitle>
-              </DialogHeader>
-
-              {requestDocument?.map((el: any, i: number) => (
-                <FileDisplay key={i} onDownloadClick={() => handleFileDownload(el)}>
-                  {el?.name || "--"}
-                </FileDisplay>
-              ))}
-              <div>Uploaded by: date</div>
-
-              <DialogFooter className="mt-8">
-                <Button type="submit" onClick={() => setOpenResult(false)}>
-                  Done
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </DialogRoot>
           {/* <Dialog
             open={openResult}
             cancel={() => setOpenResult(false)}
