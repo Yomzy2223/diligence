@@ -55,7 +55,7 @@ export const useRequestStore = create<storeMainType, [["zustand/persist", unknow
       setSearchValue: (searchValue: string) =>
         set((state: storeType) => ({
           ...state,
-          searchValue: searchValue.trim().toLowerCase(),
+          searchValue: searchValue.toLowerCase(),
         })),
     }),
     {
