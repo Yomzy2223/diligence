@@ -60,10 +60,13 @@ export const viewStaff = (staffId: string) => {
 };
 
 // Function to view all Staffs
-export const viewAllBranchStaff = (managerId: string) => {
+export const viewBranchStaff = (managerId: string) => {
   return client.get(`/diligence/staffs/${managerId}`);
 };
 
+export const viewStaffWithRequests = (managerId: string) => {
+  return client.get(`/diligence/staffRequest/${managerId}`);
+};
 //
 //
 //

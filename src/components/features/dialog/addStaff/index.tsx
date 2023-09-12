@@ -24,11 +24,11 @@ const AddStaff = ({ children }: propType) => {
   const [staffToDelete, setStaffToDelete] = useState({});
   const { managerId } = useGlobalFucntions();
 
-  const { createStaffMutation, useViewAllBranchStaffQuery, deleteStaffMutation } =
+  const { createStaffMutation, useViewBranchStaffQuery, deleteStaffMutation } =
     useEnterpriseStaff();
   const { mutate, isLoading, isSuccess, isError } = createStaffMutation;
 
-  const viewBranchStaffQuery = useViewAllBranchStaffQuery(managerId);
+  const viewBranchStaffQuery = useViewBranchStaffQuery(managerId);
   const allStaff = viewBranchStaffQuery.data?.data?.data;
 
   // Form definition

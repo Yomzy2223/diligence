@@ -1,8 +1,6 @@
 "use client";
 
 import React, { ReactNode } from "react";
-import { Puff } from "react-loading-icons";
-import ActiveNav2Skeleton from "../activeNav/ActiveNav2/ActiveNav2Skeleton";
 import TableSkeleton from "../DiligenceTable/TableSkeleton";
 import { EmptyList } from "../features/emptyList";
 

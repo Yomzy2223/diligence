@@ -28,8 +28,7 @@ const NewPassword = () => {
 
   // Submit handler
   function onSubmit(values: forgotPasswordType) {
-    const email = localStorage.getItem("forgotPasswordEmail");
-    const payload = { password: values.password, email, token };
+    const payload = { password: values.password, token: token.toString() };
     mutate(payload);
   }
 

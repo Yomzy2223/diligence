@@ -8,10 +8,11 @@ import {
   createStaff,
   deleteStaff,
   viewStaff,
-  viewAllBranchStaff,
+  viewBranchStaff,
   updateEnterprise,
   viewEnterpriseById,
   viewEnterpriseByAdminEmail,
+  viewStaffWithRequests,
 } from "@/api/enterpriseApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useResponse } from "./useResponse";
@@ -67,6 +68,7 @@ Enterprise branch hook
  */
 export const useEnterpriseBranch = () => {
   const { handleError, handleSuccess } = useResponse();
+  const queryClient = useQueryClient();
 
   const createBranchMutation = useMutation({
     mutationFn: createBranch,
@@ -75,6 +77,8 @@ export const useEnterpriseBranch = () => {
     },
     onSuccess(data, variables, context) {
       handleSuccess({ data });
+      queryClient.invalidateQueries({ queryKey: ["Enterprise"] });
+      queryClient.invalidateQueries({ queryKey: ["View Branch"] });
     },
     retry: 3,
   });
@@ -86,6 +90,8 @@ export const useEnterpriseBranch = () => {
     },
     onSuccess(data, variables, context) {
       handleSuccess({ data });
+      queryClient.invalidateQueries({ queryKey: ["Enterprise"] });
+      queryClient.invalidateQueries({ queryKey: ["View Branch"] });
     },
     retry: 3,
   });
@@ -97,6 +103,8 @@ export const useEnterpriseBranch = () => {
     },
     onSuccess(data, variables, context) {
       handleSuccess({ data });
+      queryClient.invalidateQueries({ queryKey: ["Enterprise"] });
+      queryClient.invalidateQueries({ queryKey: ["View Branch"] });
     },
     retry: 3,
   });
@@ -115,7 +123,7 @@ export const useEnterpriseBranch = () => {
     });
 
   const viewEnterpriseManagersQuery = useQuery({
-    queryKey: ["View All Enterprise"],
+    queryKey: ["Enterprise Managers"],
     queryFn: () => viewEnterpriseManagers,
   });
 
@@ -175,17 +183,24 @@ export const useEnterpriseStaff = () => {
     retry: 3,
   });
 
-  const useViewAllBranchStaffQuery = (managerId: string) =>
+  const useViewBranchStaffQuery = (managerId: string) =>
     useQuery({
       queryKey: ["All Staff", managerId],
-      queryFn: ({ queryKey }) => viewAllBranchStaff(queryKey[1]),
+      queryFn: ({ queryKey }) => viewBranchStaff(queryKey[1]),
+    });
+
+  const useViewStaffWithRequestsQuery = (managerId: string) =>
+    useQuery({
+      queryKey: ["Staff With Requests", managerId],
+      queryFn: ({ queryKey }) => viewStaffWithRequests(queryKey[1]),
     });
 
   return {
     createStaffMutation, // - A mutation hook for creating a new staff member.
     deleteStaffMutation, // - A mutation hook for deleting a staff member.
     viewStaffMutation, // - A mutation hook for viewing a staff member.
-    viewAllBranchStaff, // - A function for fetching all staff members for a given manager.
-    useViewAllBranchStaffQuery, // - A function for using the useQuery hook to fetch all staff members for a given manager.
+    viewBranchStaff, // - A function for fetching all staff members for a given manager.
+    useViewBranchStaffQuery, // - A function for using the useQuery hook to fetch all staff members for a given manager.
+    useViewStaffWithRequestsQuery, // - A function for using the useQuery hook to fetch all staff members with requests for a given manager.
   };
 };

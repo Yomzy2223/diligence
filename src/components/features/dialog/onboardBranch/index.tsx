@@ -49,7 +49,6 @@ const BranchOnboard = ({
   useEffect(() => {
     if (isSuccess || isError || updateBranchMutation.isError || updateBranchMutation.isSuccess) {
       setOpen(false);
-      branch.refetch();
     }
   }, [isSuccess || isError || updateBranchMutation.isError || updateBranchMutation.isSuccess]);
 

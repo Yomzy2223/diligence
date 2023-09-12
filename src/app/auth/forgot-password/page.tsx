@@ -23,7 +23,6 @@ const ForgotPassword = () => {
 
   // Submit handler
   function onSubmit(values: forgotPasswordType) {
-    localStorage.setItem("forgotPasswordEmail", values.email);
     mutate(values);
   }
 

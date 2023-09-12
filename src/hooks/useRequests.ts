@@ -73,11 +73,11 @@ export const useRequests = () => {
     retry: 3,
   });
 
-  const useViewBranchRequests = (formInfo: { managerId: string; managerEmail: string }) =>
+  const useViewBranchRequests = (managerId: string) =>
     useQuery({
       queryKey: ["Branch Requests"],
-      queryFn: () => viewBranchRequests(formInfo),
-      // enabled: formInfo.managerEmail && formInfo.managerId ? true : false,
+      queryFn: () => viewBranchRequests(managerId),
+      enabled: managerId ? true : false,
     });
 
   const useViewRequestDocumentQuery = (requestId: string) =>

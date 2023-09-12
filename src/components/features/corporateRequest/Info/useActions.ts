@@ -23,11 +23,6 @@ export const useActions = ({ status }: { status?: string }) => {
   const userInfo = getUserInfo()?.data;
   const role = userInfo?.role?.toLowerCase();
 
-  const branchPayload = {
-    managerEmail: userInfo?.managerEmail || userInfo?.email,
-    managerId: userInfo?.managerId,
-  };
-
   // API calls
   const {
     deleteRequestMutation,
@@ -35,7 +30,7 @@ export const useActions = ({ status }: { status?: string }) => {
     verifyRequestMutation,
     useViewRequestDocumentQuery,
   } = useRequests();
-  const { data, isLoading, refetch } = useViewBranchRequests(branchPayload);
+  const { data, isLoading, refetch } = useViewBranchRequests(userInfo?.managerId);
   const requestDocument = useViewRequestDocumentQuery(clickedRequest?.id);
   const { useViewEnterpriseByIdQuery } = useEnterprise();
   const enterprise = useViewEnterpriseByIdQuery(userInfo?.enterpriseId);
