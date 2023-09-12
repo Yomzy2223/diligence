@@ -97,6 +97,7 @@ const BranchOnboard = ({
                 tipText="Mailing list email is not supported"
                 textSize="text-xs"
                 defaultValue={manager?.managerEmail}
+                disabled={managerId ? true : false}
               />
             </div>
 

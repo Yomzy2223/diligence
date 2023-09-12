@@ -3,7 +3,6 @@ export interface RegStateType {
   regNo: string;
   regName: string;
   searchValue: string;
-  refetchData: boolean;
 }
 
 export const allStatus = [

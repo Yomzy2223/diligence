@@ -9,7 +9,16 @@ import { FileDisplay } from "@/components/customdialog/fileDisplay";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { getUserInfo } from "@/lib/globalFunctions";
-
+import {
+  Dialog as DialogRoot,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
 interface propsType {
   request: any;
   openResult: boolean;
@@ -114,6 +123,7 @@ export const ActionCellContent = ({
 
   //
   else if (status === "completed") {
+    console.log(requestDocument);
     return (
       <>
         <Button
@@ -125,13 +135,38 @@ export const ActionCellContent = ({
           See Result
         </Button>
         <div>
-          <Dialog
+          <DialogRoot open={openResult}>
+            <DialogContent
+              className="sm:max-w-[554px] p-6"
+              showClose={true}
+              cancel={() => setOpenResult(false)}
+            >
+              <DialogHeader className="space-y-[24px] mb-4">
+                <DialogTitle className="text-2xl leading-[1.3] text-foreground-dark">
+                  Status Report
+                </DialogTitle>
+              </DialogHeader>
+
+              {requestDocument?.map((el: any, i: number) => (
+                <FileDisplay key={i} onDownloadClick={() => handleFileDownload(el)}>
+                  {el?.name || "--"}
+                </FileDisplay>
+              ))}
+              <div>Uploaded by: date</div>
+
+              <DialogFooter className="mt-8">
+                <Button type="submit" onClick={() => setOpenResult(false)}>
+                  Done
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </DialogRoot>
+          {/* <Dialog
             open={openResult}
             cancel={() => setOpenResult(false)}
             dialogType="state"
-            title="Verification succeessful"
-            description={`Your request has been verified successfully`}
-            brandColor="red"
+            title="Status Report"
+            // description={`Your status report is now available for download`}
             footer={false}
           >
             {requestDocument?.map((el: any, i: number) => (
@@ -139,7 +174,7 @@ export const ActionCellContent = ({
                 {el?.name || "--"}
               </FileDisplay>
             ))}
-          </Dialog>
+          </Dialog> */}
         </div>
       </>
     );

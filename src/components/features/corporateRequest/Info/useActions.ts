@@ -9,31 +9,35 @@ import numeral from "numeral";
 import { useEffect, useState } from "react";
 import { ActionCellContent, Status } from "./CellContent";
 
-export const useActions = ({ status }: { status?: string }) => {
+interface actionArgsType {
+  data: any;
+  requestDocument: any;
+  enterprise: any;
+  deleteRequestMutation: any;
+  verifyRequestMutation: any;
+  setClickedRequest: any;
+  status: string | undefined;
+}
+
+export const useActions = ({
+  data,
+  requestDocument,
+  enterprise,
+  deleteRequestMutation,
+  verifyRequestMutation,
+  setClickedRequest,
+  status,
+}: actionArgsType) => {
   const [openResult, setOpenResult] = useState(false);
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
   const [openVerifyConfirm, setOpenVerifyConfirm] = useState(false);
-  const [clickedRequest, setClickedRequest] = useState({ id: "" });
   const { setQuery } = useGlobalFucntions();
 
   // Fron request store
-  const { refetchData, searchValue, setRequestId, setRegName, setRegNo, setRegType } =
-    useRequestStore();
+  const { searchValue, setRequestId, setRegName, setRegNo, setRegType } = useRequestStore();
 
   const userInfo = getUserInfo()?.data;
   const role = userInfo?.role?.toLowerCase();
-
-  // API calls
-  const {
-    deleteRequestMutation,
-    useViewBranchRequests,
-    verifyRequestMutation,
-    useViewRequestDocumentQuery,
-  } = useRequests();
-  const { data, isLoading, refetch } = useViewBranchRequests(userInfo?.managerId);
-  const requestDocument = useViewRequestDocumentQuery(clickedRequest?.id);
-  const { useViewEnterpriseByIdQuery } = useEnterprise();
-  const enterprise = useViewEnterpriseByIdQuery(userInfo?.enterpriseId);
 
   // Enterprise and branch requests
   const enterpriseInfo = enterprise.data?.data?.data;
@@ -48,11 +52,9 @@ export const useActions = ({ status }: { status?: string }) => {
   // Close diolog and refetch a request is created and deleted
   useEffect(() => {
     if (deleteRequestMutation.isSuccess || deleteRequestMutation.isError) {
-      refetch();
       setOpenDeleteConfirm(false);
     }
     if (verifyRequestMutation.isSuccess || verifyRequestMutation.isError) {
-      refetch();
       setOpenVerifyConfirm(false);
     }
   }, [
@@ -61,10 +63,6 @@ export const useActions = ({ status }: { status?: string }) => {
     verifyRequestMutation.isSuccess,
     verifyRequestMutation.isError,
   ]);
-
-  useEffect(() => {
-    refetch();
-  }, [refetchData]);
 
   const normalize = (text: string) => text.trim().toLowerCase();
 
@@ -162,5 +160,5 @@ export const useActions = ({ status }: { status?: string }) => {
     return body;
   });
 
-  return { headers, dataBody, requests, isLoading: isLoading || enterprise.isLoading };
+  return { headers, dataBody, requests };
 };

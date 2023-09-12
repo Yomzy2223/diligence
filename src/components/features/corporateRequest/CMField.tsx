@@ -20,12 +20,12 @@ const CMField = ({
   defaultRegType,
   isRegNo,
 }: propType) => {
-  const [regTypeErrorMsg, setRegTypeErrorMsg] = useState("");
+  // const [regTypeErrorMsg, setRegTypeErrorMsg] = useState("");
 
   const { setValue, getValues, getFieldState } = useFormContext();
 
-  const regTypeError = getFieldState("registrationType");
-  const regNumInvalid = getFieldState("registrationNumber").invalid;
+  // const regTypeError = getFieldState("registrationType");
+  // const regNumInvalid = getFieldState("registrationNumber").invalid;
 
   const { regType, setRegType } = useRequestStore();
 
@@ -43,11 +43,11 @@ const CMField = ({
     }
   }, [defaultValue, defaultRegType]);
 
-  useEffect(() => {
-    if (isRegNo && !regNumInvalid && regTypeError.invalid) {
-      setRegTypeErrorMsg(regTypeError.error?.message || "");
-    } else setRegTypeErrorMsg("");
-  }, [regTypeError && regNumInvalid]);
+  // useEffect(() => {
+  //   if (isRegNo && !regNumInvalid && regTypeError.invalid) {
+  //     setRegTypeErrorMsg(regTypeError.error?.message || "");
+  //   } else setRegTypeErrorMsg("");
+  // }, [regTypeError && regNumInvalid]);
 
   const handleRegTypeSelect = (selected: string) => {
     setValue("registrationType", selected);
@@ -105,7 +105,7 @@ const CMField = ({
                   <FormMessage
                     className={`min-w-max text-xs leading-3 font-normal ${classNames?.formMessage} `}
                   />
-                  <span>{regTypeErrorMsg}</span>
+                  {/* <span>{regTypeErrorMsg}</span> */}
                   {tipText && <Tooltip tipText={tipText} />}
                 </div>
               )}

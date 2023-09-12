@@ -11,4 +11,5 @@ export interface cmFieldPropType {
   classNames?: {
     formItem: string;
   };
+  disabled?: boolean;
 }

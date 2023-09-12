@@ -5,11 +5,11 @@ import { Download, Pdf } from "@/assets/icons";
 import { Button } from "@/components/ui/button";
 
 const FileDisplayVariants = cva(
-  "p-4 pr-6 border border-dashed rounded-lg flex justify-between items-center",
+  "px-4 py-2 border border-dashed rounded-lg flex justify-between items-center",
   {
     variants: {
       variant: {
-        success: "border-success",
+        success: "",
         error: "border-destructive",
       },
     },
@@ -32,8 +32,8 @@ export const FileDisplay = ({
   onDownloadClick,
 }: FileDisplayProps) => {
   return (
-    <div className={cn(FileDisplayVariants({ variant }), className)}>
-      <div className="flex items-center gap-2">
+    <div className={cn(FileDisplayVariants({ variant }), "bg-muted", className)}>
+      <div className="flex items-center gap-2 ">
         <Image src={Pdf} alt={"file type"} />
         <p className="text-base leading-7 underline">{children}</p>
       </div>
