@@ -2,7 +2,6 @@ import { useEnterprise } from "@/hooks/useEnterprise";
 import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 import { useRequests } from "@/hooks/useRequests";
 import { getRegNumberInfo, getUserInfo, handleDownloadFile } from "@/lib/globalFunctions";
-import { getTimeInfo } from "@/lib/utils";
 import { useRequestStore } from "@/store/requestStore";
 import { compareAsc, format } from "date-fns";
 import numeral from "numeral";
@@ -112,7 +111,6 @@ export const useActions = ({
   // Requests table body
   const dataBody = filteredRequests?.map((request: any, id: number) => {
     const formattedDate = format(new Date(request?.createdAt), "dd/MM/yyyy");
-    const formattedTime = getTimeInfo(request?.createdAt);
 
     const Action = ActionCellContent({
       request,

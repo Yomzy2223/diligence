@@ -27,7 +27,7 @@ export const AuthLayout = ({ children }: authLayoutProps) => {
       },
       scrollbar: false,
       loop: true,
-      grapCursor: true,
+      grabCursor: true,
       mousewheel: {
         invert: true,
       },

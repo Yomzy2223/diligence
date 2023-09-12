@@ -1,3 +1,5 @@
+"use client";
+
 import axios from "axios";
 import { saveAs } from "file-saver";
 import tinycolor from "tinycolor2";
@@ -15,12 +17,17 @@ export const getAllYearsUpToCurrentYear = () => {
 };
 
 export const getUserInfo = () => {
-  let userInfo = localStorage.getItem("userInfo");
+  let userInfo;
   let parsedUserInfo;
 
-  if (userInfo) {
-    parsedUserInfo = JSON.parse(userInfo);
+  if (typeof localStorage !== "undefined") {
+    userInfo = localStorage.getItem("userInfo");
+
+    if (userInfo) {
+      parsedUserInfo = JSON.parse(userInfo);
+    }
   }
+
   return parsedUserInfo || {};
 };
 
@@ -37,11 +44,14 @@ export const handleDownloadFile = (cloudinaryLink: string, fileName: string) => 
 };
 
 export const getEnterpriseInfo = () => {
-  let enterpriseInfo = localStorage.getItem("enterpriseInfo");
+  let enterpriseInfo;
   let parsedEnterpriseInfo;
 
-  if (enterpriseInfo) {
-    parsedEnterpriseInfo = JSON.parse(enterpriseInfo);
+  if (typeof localStorage !== "undefined") {
+    enterpriseInfo = localStorage.getItem("enterpriseInfo");
+    if (enterpriseInfo) {
+      parsedEnterpriseInfo = JSON.parse(enterpriseInfo);
+    }
   }
   return parsedEnterpriseInfo || {};
 };
