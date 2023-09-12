@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useEffect } from "react";
-import imageLoading from "@/assets/Images/imagePlaceholder.png";
+import imageLoading from "@/assets/images/imagePlaceholder.png";
 import { Separator } from "@/components/ui/separator";
 import BranchOnboard from "../dialog/onboardBranch";
 import { useRequests } from "@/hooks/useRequests";

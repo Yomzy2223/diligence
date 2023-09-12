@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { useEnterprise } from "@/hooks/useEnterprise";
 import { getUserInfo } from "@/lib/globalFunctions";
-import imageLoading from "@/assets/Images/imagePlaceholder.png";
+import imageLoading from "@/assets/images/imagePlaceholder.png";
 
 export default function Settings() {
   const { useViewEnterpriseByIdQuery } = useEnterprise();

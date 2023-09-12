@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { allStatus, RegStateType } from "./constants";
 import { getEnterpriseInfo, getUserInfo } from "@/lib/globalFunctions";
 import AddStaff from "@/components/features/dialog/addStaff";
-import imageLoading from "@/assets/Images/imagePlaceholder.png";
+import imageLoading from "@/assets/images/imagePlaceholder.png";
 import { useRequestStore } from "@/store/requestStore";
 
 const Layout = ({ children }: { children: ReactNode }) => {
