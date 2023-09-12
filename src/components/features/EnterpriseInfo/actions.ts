@@ -1,6 +1,6 @@
+import { useEnterpriseStaff } from "@/hooks/useEnterprise";
 import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 import { itemsPerPage } from "@/lib/config";
-import { getUserInfo, roundToNearestMultiple } from "@/lib/globalFunctions";
 import { compareAsc, format } from "date-fns";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import numeral from "numeral";
@@ -15,20 +15,21 @@ export const useActions = ({
   managerId: any;
   searchValue: string;
 }) => {
-  const { setQuery, setNewOffset } = useGlobalFucntions();
+  const { setQuery } = useGlobalFucntions();
+  const { useViewStaffWithRequestsQuery } = useEnterpriseStaff();
+  const { data } = useViewStaffWithRequestsQuery(managerId);
 
   const normalize = (text: string) => text?.toLowerCase()?.trim();
 
+  // Managers and Staff
   const diligenceManagers = enterprise?.data?.data?.data?.diligenceManager?.sort((a: any, b: any) =>
     compareAsc(new Date(b?.createdAt), new Date(a?.createdAt))
   );
-
-  let diligenceStaff = diligenceManagers?.filter((el: any) => el?.id === managerId)?.[0]
-    ?.diligenceStaff;
-  diligenceStaff = diligenceStaff?.sort((a: any, b: any) =>
+  const diligenceStaff = data?.data?.data?.sort((a: any, b: any) =>
     compareAsc(new Date(b?.createdAt), new Date(a?.createdAt))
   );
 
+  // Filters Managers and filtered Staff
   const filteredManagers = diligenceManagers?.filter((el: any) => {
     return (
       normalize(el?.name)?.includes(normalize(searchValue)) ||
@@ -42,9 +43,8 @@ export const useActions = ({
 
   // Set new offset when searching
   useEffect(() => {
-    if (!managerId && searchValue) setNewOffset(filteredManagers);
-    if (managerId && searchValue) setNewOffset(filteredStaff);
-  }, [filteredManagers?.length, filteredStaff?.length]);
+    if (searchValue) setQuery("itemOffset", 0);
+  }, [searchValue]);
 
   const adminHeaders = ["S/N", "Branch name", "Branch location", "Manager email", "Date Added"];
 
@@ -60,12 +60,20 @@ export const useActions = ({
     ];
   });
 
-  const branchHeaders = ["S/N", "Staff email", "Date added", "Requests"];
+  const branchHeaders = ["S/N", "Staff name", "Staff email", "Date added", "Requests"];
 
   const branchBody = filteredStaff?.map((staff: any, index: number) => {
     const formattedDate = format(new Date(staff?.createdAt), "dd/MM/yyyy");
+    const name = staff?.firstname || "-" + " " + (staff?.lastname || "-");
+    console.log(staff);
 
-    return [numeral(index + 1)?.format("00"), staff?.email, formattedDate, "--"];
+    return [
+      numeral(index + 1)?.format("00"),
+      name,
+      staff?.email,
+      formattedDate,
+      staff?.num_requests,
+    ];
   });
 
   const handleManagerClick = (manager?: (string | number)[], rowIndex?: number) => {
@@ -81,5 +89,7 @@ export const useActions = ({
     branchHeaders,
     branchBody,
     handleManagerClick,
+    diligenceManagers,
+    diligenceStaff,
   };
 };

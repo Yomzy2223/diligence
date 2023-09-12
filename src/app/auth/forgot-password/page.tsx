@@ -6,16 +6,13 @@ import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputWithLabel from "@/components/input/inputWithLabel";
-import Link from "next/link";
 import { forgotPasswordSchema, forgotPasswordType } from "./constants";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 
 const ForgotPassword = () => {
   const { forgotPasswordMutation } = useAuth();
   const { mutate, isLoading } = forgotPasswordMutation;
 
-  const router = useRouter();
   // Form definition
   const form = useForm<forgotPasswordType>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -26,7 +23,6 @@ const ForgotPassword = () => {
 
   // Submit handler
   function onSubmit(values: forgotPasswordType) {
-    console.log(values);
     mutate(values);
   }
 

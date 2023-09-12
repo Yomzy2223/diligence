@@ -30,12 +30,6 @@ const Sidebar = () => {
   }, []);
 
   const userRole = getUserInfo()?.data?.role?.toLowerCase();
-  //
-  let sidebarItems = [
-    { href: "/", text: "Home", icon: HomeIcon },
-    { href: "/details", text: "Details", icon: DetailsIcon },
-    { href: "/settings", text: "Settings", icon: SettingsIcon },
-  ];
 
   if (userRole === "staff") sidebarItems = sidebarItems.filter((el) => el.href !== "/details");
 
@@ -59,7 +53,10 @@ const Sidebar = () => {
       <div className="flex flex-col flex-1 justify-between text-sm ">
         <div className="flex flex-col gap-2 overflow-x-hidden ">
           {sidebarItems.map((item, i) => {
-            const active = i === 0 ? pathname === "/" : pathname?.startsWith(item.href);
+            const active =
+              i === 0
+                ? pathname === "/" || pathname?.startsWith("/requests")
+                : pathname?.startsWith(item.href);
             return (
               <Link
                 href={item.href}
@@ -101,6 +98,12 @@ const Sidebar = () => {
 
 export default Sidebar;
 
+//
+let sidebarItems = [
+  { href: "/", text: "Home", icon: HomeIcon },
+  { href: "/details", text: "Details", icon: DetailsIcon },
+  { href: "/settings", text: "Settings", icon: SettingsIcon },
+];
 //
 const variants = {
   open: { width: "237px" },

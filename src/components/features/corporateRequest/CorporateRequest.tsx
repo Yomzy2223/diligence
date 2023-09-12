@@ -26,17 +26,8 @@ const CorporateRequest = ({ className }: { className?: string }) => {
 
   const mergedRegNo = formValues.registrationType + formValues.registrationNumber;
 
-  const {
-    requestId,
-    regNo,
-    regName,
-    regType,
-    refetchData,
-    setRegName,
-    setRegNo,
-    setRegType,
-    setRefetchData,
-  } = useRequestStore();
+  const { requestId, regNo, regName, regType, setRegName, setRegNo, setRegType } =
+    useRequestStore();
 
   const editMode = regName && regNo;
 
@@ -88,10 +79,9 @@ const CorporateRequest = ({ className }: { className?: string }) => {
         : isSuccess || isError
     ) {
       setOpenConfirm(false);
-      setRefetchData(!refetchData);
     }
-    if (updateRequestMutation.isSuccess) cancelEdit();
-  }, [isLoading, updateRequestMutation.isLoading]);
+    if (isSuccess || updateRequestMutation.isSuccess) cancelEdit();
+  }, [isSuccess, isError, updateRequestMutation.isError, updateRequestMutation.isSuccess]);
 
   return (
     <div
@@ -110,7 +100,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
               label="Business/Company Name"
               placeholder="Enter Business/Company Name"
               tipText="Must be registered with CAC"
-              defaultValue={regName}
+              defaultValue={regNo}
             />
 
             <Separator className="!mt-0 " />

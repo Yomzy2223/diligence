@@ -54,6 +54,7 @@ export const useAuth = () => {
     },
     onSuccess(data, variables, context) {
       handleSuccess({ data });
+      router.push("/auth/login");
     },
     retry: 3,
   });

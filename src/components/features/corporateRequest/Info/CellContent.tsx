@@ -1,19 +1,32 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { DeleteIcon, EditIcon } from "@/assets/icons";
 import ConfirmAction from "../../dialog/confirmAction";
 import Dialog from "@/components/customdialog";
 import { FileDisplay } from "@/components/customdialog/fileDisplay";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { getUserInfo } from "@/lib/globalFunctions";
-
+import { getUserInfo, handleDownloadFile } from "@/lib/globalFunctions";
+import {
+  Dialog as DialogRoot,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { format } from "date-fns";
+import StatusReport from "../../dialog/statusReport";
 interface propsType {
   request: any;
   openResult: boolean;
   setOpenResult: (arg: boolean) => void;
+  clickedRequest: any;
+  setClickedRequest: (arg: any) => void;
   openDeleteConfirm: boolean;
   setOpenDeleteConfirm: (arg: boolean) => void;
   isLoading: boolean;
@@ -31,6 +44,8 @@ export const ActionCellContent = ({
   propStatus,
   openResult,
   setOpenResult,
+  clickedRequest,
+  setClickedRequest,
   openDeleteConfirm,
   setOpenDeleteConfirm,
   handleEdit,
@@ -45,6 +60,13 @@ export const ActionCellContent = ({
 
   const status = request?.status?.toLowerCase();
   const userRole = getUserInfo()?.data?.role?.toLowerCase();
+
+  const handleClickedRequest = () => {
+    {
+      setClickedRequest(request);
+      setOpenResult(true);
+    }
+  };
 
   if (status === "unverified") {
     return propStatus && (userRole === "manager" || userRole === "admin") ? (
@@ -106,22 +128,30 @@ export const ActionCellContent = ({
           variant="ghost2"
           size="icon"
           className="underline whitespace-nowrap text-[#de4909]  hover:text-[#de4909cf]"
-          onClick={() => setOpenResult(true)}
+          onClick={handleClickedRequest}
         >
           See Result
         </Button>
+        <StatusReport
+          clickedRequest={clickedRequest}
+          open={openResult}
+          setOpenResult={setOpenResult}
+        />
         <div>
-          <Dialog
+          {/* <Dialog
             open={openResult}
             cancel={() => setOpenResult(false)}
             dialogType="state"
-            title="Verification succeessful"
-            description={`Your request has been verified successfully`}
-            brandColor="red"
+            title="Status Report"
+            // description={`Your status report is now available for download`}
             footer={false}
           >
-            <FileDisplay>CAC Certificate</FileDisplay>
-          </Dialog>
+            {requestDocument?.map((el: any, i: number) => (
+              <FileDisplay key={i} onDownloadClick={() => handleFileDownload(el)}>
+                {el?.name || "--"}
+              </FileDisplay>
+            ))}
+          </Dialog> */}
         </div>
       </>
     );

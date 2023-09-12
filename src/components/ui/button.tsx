@@ -29,7 +29,7 @@ const buttonVariants = cva(
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         icon: "h-max w-max",
-        slim: "h-fit w-fit p-1",
+        slim: "h-fit w-fit p-2",
         link: "h-fit w-fit",
       },
     },

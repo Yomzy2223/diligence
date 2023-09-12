@@ -1,7 +1,7 @@
 import { InvoiceHeader } from "@/components/header/invoiceHeader";
 import { Back } from "./back";
 import { Button } from "@/components/ui/button";
-import { DiligenceTable } from "@/components/features/DiligenceTable";
+import { DiligenceTable } from "@/components/DiligenceTable";
 import { dataBody, headers } from "./constants";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";

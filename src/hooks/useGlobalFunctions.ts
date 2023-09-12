@@ -14,7 +14,7 @@ export const useGlobalFucntions = () => {
   // searchParams with a provided key/value pair
   const createQueryString = useCallback(
     (name: string, value: string | number) => {
-      const params = new URLSearchParams(searchParams);
+      const params = new URLSearchParams(searchParams.toString());
       params.set(name, value.toString());
 
       return params.toString();

@@ -5,11 +5,11 @@ import { Download, Pdf } from "@/assets/icons";
 import { Button } from "@/components/ui/button";
 
 const FileDisplayVariants = cva(
-  "p-4 pr-6 border border-dashed rounded-lg flex justify-between items-center",
+  "px-4 py-2 border border-dashed rounded-lg flex justify-between items-center",
   {
     variants: {
       variant: {
-        success: "border-success",
+        success: "",
         error: "border-destructive",
       },
     },
@@ -22,18 +22,25 @@ const FileDisplayVariants = cva(
 interface FileDisplayProps extends VariantProps<typeof FileDisplayVariants> {
   className?: string;
   children?: string;
+  onDownloadClick?: () => void;
+  type: string;
 }
 
-export const FileDisplay = ({ variant, className , children}: FileDisplayProps) => {
+export const FileDisplay = ({
+  variant,
+  className,
+  children,
+  onDownloadClick,
+  type,
+}: FileDisplayProps) => {
   return (
-    <div className={cn(FileDisplayVariants({ variant }), className)}>
-      <div className="flex items-center gap-2">
-        <Image src={Pdf} alt={"file type"} />
+    <div className={cn(FileDisplayVariants({ variant }), "bg-muted", className)}>
+      <div className="flex items-center gap-2 ">
+        <Image src={Pdf} alt={"file type"} width={24} height={24} />
         <p className="text-base leading-7 underline">{children}</p>
-
       </div>
-      <Button variant={"ghost"} size={"slim"}>
-        <Image src={Download} alt="" />
+      <Button variant={"ghost"} size={"slim"} onClick={onDownloadClick}>
+        <Image src={Download} alt="" width={20} height={20} />
       </Button>
     </div>
   );

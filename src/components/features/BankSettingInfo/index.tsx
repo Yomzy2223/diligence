@@ -1,6 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
-import { Button, buttonVariants } from "@/components/ui/button";
+import imageLoading from "@/assets/images/imageLoading.png";
 
 interface BankInfoProps {
   image: any;
@@ -13,21 +12,14 @@ interface BankInfoProps {
   className?: {};
 }
 
-export const BankSettingInfo = ({
-  image,
-  name,
-  address,
-  adminEmail,
-  adminName,
-  branch = false,
-}: BankInfoProps) => {
+export const BankSettingInfo = ({ image, name, address, adminEmail }: BankInfoProps) => {
   return (
     <div className="space-y-4">
       <h6 className="text-xl font-semibold leading-6 text-foreground">Bank Information</h6>
       <div className="flex gap-6 p-6 border divide-x rounded-sm">
         <div className="grow">
           <div className="relative w-[148px] h-[148px] rounded-sm overflow-hidden">
-            <Image src={image} alt={`${name}-image`} fill />
+            <Image src={image || imageLoading} alt={`${name}-image`} fill />
           </div>
         </div>
         <div className="flex grow-[5] divide-x">

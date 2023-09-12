@@ -27,6 +27,7 @@ const InputWithLabel = ({
   bottom,
   classNames,
   defaultValue,
+  disabled,
 }: cmFieldPropType) => {
   const [typeM, setTypeM] = useState(type);
 
@@ -79,6 +80,7 @@ const InputWithLabel = ({
                   type === "password" && "pr-12"
                 )}
                 error={fieldState.invalid}
+                disabled={disabled}
               />
               {type === "password" && Password}
             </div>

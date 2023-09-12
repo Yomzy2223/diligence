@@ -49,7 +49,6 @@ const BranchOnboard = ({
   useEffect(() => {
     if (isSuccess || isError || updateBranchMutation.isError || updateBranchMutation.isSuccess) {
       setOpen(false);
-      branch.refetch();
     }
   }, [isSuccess || isError || updateBranchMutation.isError || updateBranchMutation.isSuccess]);
 
@@ -98,6 +97,7 @@ const BranchOnboard = ({
                 tipText="Mailing list email is not supported"
                 textSize="text-xs"
                 defaultValue={manager?.managerEmail}
+                disabled={managerId ? true : false}
               />
             </div>
 

@@ -1,4 +1,5 @@
 import * as z from "zod";
+import { ButtonProps } from "@/components/ui/button";
 
 export const bankBranchSchema = z.object({
   name: z.string().nonempty("Branch name is required"),
@@ -8,21 +9,8 @@ export const bankBranchSchema = z.object({
 
 export type bankBranchType = z.infer<typeof bankBranchSchema>;
 
-export interface propType {
+export interface propType extends ButtonProps {
   children?: string | undefined;
-  variant?:
-    | "default"
-    | "link"
-    | "destructive"
-    | "outline-secondary"
-    | "destructive2"
-    | "outline"
-    | "secondary"
-    | "ghost"
-    | "ghost2"
-    | "transparent"
-    | "orangeOutline";
-  size?: "link" | "default" | "full" | "sm" | "lg" | "icon" | "slim";
   className?: string;
   managerId?: string;
   branch?: any;
