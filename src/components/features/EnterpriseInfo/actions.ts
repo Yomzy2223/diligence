@@ -65,7 +65,6 @@ export const useActions = ({
   const branchBody = filteredStaff?.map((staff: any, index: number) => {
     const formattedDate = format(new Date(staff?.createdAt), "dd/MM/yyyy");
     const name = staff?.firstname || "-" + " " + (staff?.lastname || "-");
-    console.log(staff);
 
     return [
       numeral(index + 1)?.format("00"),

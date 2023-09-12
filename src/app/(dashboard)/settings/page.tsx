@@ -7,8 +7,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useEnterprise } from "@/hooks/useEnterprise";
 import { getUserInfo } from "@/lib/globalFunctions";
 import imageLoading from "@/assets/images/imagePlaceholder.png";
+import { useRouter } from "next/navigation";
 
 export default function Settings() {
+  const router = useRouter();
+
+  const userToken = getUserInfo()?.data?.token;
+  if (!userToken) router.push("/auth/login");
+
   const { useViewEnterpriseByIdQuery } = useEnterprise();
   const { data } = useViewEnterpriseByIdQuery(getUserInfo()?.data?.enterpriseId);
   const enterprise = data?.data?.data;
