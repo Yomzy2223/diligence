@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { useEnterprise, useEnterpriseBranch } from "@/hooks/useEnterprise";
 import { getUserInfo } from "@/lib/globalFunctions";

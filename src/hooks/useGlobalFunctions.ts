@@ -26,6 +26,21 @@ export const useGlobalFucntions = () => {
     router.push(pathname + "?" + createQueryString(name, value));
   };
 
+  const getUserInformation = () => {
+    let userInfo;
+    let parsedUserInfo;
+
+    if (typeof window !== "undefined") {
+      userInfo = localStorage.getItem("userInfo");
+
+      if (userInfo) {
+        parsedUserInfo = JSON.parse(userInfo);
+      }
+    }
+
+    return parsedUserInfo || {};
+  };
+
   const managerId =
     userInfo?.role?.toLowerCase() === "manager"
       ? userInfo?.managerId
@@ -35,18 +50,6 @@ export const useGlobalFucntions = () => {
     createQueryString,
     setQuery,
     managerId,
+    getUserInformation,
   };
 };
-
-//  // Set a new offset depending on the data length
-//   const setNewOffset = (data: any[], newOffset?: number) => {
-//     if (newOffset) {
-//       setQuery("itemOffset", newOffset);
-//       return;
-//     }
-//     if (data) {
-//       let newOffset = Math.floor(data?.length / itemsPerPage) * itemsPerPage;
-//       if (newOffset >= 5 && data?.length % itemsPerPage === 0) newOffset = newOffset - itemsPerPage;
-//       setQuery("itemOffset", newOffset);
-//     }
-//   };

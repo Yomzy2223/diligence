@@ -6,7 +6,7 @@ import Image from "next/image";
 import { ReactNode } from "react";
 import ActiveNav2 from "@/components/activeNav/ActiveNav2";
 import { Input } from "@/components/ui/input";
-import { allStatus, RegStateType } from "./constants";
+import { allStatus } from "./constants";
 import { getEnterpriseInfo, getUserInfo } from "@/lib/globalFunctions";
 import AddStaff from "@/components/features/dialog/addStaff";
 import imageLoading from "@/assets/images/imagePlaceholder.png";

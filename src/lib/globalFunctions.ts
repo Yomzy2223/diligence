@@ -20,13 +20,13 @@ export const getUserInfo = () => {
   let userInfo;
   let parsedUserInfo;
 
-  // if (typeof localStorage !== "undefined") {
-  userInfo = localStorage.getItem("userInfo");
+  if (typeof window !== "undefined") {
+    userInfo = localStorage.getItem("userInfo");
 
-  if (userInfo) {
-    parsedUserInfo = JSON.parse(userInfo);
+    if (userInfo) {
+      parsedUserInfo = JSON.parse(userInfo);
+    }
   }
-  // }
 
   return parsedUserInfo || {};
 };
@@ -63,16 +63,21 @@ export const setColor = (color: string) => {
 
   const root = document.documentElement;
 
+  // const enterpriseColor = { primary: "", bgLight: "" };
+
   if (primary) {
     const { h, s, l } = primary.toHsl();
     const parsedPrimary = h + " " + s * 100 + "%" + " " + l * 100 + "%";
     root.style.setProperty("--primary", parsedPrimary);
+    // enterpriseColor.primary = parsedPrimary;
   }
   if (bgLight) {
     const { h, s, l, a } = bgLight;
     const parsedBgLight = h + " " + s * 100 + "%" + " " + l * 100 + "%" + " / " + a;
     root.style.setProperty("--background-light", parsedBgLight);
+    // enterpriseColor.bgLight = parsedBgLight;
   }
+  // localStorage.setItem("enterpriseColor", JSON.stringify(enterpriseColor));
 };
 
 export const getRegNumberInfo = (regNo: string) => {
