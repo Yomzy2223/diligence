@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import InputWithLabel from "@/components/input/inputWithLabel";
 import { forgotPasswordSchema, forgotPasswordType } from "./constants";
 import { useAuth } from "@/hooks/useAuth";
-import { getUserInfo } from "@/lib/globalFunctions";
 import { useParams, useSearchParams } from "next/navigation";
 
 const NewPassword = () => {

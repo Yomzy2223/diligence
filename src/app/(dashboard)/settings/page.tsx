@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { BankSettingInfo } from "@/components/features/BankSettingInfo";
 import { SettingContext } from "@/components/features/BankSettingInfo/settingContext";
