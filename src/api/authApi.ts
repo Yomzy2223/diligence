@@ -1,4 +1,5 @@
 import { client } from "@/lib/config";
+import { setColor } from "@/lib/globalFunctions";
 // CORPORATE REQUEST FUNCTIONS
 // --------------------------------------------------------------------------------
 
@@ -14,12 +15,26 @@ interface signUpType extends signInType {
 
 // Function to sign in
 export const signIn = async (formInfo: signInType) => {
-  return await client.post("/diligence/user/login", formInfo);
+  const loginResponse = await client.post("/diligence/user/login", formInfo);
+  const enterpriseId = loginResponse?.data?.data?.enterpriseId;
+  if (enterpriseId) {
+    const enterpriseResponse = await client.get(`/diligence/enterprise/${enterpriseId}`);
+    localStorage.setItem("enterpriseInfo", JSON.stringify(enterpriseResponse?.data));
+    setColor(enterpriseResponse?.data?.data?.color || "194 100% 42%");
+  }
+  return loginResponse;
 };
 
 // Function to sign up
 export const signUp = async (formInfo: signUpType) => {
-  return await client.post("/diligence/user", formInfo);
+  const signUpResponse = await client.post("/diligence/user", formInfo);
+  const enterpriseId = signUpResponse?.data?.data?.enterpriseId;
+  if (enterpriseId) {
+    const enterpriseResponse = await client.get(`/diligence/enterprise/${enterpriseId}`);
+    localStorage.setItem("enterpriseInfo", JSON.stringify(enterpriseResponse?.data));
+    setColor(enterpriseResponse?.data?.data?.color || "194 100% 42%");
+  }
+  return signUpResponse;
 };
 
 // Function to forgot password

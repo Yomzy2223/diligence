@@ -25,6 +25,7 @@ const InputWithLabel = ({
   placeholder,
   textSize,
   bottom,
+  classNames,
 }: cmFieldPropType) => {
   const [typeM, setTypeM] = useState(type);
 
@@ -52,7 +53,7 @@ const InputWithLabel = ({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem className={`flex flex-col justify-center !mt-0 `}>
+        <FormItem className={cn(`flex flex-col justify-center !mt-0`, classNames?.formItem)}>
           <div className="flex justify-between gap-4 mb-2 w-full">
             <div className={`flex justify-start items-center gap-2 text-sm `}>
               <FormLabel className={`text-sm leading-3 font-normal text-label ${textSize} `}>

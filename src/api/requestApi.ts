@@ -11,11 +11,9 @@ interface updateType {
   formInfo: createType;
 }
 
-interface createDocumentType {
-  name: string;
-  description: string;
-  link: string;
-  type: string;
+interface viewBranchType {
+  managerId: string;
+  managerEmail: string;
 }
 
 // CORPORATE REQUEST FUNCTIONS
@@ -28,7 +26,7 @@ export const createRequest = async (formInfo: createType) => {
 
 // Function to update a request
 export const updateRequest = ({ requestId, formInfo }: updateType) => {
-  return client.put(`/diligence/request/update/${requestId}`, formInfo);
+  return client.put(`/diligence/request/${requestId}`, formInfo);
 };
 
 // Function to delete a request
@@ -41,9 +39,9 @@ export const viewSingleRequest = (requestId: string) => {
   return client.get(`/diligence/request/${requestId}`);
 };
 
-// Function to view all requests
-export const viewAllRequests = () => {
-  return client.get("/diligence/request");
+// Function to view a branch's requests
+export const viewBranchRequests = (formInfo: viewBranchType) => {
+  return client.post("/diligence/managerRequest", formInfo);
 };
 
 // Function to verify a request
@@ -60,5 +58,3 @@ export const viewRequestDocument = (documentId: string) => {
 export const viewAllRequestDocuments = (requestId: string) => {
   return client.get(`/diligence/document/${requestId}`);
 };
-
-

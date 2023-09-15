@@ -12,8 +12,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { Oval } from "react-loading-icons";
 
 const Login = () => {
-  const { signIn, signInMutation } = useAuth();
-  const { isLoading } = signInMutation;
+  const { signInMutation } = useAuth();
+  const { mutate, isLoading } = signInMutation;
 
   // Form definition
   const form = useForm<loginType>({
@@ -26,7 +26,7 @@ const Login = () => {
 
   // Submit handler
   const onSubmit = async (values: loginType) => {
-    signIn(values);
+    mutate(values);
   };
 
   return (
@@ -56,12 +56,12 @@ const Login = () => {
           />
         </div>
         <div className="flex flex-col items-center gap-8">
-          <Button type="submit" size="full" disabled={isLoading}>
+          <Button type="submit" size="full" variant="secondary" disabled={isLoading}>
             {isLoading ? <Oval stroke="#fff" className="w-5 h-5" /> : "Login"}
           </Button>
           <p>
             Don&#39;t have an account?{" "}
-            <Link href="/auth/signup" className="text-primary">
+            <Link href="/auth/signup" className="text-secondary">
               Sign up
             </Link>
           </p>

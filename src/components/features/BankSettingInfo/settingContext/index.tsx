@@ -5,13 +5,11 @@ import Link from "next/link";
 export const SettingContext = () => {
   return (
     <div className="space-y-3">
-      <h6 className="text-xl font-medium leading-6 text-foreground">
-        Support and help
-      </h6>
+      <h6 className="text-xl font-medium leading-6 text-foreground">Support and help</h6>
       <div className="flex flex-col w-full p-4 border rounded text-foreground">
-        <SLink href="contact">Contact support</SLink>
-        <SLink href="help">Help center</SLink>
-        <SLink href="troubleshoot">Troubleshoot</SLink>
+        <SLink href="">Contact support</SLink>
+        <SLink href="">Help center</SLink>
+        <SLink href="">Troubleshoot</SLink>
       </div>
     </div>
   );
@@ -22,9 +20,9 @@ const SLink = ({ children, href }: { children: string; href: string }) => (
     href={href}
     className={cn(
       buttonVariants({
-        variant: "ghost",
+        variant: "ghost2",
       }),
-      "justify-start"
+      "justify-start text-foreground hover:text-foreground/90 "
     )}
   >
     {children}

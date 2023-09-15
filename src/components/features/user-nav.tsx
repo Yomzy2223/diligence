@@ -24,8 +24,16 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 export const UserNav = () => {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    router.push("/auth/login");
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -43,7 +51,9 @@ export const UserNav = () => {
       <DropdownMenuContent className="w-56 m-4 mt-0" align="end" forceMount>
         <DropdownMenuGroup className="text-lg">
           <DropdownMenuItem className="py-3">Profile</DropdownMenuItem>
-          <DropdownMenuItem className="py-3 text-red-700 ">Log out</DropdownMenuItem>
+          <DropdownMenuItem className="py-3 text-red-700 " onClick={handleLogout}>
+            Log out
+          </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

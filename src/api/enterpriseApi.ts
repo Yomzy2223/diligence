@@ -3,70 +3,65 @@
 
 import { client } from "@/lib/config";
 
-// Function to create a bank
-export const createBank = (formInfo: any) => {
-  return client.post(`/diligence/bank`, formInfo);
+interface updateType {
+  name: string;
+  address: string;
+  adminEmail: string;
+  logo: string;
+  color: string;
+}
+
+// Function to update an enterprise
+export const updateEnterprise = ({
+  enterpriseId,
+  formInfo,
+}: {
+  enterpriseId: string;
+  formInfo: updateType;
+}) => {
+  return client.put(`/diligence/enterprise/${enterpriseId}`, formInfo);
 };
 
-// Function to update a bank
-export const updateBank = (formInfo: any) => {
-  return client.put(`/diligence/bank/${formInfo.bankId}`, formInfo);
+// Function to view an enterprise by entrprise id
+export const viewEnterpriseById = (enterpriseId: string) => {
+  return client.get(`/diligence/enterprise/${enterpriseId}`);
 };
 
-// Function to delete a bank
-export const deleteBank = (formInfo: any) => {
-  return client.delete(`/diligence/bank/${formInfo.bankId}`, formInfo);
-};
-
-// Function to view a bank
-export const viewBank = (formInfo: any) => {
-  return client.get(`/diligence/bank/${formInfo.id}`);
-};
-
-// Function to view all banks
-export const viewAllBanks = () => {
-  return client.get(`/diligence/banks`);
-};
-
-// Function to view all nigeria banks
-export const viewAllNigeriaBanks = () => {
-  return client.get(`/diligence/nigerianbanks`);
-};
-
-export const viewEnterpriseByEmail = async (adminEmail: string) => {
-  return await client.get(`/diligence/enterpriseByEmail/${adminEmail}`);
+// Function to view an enterprise by admin email
+export const viewEnterpriseByAdminEmail = (adminEmail: string) => {
+  return client.get(`/diligence/enterpriseByEmail/${adminEmail}`);
 };
 
 //
 //
 //
 //
+
+interface createStaffType {
+  managerId: string;
+  formInfo: { email: string };
+}
 
 // BANK STAFF FUNCTIONS
 // --------------------------------------------------------------------------------
 // Function to create a Staff
-export const createStaff = (formInfo: any) => {
-  return client.post(`/diligence/createStaff`, formInfo);
-};
-
-// Function to update a Staff
-export const updateStaff = (formInfo: any) => {
-  return client.post(`/diligence/verify/${formInfo.id}`, formInfo);
+export const createStaff = ({ managerId, formInfo }: createStaffType) => {
+  return client.post(`/diligence/staff/${managerId}`, formInfo);
 };
 
 // Function to delete a Staff
-export const deleteStaff = (formInfo: any) => {
-  return client.post(``, formInfo);
+export const deleteStaff = (staffId: string) => {
+  return client.delete(`/diligence/staff/${staffId}`);
 };
 
 // Function to view a Staff
-export const viewStaff = (formInfo: any) => {
-  return client.post(`/diligence/staff/${formInfo.id}`, formInfo);
+export const viewStaff = (staffId: string) => {
+  return client.get(`/diligence/staff/${staffId}`);
 };
 
 // Function to view all Staffs
-export const viewAllStaff = (formInfo: any) => {
-  return client.post(`/diligence//allStaffs/${formInfo.id}`, formInfo);
+export const viewAllBranchStaff = (managerId: string) => {
+  return client.get(`/diligence/staffs/${managerId}`);
 };
 
 //

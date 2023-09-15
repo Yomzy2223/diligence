@@ -10,13 +10,13 @@ interface propsType {
   path: string;
 }
 
-const ActiveNav2 = ({ nav }: { nav: propsType[] }) => {
+const ActiveNav2 = ({ nav, defaultURL }: { nav: propsType[]; defaultURL?: string }) => {
   const pathname = usePathname();
 
   return (
     <div className="flex gap-2 border border-border w-max h-max px-[1px] py-[10px] rounded-lg bg-background-grey">
       {nav.map((el, i) => {
-        const isActive = pathname === el.path;
+        const isActive = pathname === el.path || (i === 0 && pathname === defaultURL);
 
         return (
           <Link key={i} href={el.path}>

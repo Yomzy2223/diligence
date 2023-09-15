@@ -24,7 +24,7 @@ export function Toaster() {
           <Toast
             key={id}
             {...props}
-            className={cn("justify-start border border-primary py-4", props.className)}
+            className={cn("justify-start border border-secondary py-4", props.className)}
           >
             {success !== null &&
               (success ? (
