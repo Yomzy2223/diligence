@@ -47,12 +47,12 @@ export const getEnterpriseInfo = () => {
   let enterpriseInfo;
   let parsedEnterpriseInfo;
 
-  // if (typeof localStorage !== "undefined") {
-  enterpriseInfo = localStorage.getItem("enterpriseInfo");
-  if (enterpriseInfo) {
-    parsedEnterpriseInfo = JSON.parse(enterpriseInfo);
+  if (typeof localStorage !== "undefined") {
+    enterpriseInfo = localStorage.getItem("enterpriseInfo");
+    if (enterpriseInfo) {
+      parsedEnterpriseInfo = JSON.parse(enterpriseInfo);
+    }
   }
-  // }
   return parsedEnterpriseInfo || {};
 };
 
