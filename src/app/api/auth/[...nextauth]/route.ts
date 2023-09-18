@@ -78,6 +78,7 @@ export const authOptions: AuthOptions = {
         firstname: token.firstname || "",
         lastname: token.lastname || "",
         role: token.role || "",
+        managerId: token.managerId,
       };
       session.enterprise = {
         name: token.enterprise.name,

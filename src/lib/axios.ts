@@ -1,7 +1,9 @@
 import axios from "axios";
+import { getSession } from "next-auth/react";
 
 export const Client = async () => {
-  // can now fetch token from here
+  const session = await getSession();
+
   return axios.create({
     baseURL:
       process.env.NODE_ENV === "production"
@@ -9,7 +11,7 @@ export const Client = async () => {
         : "https://h2rwx2fbhm.us-east-1.awsapprunner.com/",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer `,
+      Authorization: session?.token ? `Bearer ${session.token}` : ``,
     },
   });
 };

@@ -16,14 +16,13 @@ import { useSession } from "next-auth/react";
 const Layout = ({ children }: { children: ReactNode }) => {
   const { data, status } = useSession();
 
-  const userToken = data?.token;
-  if (!userToken && status !== "loading") redirect("/auth/login");
+  let userRole = data?.user.role;
 
-  const userRole = data?.user.role;
-
-  const enterpriseInfo = data?.enterprise;
+  let enterpriseInfo = data?.enterprise;
 
   setColor(enterpriseInfo?.color || "194 100% 42%");
+
+  if (status === "unauthenticated") redirect("/auth/login");
 
   return (
     <main className="flex flex-col px-6 pb-8">

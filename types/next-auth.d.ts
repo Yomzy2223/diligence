@@ -28,6 +28,7 @@ declare module "next-auth" {
       firstname: string;
       lastname: string;
       role: string;
+      managerId: string;
     };
     enterprise: {
       name: string;

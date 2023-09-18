@@ -7,10 +7,12 @@ import { getUserInfo } from "@/lib/globalFunctions";
 import React, { useState } from "react";
 import { DiligenceTable } from "../../../DiligenceTable";
 import { useActions } from "./useActions";
+import { useSession } from "next-auth/react";
 
 const CorporateRequestInfo = ({ status }: { status?: string }) => {
-  const userInfo = getUserInfo()?.data;
-  const role = userInfo?.role?.toLowerCase();
+  const session = useSession();
+  const userInfo = session.data?.user;
+  const role = userInfo?.role.toLowerCase();
 
   // API calls
   const {
@@ -19,9 +21,9 @@ const CorporateRequestInfo = ({ status }: { status?: string }) => {
     verifyRequestMutation,
     useViewRequestDocumentQuery,
   } = useRequests();
-  const { data, isLoading } = useViewBranchRequests(userInfo?.managerId);
+  const { data, isLoading } = useViewBranchRequests(userInfo?.managerId!);
   const { useViewEnterpriseByIdQuery } = useEnterprise();
-  const enterprise = useViewEnterpriseByIdQuery(userInfo?.enterpriseId);
+  const enterprise = useViewEnterpriseByIdQuery(session.data?.enterprise.id!);
 
   // Actions
   const { headers, dataBody, requests } = useActions({
