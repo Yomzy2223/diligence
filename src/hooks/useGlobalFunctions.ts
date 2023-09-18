@@ -26,21 +26,6 @@ export const useGlobalFucntions = () => {
     router.push(pathname + "?" + createQueryString(name, value));
   };
 
-  const getUserInformation = () => {
-    let userInfo;
-    let parsedUserInfo;
-
-    if (typeof window !== "undefined") {
-      userInfo = localStorage.getItem("userInfo");
-
-      if (userInfo) {
-        parsedUserInfo = JSON.parse(userInfo);
-      }
-    }
-
-    return parsedUserInfo || {};
-  };
-
   const managerId =
     userInfo?.role?.toLowerCase() === "manager"
       ? userInfo?.managerId
@@ -50,6 +35,5 @@ export const useGlobalFucntions = () => {
     createQueryString,
     setQuery,
     managerId,
-    getUserInformation,
   };
 };

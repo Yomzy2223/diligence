@@ -3,7 +3,6 @@
 import EnterpriseInfo from "@/components/features/EnterpriseInfo";
 import AddStaff from "@/components/features/dialog/addStaff";
 import BranchOnboard from "@/components/features/dialog/onboardBranch";
-// import { getUserInfo } from "@/lib/globalFunctions";
 import React from "react";
 import Image from "next/image";
 import arrowBack from "@/assets/icons/arrowBack.svg";
@@ -11,15 +10,14 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
+import { getUserInfo } from "@/lib/globalFunctions";
 
 const Details = () => {
   const router = useRouter();
 
-  const { managerId, getUserInformation } = useGlobalFucntions();
-  const userToken = getUserInformation()?.data?.token;
-  if (!userToken) router.push("/auth/login");
+  const { managerId } = useGlobalFucntions();
 
-  const userInfo = getUserInformation()?.data;
+  const userInfo = getUserInfo()?.data;
   const isManager = userInfo?.role?.toLowerCase() === "manager";
   const isAdmin = userInfo?.role?.toLowerCase() === "admin";
 
