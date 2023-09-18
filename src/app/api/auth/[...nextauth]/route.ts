@@ -30,6 +30,13 @@ export const authOptions: AuthOptions = {
 
             if (user.data) {
               const data = user.data;
+
+              const enterpriseResponse = await client.get(
+                `/diligence/enterprise/${data.enterpriseId}`
+              );
+
+              const enterprise = enterpriseResponse.data.data;
+
               return {
                 id: data.id,
                 email: data.email,
@@ -37,9 +44,14 @@ export const authOptions: AuthOptions = {
                 lastname: data.lastName,
                 token: data.token,
                 role: data.role,
-                enterpriseId: data.enterpriseId,
                 managerId: data.managerId,
                 managerEmail: data.managerEmail,
+                enterprise: {
+                  id: enterprise.id,
+                  color: enterprise.color,
+                  logo: enterprise.logo,
+                  name: enterprise.name,
+                },
               } as Awaitable<User>;
             }
             return null;
@@ -66,6 +78,12 @@ export const authOptions: AuthOptions = {
         firstname: token.firstname || "",
         lastname: token.lastname || "",
         role: token.role || "",
+      };
+      session.enterprise = {
+        name: token.enterprise.name,
+        color: token.enterprise.color,
+        id: token.enterprise.id,
+        logo: token.enterprise.logo,
       };
       return session;
     },

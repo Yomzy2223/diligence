@@ -9,9 +9,10 @@ import LogoutIcon from "@/assets/icons/logoutIcon";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { usePathname, useRouter } from "next/navigation";
+import { redirect, usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { getEnterpriseInfo, getUserInfo, setColor } from "@/lib/globalFunctions";
+import { signOut } from "next-auth/react";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
@@ -21,6 +22,7 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     localStorage.clear();
+    signOut({ redirect: false });
     router.push("/auth/login");
   };
 
@@ -45,12 +47,12 @@ const Sidebar = () => {
     >
       <Button
         variant="transparent"
-        className="mx-3 px-0 py-0 min-w-max h-max "
+        className="px-0 py-0 mx-3 min-w-max h-max "
         onClick={() => setOpen(!open)}
       >
         <BiMenu className="w-6 h-6" />
       </Button>
-      <div className="flex flex-col flex-1 justify-between text-sm ">
+      <div className="flex flex-col justify-between flex-1 text-sm ">
         <div className="flex flex-col gap-2 overflow-x-hidden ">
           {sidebarItems.map((item, i) => {
             const active =
@@ -85,7 +87,7 @@ const Sidebar = () => {
             );
           })}
         </div>
-        <Button variant="ghost2" onClick={handleLogout} className="w-full justify-start">
+        <Button variant="ghost2" onClick={handleLogout} className="justify-start w-full">
           <div className="flex items-center gap-2 ">
             <LogoutIcon />
             {open && <p className="text-destructive">Logout</p>}

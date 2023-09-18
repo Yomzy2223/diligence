@@ -8,9 +8,14 @@ interface UserAndJWT {
   lastname: string;
   email: string;
   role: string;
-  enterpriseId: string;
   managerId: string;
   managerEmail: string;
+  enterprise: {
+    id: string;
+    color: string;
+    logo: string;
+    name: string;
+  };
 }
 
 declare module "next-auth" {
@@ -23,6 +28,12 @@ declare module "next-auth" {
       firstname: string;
       lastname: string;
       role: string;
+    };
+    enterprise: {
+      name: string;
+      id: string;
+      logo: string;
+      color: string;
     };
   }
 }
