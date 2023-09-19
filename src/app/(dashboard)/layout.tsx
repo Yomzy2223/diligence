@@ -1,3 +1,5 @@
+"use client";
+
 import type { Metadata } from "next";
 import Sidebar from "@/components/features/sidebar";
 import MainHeader from "@/components/header/mainHeader";

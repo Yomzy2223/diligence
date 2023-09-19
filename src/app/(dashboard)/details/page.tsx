@@ -17,7 +17,7 @@ const Details = () => {
   const { managerId } = useGlobalFucntions();
 
   const router = useRouter();
-
+  
   const userRole = data?.user?.role?.toLowerCase();
 
   const isManager = userRole === "manager";
