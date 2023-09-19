@@ -41,6 +41,7 @@ export const useEnterprise = () => {
     useQuery({
       queryKey: ["Enterprise", enterpriseId],
       queryFn: ({ queryKey }) => viewEnterpriseById(queryKey[1]),
+      enabled: !!enterpriseId,
     });
 
   const useViewEnterpriseByAdminEmailQuery = (adminEmail: string) =>

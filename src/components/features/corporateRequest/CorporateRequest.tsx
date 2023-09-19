@@ -10,9 +10,9 @@ import { Separator } from "@/components/ui/separator";
 import CMField from "./CMField";
 import { cn } from "@/lib/utils";
 import { useRequests } from "@/hooks/useRequests";
-import { getUserInfo } from "@/lib/globalFunctions";
 import ConfirmAction from "../dialog/confirmAction";
 import { useRequestStore } from "@/store/requestStore";
+import { useSession } from "next-auth/react";
 
 const CorporateRequest = ({ className }: { className?: string }) => {
   const { createRequestMutation, updateRequestMutation } = useRequests();
@@ -25,6 +25,8 @@ const CorporateRequest = ({ className }: { className?: string }) => {
   const [openConfirm, setOpenConfirm] = useState(false);
 
   const mergedRegNo = formValues.registrationType + formValues.registrationNumber;
+
+  const session = useSession();
 
   const { requestId, regNo, regName, regType, setRegName, setRegNo, setRegType } =
     useRequestStore();
@@ -48,12 +50,12 @@ const CorporateRequest = ({ className }: { className?: string }) => {
 
   // Create or Update request
   const handleConfirm = () => {
-    const userInfo = getUserInfo();
+    const userInfo = session.data?.user;
     const payload: submitType = {
       name: formValues.name,
       registrationNumber: mergedRegNo,
-      email: userInfo?.data?.email || "",
-      enterpriseId: userInfo?.data?.enterpriseId || "",
+      email: userInfo?.email || "",
+      enterpriseId: session.data?.enterprise.id || "",
     };
 
     editMode

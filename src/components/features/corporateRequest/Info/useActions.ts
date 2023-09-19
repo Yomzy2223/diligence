@@ -1,9 +1,8 @@
-import { useEnterprise } from "@/hooks/useEnterprise";
 import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
-import { useRequests } from "@/hooks/useRequests";
-import { getRegNumberInfo, getUserInfo, handleDownloadFile } from "@/lib/globalFunctions";
+import { getRegNumberInfo } from "@/lib/globalFunctions";
 import { useRequestStore } from "@/store/requestStore";
 import { compareAsc, format } from "date-fns";
+import { useSession } from "next-auth/react";
 import numeral from "numeral";
 import { useEffect, useState } from "react";
 import { ActionCellContent, Status } from "./CellContent";
@@ -36,8 +35,8 @@ export const useActions = ({
   // Fron request store
   const { searchValue, setRequestId, setRegName, setRegNo, setRegType } = useRequestStore();
 
-  const userInfo = getUserInfo()?.data;
-  const role = userInfo?.role?.toLowerCase();
+  const session = useSession();
+  const role = session.data?.user.role.toLowerCase();
 
   // Enterprise and branch requests
   const enterpriseInfo = enterprise.data?.data?.data;

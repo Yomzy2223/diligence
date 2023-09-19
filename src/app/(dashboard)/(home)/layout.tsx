@@ -5,40 +5,40 @@ import CorporateRequest from "@/components/features/corporateRequest/CorporateRe
 import Image from "next/image";
 import { ReactNode } from "react";
 import ActiveNav2 from "@/components/activeNav/ActiveNav2";
-import { Input } from "@/components/ui/input";
 import { allStatus } from "./constants";
-import { getEnterpriseInfo, getUserInfo } from "@/lib/globalFunctions";
 import AddStaff from "@/components/features/dialog/addStaff";
 import imageLoading from "@/assets/images/imagePlaceholder.png";
-import { useRequestStore } from "@/store/requestStore";
+import TheInput from "./input";
+import { redirect } from "next/navigation";
+import { setColor } from "@/lib/globalFunctions";
+import { useSession } from "next-auth/react";
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const { setSearchValue, searchValue } = useRequestStore();
+  const { data, status } = useSession();
 
-  const userRole = getUserInfo()?.data?.role?.toLowerCase();
+  let userRole = data?.user.role;
 
-  const enterpriseInfo = getEnterpriseInfo()?.data;
+  let enterpriseInfo = data?.enterprise;
+
+  setColor(enterpriseInfo?.color || "194 100% 42%");
+
+  if (status === "unauthenticated") redirect("/auth/login");
 
   return (
     <main className="flex flex-col px-6 pb-8">
       <div className="flex items-center gap-4 py-4 ">
         <Image src={enterpriseInfo?.logo || imageLoading} alt="" width={60} height={60} />
-        <div className="flex flex-1 justify-between">
+        <div className="flex justify-between flex-1">
           <p className="text-2xl font-normal ">{enterpriseInfo?.name || ""}</p>
-          {userRole === "admin" && <BranchOnboard>Onboard a branch</BranchOnboard>}
-          {userRole === "manager" && <AddStaff>Add staff</AddStaff>}
+          {userRole === "Admin" && <BranchOnboard>Onboard a branch</BranchOnboard>}
+          {userRole === "Manager" && <AddStaff>Add staff</AddStaff>}
         </div>
       </div>
       <CorporateRequest className="my-8" />
 
-      <div className="flex justify-between items-center gap-8 mb-4">
+      <div className="flex items-center justify-between gap-8 mb-4">
         <ActiveNav2 nav={allStatus} defaultURL="/" />
-        <Input
-          variant="search"
-          placeholder="Search for request..."
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-        />
+        <TheInput />
       </div>
       {children}
     </main>

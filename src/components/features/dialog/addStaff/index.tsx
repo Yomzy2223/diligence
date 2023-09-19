@@ -15,9 +15,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { staffSchema, staffType, propType } from "./constants";
 import InputWithLabel from "@/components/input/inputWithLabel";
-import { getUserInfo } from "@/lib/globalFunctions";
-import { useEnterpriseBranch, useEnterpriseStaff } from "@/hooks/useEnterprise";
+import { useEnterpriseStaff } from "@/hooks/useEnterprise";
 import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
+import { useSession } from "next-auth/react";
 
 const AddStaff = ({ children }: propType) => {
   const [open, setOpen] = useState(false);
@@ -27,6 +27,8 @@ const AddStaff = ({ children }: propType) => {
   const { createStaffMutation, useViewBranchStaffQuery, deleteStaffMutation } =
     useEnterpriseStaff();
   const { mutate, isLoading, isSuccess, isError } = createStaffMutation;
+
+  const session = useSession();
 
   const viewBranchStaffQuery = useViewBranchStaffQuery(managerId);
   const allStaff = viewBranchStaffQuery.data?.data?.data;
@@ -42,7 +44,7 @@ const AddStaff = ({ children }: propType) => {
   // Submit handler
   const onSubmit = (values: staffType) => {
     const payload = {
-      managerId: getUserInfo()?.data?.id,
+      managerId: session?.data?.user.managerId || "",
       formInfo: { email: values.email },
     };
     mutate(payload);

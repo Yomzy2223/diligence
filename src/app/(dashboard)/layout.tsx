@@ -1,13 +1,16 @@
-"use client";
-
 import type { Metadata } from "next";
 import Sidebar from "@/components/features/sidebar";
 import MainHeader from "@/components/header/mainHeader";
-import { getUserInfo } from "@/lib/globalFunctions";
 import { redirect } from "next/navigation";
+import { getServerSession } from "@/lib/getServerSession";
+import tinycolor from "tinycolor2";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const userToken = getUserInfo()?.data?.token;
+  // if (status === "unauthenticated") redirect("/auth/login");
+
+  // let enterpriseInfo = data?.enterprise;
+  // setColor(server?.enterprise?.color || "194 100% 42%");
+
   if (!true) redirect("/auth/login");
 
   return (

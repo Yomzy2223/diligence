@@ -8,8 +8,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { bankBranchSchema, bankBranchType, propType } from "./constants";
 import InputWithLabel from "@/components/input/inputWithLabel";
-import { getUserInfo } from "@/lib/globalFunctions";
 import { useEnterpriseBranch } from "@/hooks/useEnterprise";
+import { useSession } from "next-auth/react";
 
 const BranchOnboard = ({
   children,
@@ -25,6 +25,8 @@ const BranchOnboard = ({
   const { mutate, isLoading, isSuccess, isError } = createBranchMutation;
   const manager = branch?.data?.data?.data;
 
+  const session = useSession();
+
   // Form definition
   const form = useForm<bankBranchType>({
     resolver: zodResolver(bankBranchSchema),
@@ -38,7 +40,7 @@ const BranchOnboard = ({
   // Submit handler
   function onSubmit(values: bankBranchType) {
     const payload = {
-      adminId: getUserInfo()?.data?.id,
+      adminId: session?.data?.user.id || "",
       formInfo: values,
     };
     managerId
