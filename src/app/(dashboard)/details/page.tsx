@@ -10,16 +10,18 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
-import { getUserInfo } from "@/lib/globalFunctions";
+import { useSession } from "next-auth/react";
 
 const Details = () => {
-  const router = useRouter();
-
+  const { data } = useSession();
   const { managerId } = useGlobalFucntions();
 
-  const userInfo = getUserInfo()?.data;
-  const isManager = userInfo?.role?.toLowerCase() === "manager";
-  const isAdmin = userInfo?.role?.toLowerCase() === "admin";
+  const router = useRouter();
+  
+  const userRole = data?.user?.role?.toLowerCase();
+
+  const isManager = userRole === "manager";
+  const isAdmin = userRole === "admin";
 
   return (
     <div>

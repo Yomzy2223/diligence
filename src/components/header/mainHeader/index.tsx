@@ -8,8 +8,16 @@ import { UserNav } from "@/components/features/user-nav";
 import Image from "next/image";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import { setColor } from "@/lib/globalFunctions";
+import { useSession } from "next-auth/react";
 
 const MainHeader = () => {
+  const { data } = useSession();
+
+  let enterpriseInfo = data?.enterprise;
+
+  setColor(enterpriseInfo?.color || "194 100% 42%");
+
   return (
     <div className="border-b sticky top-0 bg-white z-10">
       <div className="flex items-center px-6 py-2">

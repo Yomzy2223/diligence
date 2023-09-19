@@ -4,23 +4,11 @@ import Image from "next/image";
 import React from "react";
 import { DeleteIcon, EditIcon } from "@/assets/icons";
 import ConfirmAction from "../../dialog/confirmAction";
-import Dialog from "@/components/customdialog";
-import { FileDisplay } from "@/components/customdialog/fileDisplay";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { getUserInfo, handleDownloadFile } from "@/lib/globalFunctions";
-import {
-  Dialog as DialogRoot,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
-import { format } from "date-fns";
 import StatusReport from "../../dialog/statusReport";
+import { useSession } from "next-auth/react";
+
 interface propsType {
   request: any;
   openResult: boolean;
@@ -37,6 +25,7 @@ interface propsType {
   setOpenVerifyConfirm: (arg: boolean) => void;
   handleVerifyConfirm: (arg: boolean) => void;
   verifyLoading: boolean;
+  userRole: string | undefined;
 }
 
 export const ActionCellContent = ({
@@ -55,11 +44,9 @@ export const ActionCellContent = ({
   setOpenVerifyConfirm,
   handleVerifyConfirm,
   verifyLoading,
+  userRole,
 }: propsType) => {
-  //
-
   const status = request?.status?.toLowerCase();
-  const userRole = getUserInfo()?.data?.role?.toLowerCase();
 
   const handleClickedRequest = () => {
     {
@@ -137,22 +124,6 @@ export const ActionCellContent = ({
           open={openResult}
           setOpenResult={setOpenResult}
         />
-        <div>
-          {/* <Dialog
-            open={openResult}
-            cancel={() => setOpenResult(false)}
-            dialogType="state"
-            title="Status Report"
-            // description={`Your status report is now available for download`}
-            footer={false}
-          >
-            {requestDocument?.map((el: any, i: number) => (
-              <FileDisplay key={i} onDownloadClick={() => handleFileDownload(el)}>
-                {el?.name || "--"}
-              </FileDisplay>
-            ))}
-          </Dialog> */}
-        </div>
       </>
     );
   }
