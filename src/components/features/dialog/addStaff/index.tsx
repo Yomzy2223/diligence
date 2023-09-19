@@ -44,7 +44,7 @@ const AddStaff = ({ children }: propType) => {
   // Submit handler
   const onSubmit = (values: staffType) => {
     const payload = {
-      managerId: session?.data?.user.managerId || "",
+      managerId: session?.data?.user.id || "",
       formInfo: { email: values.email },
     };
     mutate(payload);

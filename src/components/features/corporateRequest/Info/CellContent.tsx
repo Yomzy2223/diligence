@@ -25,6 +25,7 @@ interface propsType {
   setOpenVerifyConfirm: (arg: boolean) => void;
   handleVerifyConfirm: (arg: boolean) => void;
   verifyLoading: boolean;
+  userRole: string | undefined;
 }
 
 export const ActionCellContent = ({
@@ -43,10 +44,8 @@ export const ActionCellContent = ({
   setOpenVerifyConfirm,
   handleVerifyConfirm,
   verifyLoading,
+  userRole,
 }: propsType) => {
-  const { data } = useSession();
-  const userRole = data?.user.role.toLowerCase();
-
   const status = request?.status?.toLowerCase();
 
   const handleClickedRequest = () => {

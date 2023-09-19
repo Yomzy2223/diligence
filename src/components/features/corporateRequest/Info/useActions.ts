@@ -36,7 +36,7 @@ export const useActions = ({
   const { searchValue, setRequestId, setRegName, setRegNo, setRegType } = useRequestStore();
 
   const session = useSession();
-  const role = session.data?.user.role.toLowerCase();
+  const userRole = session.data?.user.role.toLowerCase();
 
   // Enterprise and branch requests
   const enterpriseInfo = enterprise.data?.data?.data;
@@ -45,7 +45,7 @@ export const useActions = ({
 
   // Filter requests by status clicked
   status = status?.toLowerCase();
-  let requests = role === "admin" ? enterpriseRequests : branchRequests;
+  let requests = userRole === "admin" ? enterpriseRequests : branchRequests;
   if (status) requests = requests?.filter((el: any) => el?.status?.toLowerCase() === status);
 
   // Close diolog and refetch a request is created and deleted
@@ -127,6 +127,7 @@ export const useActions = ({
       setOpenVerifyConfirm,
       handleVerifyConfirm,
       verifyLoading: verifyRequestMutation.isLoading,
+      userRole,
     });
 
     const body = status

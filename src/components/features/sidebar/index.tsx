@@ -9,7 +9,7 @@ import LogoutIcon from "@/assets/icons/logoutIcon";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { redirect, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { getEnterpriseInfo, setColor } from "@/lib/globalFunctions";
 import { signOut, useSession } from "next-auth/react";

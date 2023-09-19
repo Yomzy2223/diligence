@@ -194,6 +194,7 @@ export const useEnterpriseStaff = () => {
     useQuery({
       queryKey: ["Staff With Requests", managerId],
       queryFn: ({ queryKey }) => viewStaffWithRequests(queryKey[1]),
+      enabled: managerId ? true : false,
     });
 
   return {
