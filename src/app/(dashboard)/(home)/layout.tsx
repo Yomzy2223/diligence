@@ -20,8 +20,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   let enterpriseInfo = data?.enterprise;
 
-  setColor(enterpriseInfo?.color || "194 100% 42%");
-
   if (status === "unauthenticated") redirect("/auth/login");
 
   return (
