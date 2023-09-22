@@ -6,13 +6,10 @@ import { SettingContext } from "@/components/features/BankSettingInfo/settingCon
 import Image from "next/image";
 import { useEnterprise } from "@/hooks/useEnterprise";
 import imageLoading from "@/assets/images/imagePlaceholder.png";
-import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 export default function Settings() {
   const session = useSession();
-
-  if (session.status === "unauthenticated") redirect("/auth/login");
 
   const { useViewEnterpriseByIdQuery } = useEnterprise();
   const { data } = useViewEnterpriseByIdQuery(session.data?.enterprise.id!);

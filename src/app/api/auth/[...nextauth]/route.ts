@@ -27,7 +27,75 @@ export const authOptions: AuthOptions = {
             );
 
             const user = res.data;
-            console.log(user);
+            // console.log(user);
+
+            if (user.data) {
+              const data = user.data;
+
+              const enterpriseResponse = await client.get(
+                `/diligence/enterprise/${data.enterpriseId}`
+              );
+
+              const enterprise = enterpriseResponse.data.data;
+
+              return {
+                id: data.id,
+                email: data.email,
+                firstname: data.firstName,
+                lastname: data.lastName,
+                token: data.token,
+                role: data.role,
+                managerId: data.managerId,
+                managerEmail: data.managerEmail,
+                enterprise: {
+                  id: enterprise.id,
+                  color: enterprise.color,
+                  logo: enterprise.logo,
+                  name: enterprise.name,
+                },
+              } as Awaitable<User>;
+            }
+            return null;
+          }
+        } catch (e: any) {
+          throw new Error(e.response.data.error);
+        }
+        return null;
+      },
+    }),
+    CredentialsProvider({
+      id: "signup",
+      name: "Sign up",
+      credentials: {
+        firstName: { label: "First Name" },
+        lastName: { label: "Last Name" },
+        email: { label: "Email" },
+        password: { label: "Password" },
+      },
+      authorize: async (credentials) => {
+        try {
+          if (
+            credentials?.email &&
+            credentials?.password &&
+            credentials?.lastName &&
+            credentials?.firstName
+          ) {
+            const client = await Client();
+            const res = await client.post(
+              "/diligence/user",
+              JSON.stringify({
+                email: credentials?.email,
+                password: credentials?.password,
+                firstName: credentials?.firstName,
+                lastName: credentials.lastName,
+              }),
+              {
+                headers: { "Content-Type": "application/json" },
+              }
+            );
+
+            const user = res.data;
+            // console.log(user);
 
             if (user.data) {
               const data = user.data;
