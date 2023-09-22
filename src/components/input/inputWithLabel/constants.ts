@@ -7,7 +7,9 @@ export interface cmFieldPropType {
   placeholder?: string;
   textSize?: string;
   bottom?: any;
+  defaultValue?: string | number;
   classNames?: {
     formItem: string;
   };
+  disabled?: boolean;
 }

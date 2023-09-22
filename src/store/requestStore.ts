@@ -8,7 +8,6 @@ interface storeType {
   regNo: string;
   regType: string;
   searchValue: string;
-  refetchData: boolean;
 }
 
 interface storeMainType extends storeType {
@@ -16,7 +15,6 @@ interface storeMainType extends storeType {
   setRegNo: (regNo: string) => void;
   setRegName: (regName: string) => void;
   setSearchValue: (searchValue: string) => void;
-  setRefetchData: (refetchData: boolean) => void;
   setRegType: (regType: string) => void;
 }
 
@@ -28,7 +26,6 @@ export const useRequestStore = create<storeMainType, [["zustand/persist", unknow
       regNo: "",
       regType: "",
       searchValue: "",
-      refetchData: false,
 
       setRequestId: (requestId: string) =>
         set((state: storeType) => ({
@@ -58,13 +55,7 @@ export const useRequestStore = create<storeMainType, [["zustand/persist", unknow
       setSearchValue: (searchValue: string) =>
         set((state: storeType) => ({
           ...state,
-          searchValue: searchValue.trim().toLowerCase(),
-        })),
-
-      setRefetchData: (refetchData: boolean) =>
-        set((state: storeType) => ({
-          ...state,
-          refetchData,
+          searchValue: searchValue.toLowerCase(),
         })),
     }),
     {

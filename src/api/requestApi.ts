@@ -13,7 +13,7 @@ interface updateType {
 
 interface viewBranchType {
   managerId: string;
-  managerEmail: string;
+  // managerEmail: string;
 }
 
 // CORPORATE REQUEST FUNCTIONS
@@ -40,8 +40,8 @@ export const viewSingleRequest = (requestId: string) => {
 };
 
 // Function to view a branch's requests
-export const viewBranchRequests = (formInfo: viewBranchType) => {
-  return client.post("/diligence/managerRequest", formInfo);
+export const viewBranchRequests = (managerId: string) => {
+  return client.get(`/diligence/managerRequest/${managerId}`);
 };
 
 // Function to verify a request
@@ -50,8 +50,8 @@ export const verifyRequest = (requestId: string) => {
 };
 
 // Function to view single request document
-export const viewRequestDocument = (documentId: string) => {
-  return client.get(`/diligence/document/${documentId}`);
+export const viewRequestDocument = async (documentId: string) => {
+  return await client.get(`/diligence/document/${documentId}`);
 };
 
 // Function to view all request documents

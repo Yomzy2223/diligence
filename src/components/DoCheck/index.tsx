@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ReactNode } from "react";
-import { Puff } from "react-loading-icons";
+import TableSkeleton from "../DiligenceTable/TableSkeleton";
 import { EmptyList } from "../features/emptyList";
 
 const DoCheck = ({
@@ -18,12 +18,7 @@ const DoCheck = ({
   className?: string;
 }) => {
   //
-  if (isLoading)
-    return (
-      <div className="flex items-center justify-center h-24 ">
-        <Puff stroke="hsl(var(--primary))" />
-      </div>
-    );
+  if (isLoading) return <TableSkeleton />;
 
   //
   if (isEmpty)

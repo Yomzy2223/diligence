@@ -15,6 +15,7 @@ export const InvoiceHeader = () => {
   const currMonthShort = allMonths.find((el) => el.full === currMonth)?.short;
 
   const [month, setMonth] = useState(currMonth);
+  const [year, setYear] = useState(currYear);
   const [paid, setPaid] = useState(false);
 
   const handleMonthSelect = (month: string) => {
@@ -22,7 +23,9 @@ export const InvoiceHeader = () => {
     setMonth(monthFull || "");
   };
 
-  const handleYearSelect = (year: string) => {};
+  const handleYearSelect = (year: string) => {
+    setYear(year);
+  };
 
   return (
     <div className="min-h-[499px] rounded-lg px-12 py-16 relative z-0">
@@ -36,12 +39,14 @@ export const InvoiceHeader = () => {
               options={allMonths.map((el) => el.short)}
               handleSelect={handleMonthSelect}
               defaultValue={currMonthShort}
+              value={month}
             />
             <CMSelect
               placeholder="Select year"
               options={allYears}
               handleSelect={handleYearSelect}
               defaultValue={currYear}
+              value={year}
             />
           </div>
         </div>

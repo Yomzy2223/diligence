@@ -38,11 +38,11 @@ export const signUp = async (formInfo: signUpType) => {
 };
 
 // Function to forgot password
-export const forgotPassword = (formInfo: any) => {
+export const forgotPassword = (formInfo: { email: string }) => {
   return client.post("/diligence/user/forgotpassword", formInfo);
 };
 
 // Function to change password
-export const changePassword = (formInfo: any) => {
+export const changePassword = (formInfo: { password: string; token: string }) => {
   return client.post("/diligence/user/resetPassword", formInfo);
 };

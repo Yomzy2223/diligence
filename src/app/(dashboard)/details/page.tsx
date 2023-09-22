@@ -3,26 +3,29 @@
 import EnterpriseInfo from "@/components/features/EnterpriseInfo";
 import AddStaff from "@/components/features/dialog/addStaff";
 import BranchOnboard from "@/components/features/dialog/onboardBranch";
-import { getUserInfo } from "@/lib/globalFunctions";
+// import { getUserInfo } from "@/lib/globalFunctions";
 import React from "react";
 import Image from "next/image";
 import arrowBack from "@/assets/icons/arrowBack.svg";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 
 const Details = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  const userInfo = getUserInfo()?.data;
+  const { managerId, getUserInformation } = useGlobalFucntions();
+  const userToken = getUserInformation()?.data?.token;
+  if (!userToken) router.push("/auth/login");
+
+  const userInfo = getUserInformation()?.data;
   const isManager = userInfo?.role?.toLowerCase() === "manager";
-
-  const managerId = isManager ? userInfo?.managerId : searchParams.get("managerId");
+  const isAdmin = userInfo?.role?.toLowerCase() === "admin";
 
   return (
     <div>
-      {managerId && (
+      {isAdmin && managerId && (
         <div className="flex pl-10 pb-2 pt-6 pr-6">
           <Button variant="ghost2" size="icon" onClick={() => router.push("/details")}>
             <Image src={arrowBack} alt="" />

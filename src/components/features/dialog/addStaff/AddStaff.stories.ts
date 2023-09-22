@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from "@storybook/react";
-import BranchOnboard from ".";
+import AddStaff from ".";
 
 const meta = {
-  title: "Branch Onboard",
-  component: BranchOnboard,
+  title: "Add Staff",
+  component: AddStaff,
   parameters: {
     layout: "centered",
   },
@@ -11,7 +11,7 @@ const meta = {
   //   argTypes: {
   //     children: string,
   //   },
-} satisfies Meta<typeof BranchOnboard>;
+} satisfies Meta<typeof AddStaff>;
 
 export default meta;
 
@@ -19,14 +19,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    children: "Onboard",
-    buttonVariant: "default",
+    children: "Add Staff",
   },
 };
 
 export const Transparent: Story = {
   args: {
-    children: "Onboard",
-    buttonVariant: "transparent",
+    children: "Add Staff",
   },
 };

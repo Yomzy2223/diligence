@@ -1,3 +1,7 @@
+"use client";
+
+import axios from "axios";
+import { saveAs } from "file-saver";
 import tinycolor from "tinycolor2";
 
 export const getAllYearsUpToCurrentYear = () => {
@@ -13,22 +17,42 @@ export const getAllYearsUpToCurrentYear = () => {
 };
 
 export const getUserInfo = () => {
-  let userInfo = localStorage.getItem("userInfo");
+  let userInfo;
   let parsedUserInfo;
 
-  if (userInfo) {
-    parsedUserInfo = JSON.parse(userInfo);
+  if (typeof window !== "undefined") {
+    userInfo = localStorage.getItem("userInfo");
+
+    if (userInfo) {
+      parsedUserInfo = JSON.parse(userInfo);
+    }
   }
+
   return parsedUserInfo || {};
 };
 
+export const handleDownloadFile = (cloudinaryLink: string, fileName: string) => {
+  const result = axios
+    .get(cloudinaryLink, {
+      responseType: "blob",
+    })
+    .then((res) => {
+      saveAs(res.data, fileName);
+    });
+
+  return result;
+};
+
 export const getEnterpriseInfo = () => {
-  let enterpriseInfo = localStorage.getItem("enterpriseInfo");
+  let enterpriseInfo;
   let parsedEnterpriseInfo;
 
+  // if (typeof localStorage !== "undefined") {
+  enterpriseInfo = localStorage.getItem("enterpriseInfo");
   if (enterpriseInfo) {
     parsedEnterpriseInfo = JSON.parse(enterpriseInfo);
   }
+  // }
   return parsedEnterpriseInfo || {};
 };
 
@@ -39,16 +63,21 @@ export const setColor = (color: string) => {
 
   const root = document.documentElement;
 
+  // const enterpriseColor = { primary: "", bgLight: "" };
+
   if (primary) {
     const { h, s, l } = primary.toHsl();
     const parsedPrimary = h + " " + s * 100 + "%" + " " + l * 100 + "%";
     root.style.setProperty("--primary", parsedPrimary);
+    // enterpriseColor.primary = parsedPrimary;
   }
   if (bgLight) {
     const { h, s, l, a } = bgLight;
     const parsedBgLight = h + " " + s * 100 + "%" + " " + l * 100 + "%" + " / " + a;
     root.style.setProperty("--background-light", parsedBgLight);
+    // enterpriseColor.bgLight = parsedBgLight;
   }
+  // localStorage.setItem("enterpriseColor", JSON.stringify(enterpriseColor));
 };
 
 export const getRegNumberInfo = (regNo: string) => {

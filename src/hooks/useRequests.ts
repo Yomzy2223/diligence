@@ -8,13 +8,13 @@ import {
   viewAllRequestDocuments,
   viewBranchRequests,
 } from "@/api/requestApi";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { ReactNode } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useResponse } from "./useResponse";
 
 // React Query hooks for corporate request
 export const useRequests = () => {
   const { handleError, handleSuccess } = useResponse();
+  const queryClient = useQueryClient();
 
   const createRequestMutation = useMutation({
     mutationFn: createRequest,
@@ -23,6 +23,8 @@ export const useRequests = () => {
     },
     onSuccess(data, variables, context) {
       handleSuccess({ data });
+      queryClient.invalidateQueries({ queryKey: ["Branch Requests"] });
+      queryClient.invalidateQueries({ queryKey: ["Enterprise"] });
     },
     retry: 3,
   });
@@ -33,6 +35,8 @@ export const useRequests = () => {
       handleError({ error });
     },
     onSuccess(data, variables, context) {
+      queryClient.invalidateQueries({ queryKey: ["Branch Requests"] });
+      queryClient.invalidateQueries({ queryKey: ["Enterprise"] });
       handleSuccess({ data });
     },
     retry: 3,
@@ -45,6 +49,8 @@ export const useRequests = () => {
     },
     onSuccess(data, variables, context) {
       handleSuccess({ data });
+      queryClient.invalidateQueries({ queryKey: ["Branch Requests"] });
+      queryClient.invalidateQueries({ queryKey: ["Enterprise"] });
     },
     retry: 3,
   });
@@ -61,22 +67,25 @@ export const useRequests = () => {
     },
     onSuccess(data, variables, context) {
       handleSuccess({ data });
+      queryClient.invalidateQueries({ queryKey: ["Branch Requests"] });
+      queryClient.invalidateQueries({ queryKey: ["Enterprise"] });
     },
     retry: 3,
   });
 
-  const useViewBranchRequests = (formInfo: { managerId: string; managerEmail: string }) =>
+  const useViewBranchRequests = (managerId: string) =>
     useQuery({
       queryKey: ["Branch Requests"],
-      queryFn: () => viewBranchRequests(formInfo),
-      enabled: formInfo.managerEmail && formInfo.managerId ? true : false,
+      queryFn: () => viewBranchRequests(managerId),
+      enabled: managerId ? true : false,
     });
 
-  // const viewRequestDocumentQuery = useQuery({
-  //   queryKey: ["Request Document"],
-  //   queryFn:()=> viewRequestDocument,
-
-  // });
+  const useViewRequestDocumentQuery = (requestId: string) =>
+    useQuery({
+      queryKey: ["Request Document", requestId],
+      queryFn: ({ queryKey }) => viewRequestDocument(queryKey[1]),
+      enabled: requestId ? true : false,
+    });
 
   // const viewRequestsDocumentQuery = useQuery({
   //   queryKey: ["Request Documents"],
@@ -90,7 +99,7 @@ export const useRequests = () => {
     // viewRequestQuery,
     verifyRequestMutation,
     useViewBranchRequests,
-    // viewRequestDocumentQuery,
+    useViewRequestDocumentQuery,
     // viewRequestsDocumentQuery,
   };
 };

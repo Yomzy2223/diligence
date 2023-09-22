@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import ReactPaginate from "react-paginate";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 import { itemsPerPage } from "@/lib/config";
 
@@ -34,8 +34,6 @@ export const DiligenceTable = ({ header, body, onRowClick, onCellClick }: TableP
   };
   const { setQuery } = useGlobalFucntions();
 
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const itemOffset: string = searchParams.get("itemOffset") || "";
@@ -48,7 +46,6 @@ export const DiligenceTable = ({ header, body, onRowClick, onCellClick }: TableP
   const handlePageClick = (event: { selected: number }) => {
     const newOffset = (event.selected * itemsPerPage) % body?.length;
     setQuery("itemOffset", newOffset);
-    // router.push(pathname + "?" + "itemOffset=" + newOffset);
   };
 
   const handleRowClick = (rowData: (string | number)[], rowIndex: number): void => {

@@ -1,15 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,11 +11,19 @@ import InputWithLabel from "@/components/input/inputWithLabel";
 import { getUserInfo } from "@/lib/globalFunctions";
 import { useEnterpriseBranch } from "@/hooks/useEnterprise";
 
-const BranchOnboard = ({ children }: propType) => {
+const BranchOnboard = ({
+  children,
+  variant = "default",
+  size = "default",
+  className,
+  managerId,
+  branch,
+}: propType) => {
   const [open, setOpen] = useState(false);
 
-  const { createBranchMutation } = useEnterpriseBranch();
+  const { createBranchMutation, updateBranchMutation } = useEnterpriseBranch();
   const { mutate, isLoading, isSuccess, isError } = createBranchMutation;
+  const manager = branch?.data?.data?.data;
 
   // Form definition
   const form = useForm<bankBranchType>({
@@ -40,22 +41,28 @@ const BranchOnboard = ({ children }: propType) => {
       adminId: getUserInfo()?.data?.id,
       formInfo: values,
     };
-    mutate(payload);
+    managerId
+      ? updateBranchMutation.mutate({ ...payload, managerId: manager?.id })
+      : mutate(payload);
   }
 
   useEffect(() => {
-    if (isSuccess || isError) setOpen(false);
-  }, [isLoading]);
+    if (isSuccess || isError || updateBranchMutation.isError || updateBranchMutation.isSuccess) {
+      setOpen(false);
+    }
+  }, [isSuccess || isError || updateBranchMutation.isError || updateBranchMutation.isSuccess]);
 
   return (
     <Dialog open={open}>
-      <Button onClick={() => setOpen(true)}>{children}</Button>
+      <Button variant={variant} size={size} className={className} onClick={() => setOpen(true)}>
+        {children}
+      </Button>
       <DialogContent
         className="sm:max-w-[425px] md:max-w-[570px] py-14 bg-white "
         cancel={() => setOpen(false)}
       >
         <DialogHeader className="m-auto mb-6 ">
-          <DialogTitle>Onboard a Branch</DialogTitle>
+          <DialogTitle>{managerId ? "Update" : "Onboard"} a Branch</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -71,6 +78,7 @@ const BranchOnboard = ({ children }: propType) => {
                 placeholder="Enter branch name"
                 tipText="Must be the registrered name"
                 textSize="text-xs"
+                defaultValue={manager?.name}
               />
               <InputWithLabel
                 form={form}
@@ -79,6 +87,7 @@ const BranchOnboard = ({ children }: propType) => {
                 placeholder="Enter branch state"
                 tipText="The state where the branch is located"
                 textSize="text-xs"
+                defaultValue={manager?.location}
               />
               <InputWithLabel
                 form={form}
@@ -87,12 +96,18 @@ const BranchOnboard = ({ children }: propType) => {
                 placeholder="Enter branch manager email"
                 tipText="Mailing list email is not supported"
                 textSize="text-xs"
+                defaultValue={manager?.managerEmail}
+                disabled={managerId ? true : false}
               />
             </div>
 
             <div className="flex flex-col gap-2">
-              <Button type="submit" size="full" loading={isLoading}>
-                Onboard
+              <Button
+                type="submit"
+                size="full"
+                loading={isLoading || updateBranchMutation.isLoading}
+              >
+                {managerId ? "Update" : "Onboard"}
               </Button>
               <Button size="full" variant="transparent" onClick={() => setOpen(false)}>
                 Cancel

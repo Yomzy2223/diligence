@@ -1,17 +1,45 @@
 "use client";
 
 import DoCheck from "@/components/DoCheck";
-import React from "react";
-import { Puff } from "react-loading-icons";
-import { DiligenceTable } from "../../DiligenceTable";
-import { EmptyList } from "../../emptyList";
+import { useEnterprise } from "@/hooks/useEnterprise";
+import { useRequests } from "@/hooks/useRequests";
+import { getUserInfo } from "@/lib/globalFunctions";
+import React, { useState } from "react";
+import { DiligenceTable } from "../../../DiligenceTable";
 import { useActions } from "./useActions";
 
 const CorporateRequestInfo = ({ status }: { status?: string }) => {
-  const { headers, dataBody, requests, isLoading } = useActions({ status });
+  const userInfo = getUserInfo()?.data;
+  const role = userInfo?.role?.toLowerCase();
+
+  // API calls
+  const {
+    deleteRequestMutation,
+    useViewBranchRequests,
+    verifyRequestMutation,
+    useViewRequestDocumentQuery,
+  } = useRequests();
+  const { data, isLoading } = useViewBranchRequests(userInfo?.managerId);
+  const { useViewEnterpriseByIdQuery } = useEnterprise();
+  const enterprise = useViewEnterpriseByIdQuery(userInfo?.enterpriseId);
+
+  // Actions
+  const { headers, dataBody, requests } = useActions({
+    data,
+    // requestDocument,
+    enterprise,
+    deleteRequestMutation,
+    verifyRequestMutation,
+    // setClickedRequest,
+    status,
+  });
+
+  let loading = false;
+  if (role === "admin") loading = enterprise.isLoading;
+  if (role === "manager") loading = isLoading;
 
   return (
-    <DoCheck isLoading={isLoading} isEmpty={requests?.length === 0}>
+    <DoCheck isLoading={loading} isEmpty={requests?.length === 0}>
       <DiligenceTable header={headers} body={dataBody} />
     </DoCheck>
   );

@@ -1,15 +1,17 @@
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
-function Skeleton({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn("animate-pulse rounded-md bg-muted", className)}
-      {...props}
-    />
-  )
+interface propType extends React.HTMLAttributes<HTMLDivElement> {
+  invertColor?: boolean;
 }
 
-export { Skeleton }
+function Skeleton({ className, invertColor, children, ...props }: propType) {
+  const bgColor = invertColor ? "bg-[#ffffffcc]" : "bg-grey";
+
+  return (
+    <div className={cn("animate-pulse rounded-md", bgColor, className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+export { Skeleton };

@@ -20,7 +20,6 @@ export type IdialogProps = {
   titleVariant?: VariantProps<typeof titleVariants>;
   description?: string;
   children?: ReactNode;
-  brandColor?: string;
   footer?: boolean;
 } & (
   | { dialogType: "state"; open: boolean; cancel: () => void }
@@ -34,7 +33,7 @@ export const Dialog = (props: IdialogProps) => {
       {props.dialogType === "normal" && (
         <DialogRoot>
           <DialogTrigger asChild>
-            <Button color={props.brandColor}>{props.triggerText}</Button>
+            <Button>{props.triggerText}</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[554px] p-6" showClose={props.showCloseButton}>
             {(props.description || props.title) && (
@@ -51,7 +50,7 @@ export const Dialog = (props: IdialogProps) => {
             {props.footer && (
               <DialogFooter className="mt-8">
                 <DialogClose>
-                  <Button type="submit" color={props.brandColor} onClick={props.action}>
+                  <Button type="submit" onClick={props.action}>
                     {props.actionText}
                   </Button>
                 </DialogClose>
@@ -85,7 +84,7 @@ export const Dialog = (props: IdialogProps) => {
             {props.footer && (
               <DialogFooter className="mt-8">
                 <DialogClose>
-                  <Button type="submit" color={props.brandColor} onClick={props.action}>
+                  <Button type="submit" onClick={props.action}>
                     {props.actionText}
                   </Button>
                 </DialogClose>

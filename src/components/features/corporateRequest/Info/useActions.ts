@@ -1,38 +1,43 @@
 import { useEnterprise } from "@/hooks/useEnterprise";
 import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 import { useRequests } from "@/hooks/useRequests";
-import { getRegNumberInfo, getUserInfo } from "@/lib/globalFunctions";
-import { getTimeInfo } from "@/lib/utils";
+import { getRegNumberInfo, getUserInfo, handleDownloadFile } from "@/lib/globalFunctions";
 import { useRequestStore } from "@/store/requestStore";
-import { format } from "date-fns";
+import { compareAsc, format } from "date-fns";
 import numeral from "numeral";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ActionCellContent, Status } from "./CellContent";
 
-export const useActions = ({ status }: { status?: string }) => {
+interface actionArgsType {
+  data: any;
+  // requestDocument: any;
+  enterprise: any;
+  deleteRequestMutation: any;
+  verifyRequestMutation: any;
+  // setClickedRequest: any;
+  status: string | undefined;
+}
+
+export const useActions = ({
+  data,
+  // requestDocument,
+  enterprise,
+  deleteRequestMutation,
+  verifyRequestMutation,
+  // setClickedRequest,
+  status,
+}: actionArgsType) => {
   const [openResult, setOpenResult] = useState(false);
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
   const [openVerifyConfirm, setOpenVerifyConfirm] = useState(false);
+  const [clickedRequest, setClickedRequest] = useState({ id: "" });
   const { setQuery } = useGlobalFucntions();
 
   // Fron request store
-  const { refetchData, searchValue, setRequestId, setRegName, setRegNo, setRegType } =
-    useRequestStore();
-  // console.log(searchValue);
+  const { searchValue, setRequestId, setRegName, setRegNo, setRegType } = useRequestStore();
 
   const userInfo = getUserInfo()?.data;
   const role = userInfo?.role?.toLowerCase();
-
-  const branchPayload = {
-    managerEmail: userInfo?.managerEmail || userInfo?.email,
-    managerId: userInfo?.managerId,
-  };
-
-  // API calls
-  const { deleteRequestMutation, useViewBranchRequests, verifyRequestMutation } = useRequests();
-  const { data, isLoading, refetch } = useViewBranchRequests(branchPayload);
-  const { useViewEnterpriseByIdQuery } = useEnterprise();
-  const enterprise = useViewEnterpriseByIdQuery(userInfo?.enterpriseId);
 
   // Enterprise and branch requests
   const enterpriseInfo = enterprise.data?.data?.data;
@@ -47,11 +52,9 @@ export const useActions = ({ status }: { status?: string }) => {
   // Close diolog and refetch a request is created and deleted
   useEffect(() => {
     if (deleteRequestMutation.isSuccess || deleteRequestMutation.isError) {
-      refetch();
       setOpenDeleteConfirm(false);
     }
     if (verifyRequestMutation.isSuccess || verifyRequestMutation.isError) {
-      refetch();
       setOpenVerifyConfirm(false);
     }
   }, [
@@ -61,19 +64,19 @@ export const useActions = ({ status }: { status?: string }) => {
     verifyRequestMutation.isError,
   ]);
 
-  useEffect(() => {
-    refetch();
-  }, [refetchData]);
-
   const normalize = (text: string) => text.trim().toLowerCase();
 
   // Filter requests
-  const filteredRequests = requests?.filter(
+  let filteredRequests = requests?.filter(
     (el: any) =>
       normalize(el?.createdBy)?.includes(searchValue) ||
       normalize(el?.name)?.includes(searchValue) ||
       el?.registrationNumber?.includes(searchValue) ||
       normalize(el?.status)?.includes(searchValue)
+  );
+
+  filteredRequests?.sort((a: any, b: any) =>
+    compareAsc(new Date(b?.createdAt), new Date(a?.createdAt))
   );
 
   // Set new offset when searching
@@ -108,21 +111,22 @@ export const useActions = ({ status }: { status?: string }) => {
   // Requests table body
   const dataBody = filteredRequests?.map((request: any, id: number) => {
     const formattedDate = format(new Date(request?.createdAt), "dd/MM/yyyy");
-    const formattedTime = getTimeInfo(request?.createdAt);
 
     const Action = ActionCellContent({
       request,
       propStatus: status,
       handleConfirm: handleDeleteConfirm,
       isLoading: deleteRequestMutation.isLoading,
-      openDeleteConfirm: openDeleteConfirm,
-      setOpenDeleteConfirm: setOpenDeleteConfirm,
+      openDeleteConfirm,
+      setOpenDeleteConfirm,
       handleEdit,
-      openResult: openResult,
-      setOpenResult: setOpenResult,
-      openVerifyConfirm: openVerifyConfirm,
-      setOpenVerifyConfirm: setOpenVerifyConfirm,
-      handleVerifyConfirm: handleVerifyConfirm,
+      openResult,
+      setOpenResult,
+      clickedRequest,
+      setClickedRequest,
+      openVerifyConfirm,
+      setOpenVerifyConfirm,
+      handleVerifyConfirm,
       verifyLoading: verifyRequestMutation.isLoading,
     });
 
@@ -150,5 +154,5 @@ export const useActions = ({ status }: { status?: string }) => {
     return body;
   });
 
-  return { headers, dataBody, requests, isLoading: isLoading || enterprise.isLoading };
+  return { headers, dataBody, requests };
 };
