@@ -7,7 +7,8 @@
     --background: 0 0% 100%; /* #ffffff */
     --foreground: 200 4% 15%; /* #242627 */
 
-    --background-light: 194 100% 42% / 0.1; /* rgba(0, 162, 212, 0.10) */
+    /* --background-light: 194 100% 42% / 0.1; /* rgba(0, 162, 212, 0.10) */
+    --background-light: 0 0% 100%;
     --background-grey: 0 0% 95% / 0.56; /**/
 
     --muted: 0, 0%, 96%, 0.56; /* rgba(245, 245, 245, 0.56) */
@@ -24,7 +25,8 @@
 
     --label: 195 3% 31%; /* #4E5152 */
 
-    --primary: 194 100% 42%; /**/
+    /* --primary: 194 100% 42%;  */
+    --primary: 200 4% 15%; /**/
     --primary-foreground: 0 0% 100%; /**/
 
     --secondary: 194 100% 42%; /**/

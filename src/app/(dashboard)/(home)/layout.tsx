@@ -9,20 +9,14 @@ import { allStatus } from "./constants";
 import AddStaff from "@/components/features/dialog/addStaff";
 import imageLoading from "@/assets/images/imagePlaceholder.png";
 import TheInput from "./input";
-import { redirect } from "next/navigation";
-import { setColor } from "@/lib/globalFunctions";
 import { useSession } from "next-auth/react";
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const { data, status } = useSession();
+  const { data } = useSession();
 
   let userRole = data?.user.role;
 
   let enterpriseInfo = data?.enterprise;
-
-  setColor(enterpriseInfo?.color || "194 100% 42%");
-
-  if (status === "unauthenticated") redirect("/auth/login");
 
   return (
     <main className="flex flex-col px-6 pb-8">

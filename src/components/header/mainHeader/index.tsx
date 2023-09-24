@@ -16,7 +16,7 @@ const MainHeader = () => {
 
   let enterpriseInfo = data?.enterprise;
 
-  setColor(enterpriseInfo?.color || "194 100% 42%");
+  setColor(enterpriseInfo?.color);
 
   return (
     <div className="border-b sticky top-0 bg-white z-10">
