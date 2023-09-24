@@ -1,6 +1,4 @@
-import CredentialsProvider from "next-auth/providers/credentials";
-import NextAuth, { AuthOptions, Awaitable, User } from "next-auth";
-import { Client } from "@/lib/axios";
+import NextAuth from "next-auth";
 import { authOptions } from "./authOptions";
 
 const handler = NextAuth(authOptions);

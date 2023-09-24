@@ -42,9 +42,6 @@ export const AuthLayout = ({ children }: authLayoutProps) => {
     }
   }, []);
 
-  if (session.status === "loading") return <></>;
-  if (session.status === "authenticated") redirect("/");
-
   return (
     <div className="min-h-screen w-full flex items-center">
       <div className="flex flex-1 w-2/3 justify-center items-center ">
