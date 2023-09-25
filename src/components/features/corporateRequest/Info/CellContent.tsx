@@ -19,11 +19,11 @@ interface propsType {
   setOpenDeleteConfirm: (arg: boolean) => void;
   isLoading: boolean;
   handleEdit: (arg: any) => void;
-  handleConfirm: (arg: any) => void;
+  handleDeleteRequest: (arg: any) => void;
   propStatus: string | undefined;
   openVerifyConfirm: boolean;
   setOpenVerifyConfirm: (arg: boolean) => void;
-  handleVerifyConfirm: (arg: boolean) => void;
+  handleVerifyRequest: (arg: boolean) => void;
   verifyLoading: boolean;
   userRole: string | undefined;
 }
@@ -39,20 +39,28 @@ export const ActionCellContent = ({
   setOpenDeleteConfirm,
   handleEdit,
   isLoading,
-  handleConfirm,
+  handleDeleteRequest,
   openVerifyConfirm,
   setOpenVerifyConfirm,
-  handleVerifyConfirm,
+  handleVerifyRequest,
   verifyLoading,
   userRole,
 }: propsType) => {
   const status = request?.status?.toLowerCase();
 
-  const handleClickedRequest = () => {
-    {
-      setClickedRequest(request);
-      setOpenResult(true);
-    }
+  const handleSeeResult = () => {
+    setClickedRequest(request);
+    setOpenResult(true);
+  };
+
+  const handleVerifyConfirm = () => {
+    setClickedRequest(request);
+    setOpenVerifyConfirm(true);
+  };
+
+  const handleDeleteRequestConfirm = () => {
+    setClickedRequest(request);
+    setOpenDeleteConfirm(true);
   };
 
   if (status === "unverified") {
@@ -61,7 +69,7 @@ export const ActionCellContent = ({
         <Button
           variant="ghost2"
           size="icon"
-          onClick={() => setOpenVerifyConfirm(true)}
+          onClick={handleVerifyConfirm}
           className="text-[#DE4A09] underline hover:text-[#de4909cf]"
         >
           Approve
@@ -72,7 +80,7 @@ export const ActionCellContent = ({
           title="Confirm Verify"
           description={`Business name is "${request?.name}" and Registration Number is "${request?.registrationNumber}"`}
           actionText="Verify"
-          action={() => handleVerifyConfirm(request)}
+          action={() => handleVerifyRequest(clickedRequest)}
           loading={verifyLoading}
         />
       </div>
@@ -86,7 +94,7 @@ export const ActionCellContent = ({
             src={DeleteIcon}
             alt="delete"
             className="w-4 h-4 cursor-pointer"
-            onClick={() => setOpenDeleteConfirm(true)}
+            onClick={handleDeleteRequestConfirm}
           />
         </Button>
         <ConfirmAction
@@ -95,7 +103,7 @@ export const ActionCellContent = ({
           title="Delete Request"
           description={`Deleting will remove all the information from database. This cannot be undone."`}
           actionText="Delete"
-          action={() => handleConfirm(request)}
+          action={() => handleDeleteRequest(clickedRequest)}
           loading={isLoading}
         />
       </div>
@@ -115,7 +123,7 @@ export const ActionCellContent = ({
           variant="ghost2"
           size="icon"
           className="underline whitespace-nowrap text-[#de4909]  hover:text-[#de4909cf]"
-          onClick={handleClickedRequest}
+          onClick={handleSeeResult}
         >
           See Result
         </Button>

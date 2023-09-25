@@ -3,11 +3,12 @@ import { EmptyListImage } from "@/assets/icons";
 import { cn } from "@/lib/utils";
 
 interface EmptyList {
+  title?: string;
   description?: string;
   small?: boolean;
 }
 
-export const EmptyList = ({ description, small }: EmptyList) => {
+export const EmptyList = ({ title, description, small }: EmptyList) => {
   return (
     <div
       className={cn(
@@ -34,7 +35,7 @@ export const EmptyList = ({ description, small }: EmptyList) => {
             "text-sm leading-4": small,
           })}
         >
-          No list
+          {title || "No list"}
         </h6>
         <p
           className={cn("text-lg leading-6", {

@@ -84,12 +84,12 @@ export const useActions = ({
   }, [searchValue]);
 
   // Delete request
-  const handleDeleteConfirm = (request: any) => {
+  const handleDeleteRequest = (request: any) => {
     deleteRequestMutation.mutate(request.id);
   };
 
   // Verify request
-  const handleVerifyConfirm = (request: any) => {
+  const handleVerifyRequest = (request: any) => {
     verifyRequestMutation.mutate(request.id);
   };
 
@@ -114,7 +114,7 @@ export const useActions = ({
     const Action = ActionCellContent({
       request,
       propStatus: status,
-      handleConfirm: handleDeleteConfirm,
+      handleDeleteRequest,
       isLoading: deleteRequestMutation.isLoading,
       openDeleteConfirm,
       setOpenDeleteConfirm,
@@ -125,7 +125,7 @@ export const useActions = ({
       setClickedRequest,
       openVerifyConfirm,
       setOpenVerifyConfirm,
-      handleVerifyConfirm,
+      handleVerifyRequest,
       verifyLoading: verifyRequestMutation.isLoading,
       userRole,
     });
