@@ -73,6 +73,7 @@ export const getRegNumberInfo = (regNo: string) => {
     const firstTwo = regNo.slice(0, 2);
     const firstThree = regNo.slice(0, 3);
     const firstFour = regNo.slice(0, 4);
+    const firstFive = regNo.slice(0, 5);
 
     if (firstTwo === "rc") {
       type = "RC";
@@ -102,7 +103,7 @@ export const getRegNumberInfo = (regNo: string) => {
       type = "NPO";
       number = regNo.slice(3);
       amount = 10000;
-    } else if (firstFour === "co-op") {
+    } else if (firstFive === "co-op") {
       type = "Co-op";
       number = regNo.slice(4);
       amount = 10000;

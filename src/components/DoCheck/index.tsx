@@ -8,6 +8,7 @@ const DoCheck = ({
   isLoading,
   isEmpty,
   emptySmall = true,
+  emptyTitle,
   children,
   className,
 }: {
@@ -16,6 +17,7 @@ const DoCheck = ({
   emptySmall?: boolean;
   children: ReactNode;
   className?: string;
+  emptyTitle?: string;
 }) => {
   //
   if (isLoading) return <TableSkeleton />;
@@ -24,7 +26,7 @@ const DoCheck = ({
   if (isEmpty)
     return (
       <div className="flex justify-center items-center ">
-        <EmptyList small={emptySmall ? true : false} />
+        <EmptyList small={emptySmall ? true : false} title={emptyTitle} />
       </div>
     );
 

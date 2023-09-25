@@ -56,12 +56,14 @@ const StatusReport = ({ clickedRequest, open, setOpenResult }: propType) => {
                     Uploaded at: {format(date, "h:mm a")} - {format(date, "dd MMM, yyyy")}
                   </p>
                 )}
-                <div className="space-y-4 mt-8">
-                  <p className="w-max">Note:</p>
-                  <p className="p-4 border border-border rounded-sm text-foreground-label">
-                    {el?.description}
-                  </p>
-                </div>
+                {el?.description && (
+                  <div className="space-y-4 mt-8">
+                    <p className="w-max">Note:</p>
+                    <p className="p-4 border border-border rounded-sm text-foreground-label">
+                      {el?.description}
+                    </p>
+                  </div>
+                )}
               </div>
             );
           })}
