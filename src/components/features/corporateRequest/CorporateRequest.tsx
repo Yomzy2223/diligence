@@ -102,7 +102,7 @@ const CorporateRequest = ({ className }: { className?: string }) => {
               label="Business/Company Name"
               placeholder="Enter Business/Company Name"
               tipText="Must be registered with CAC"
-              defaultValue={regNo}
+              defaultValue={regName}
             />
 
             <Separator className="!mt-0 " />

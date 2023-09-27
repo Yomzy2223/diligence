@@ -81,7 +81,11 @@ const EnterpriseInfo = () => {
               />
             )}
           </div>
-          <DoCheck isLoading={branch.isLoading} isEmpty={branchBody?.length === 0}>
+          <DoCheck
+            isLoading={branch.isLoading}
+            isEmpty={branchBody?.length === 0}
+            emptyTitle="No Staff"
+          >
             <DiligenceTable header={branchHeaders} body={branchBody} />
           </DoCheck>
         </div>

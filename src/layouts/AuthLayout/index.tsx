@@ -10,30 +10,36 @@ import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import "swiper/css/bundle";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 interface authLayoutProps {
   children: ReactNode;
 }
 
 export const AuthLayout = ({ children }: authLayoutProps) => {
+  const session = useSession();
+
   useEffect(() => {
-    const swiper = new Swiper(".swiper", {
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-      modules: [Navigation, Pagination, Autoplay],
-      autoplay: {
-        delay: 5000,
-      },
-      scrollbar: false,
-      loop: true,
-      grabCursor: true,
-      mousewheel: {
-        invert: true,
-      },
-      observer: true,
-      speed: 500,
-    });
+    if (session.status === "unauthenticated") {
+      const swiper = new Swiper(".swiper", {
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        modules: [Navigation, Pagination, Autoplay],
+        autoplay: {
+          delay: 5000,
+        },
+        scrollbar: false,
+        loop: true,
+        grabCursor: true,
+        mousewheel: {
+          invert: true,
+        },
+        observer: true,
+        speed: 500,
+      });
+    }
   }, []);
 
   return (

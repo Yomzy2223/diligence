@@ -17,12 +17,21 @@ export const getAllYearsUpToCurrentYear = () => {
 };
 
 export const handleDownloadFile = (cloudinaryLink: string, fileName: string) => {
+  // Convert http to https if necessary
+  const secureLink = cloudinaryLink.startsWith("http://")
+    ? "https://" + cloudinaryLink.slice(7)
+    : cloudinaryLink;
+
   const result = axios
-    .get(cloudinaryLink, {
+    .get(secureLink, {
       responseType: "blob",
     })
     .then((res) => {
       saveAs(res.data, fileName);
+    })
+    .catch((err) => {
+      console.log(err.message);
+      throw new Error(err);
     });
 
   return result;
@@ -42,28 +51,24 @@ export const getEnterpriseInfo = () => {
 };
 
 // Set brand color
-export const setColor = (color: string) => {
+export const setColor = (color?: string) => {
+  if (!color) return;
   if (typeof window !== "undefined") {
     const primary = tinycolor(color);
     let bgLight = primary.setAlpha(0.1).toHsl();
 
     const root = document.documentElement;
 
-    // const enterpriseColor = { primary: "", bgLight: "" };
-
     if (primary) {
       const { h, s, l } = primary.toHsl();
       const parsedPrimary = h + " " + s * 100 + "%" + " " + l * 100 + "%";
       root.style.setProperty("--primary", parsedPrimary);
-      // enterpriseColor.primary = parsedPrimary;
     }
     if (bgLight) {
       const { h, s, l, a } = bgLight;
       const parsedBgLight = h + " " + s * 100 + "%" + " " + l * 100 + "%" + " / " + a;
       root.style.setProperty("--background-light", parsedBgLight);
-      // enterpriseColor.bgLight = parsedBgLight;
     }
-    // localStorage.setItem("enterpriseColor", JSON.stringify(enterpriseColor));
   }
 };
 
@@ -77,6 +82,7 @@ export const getRegNumberInfo = (regNo: string) => {
     const firstTwo = regNo.slice(0, 2);
     const firstThree = regNo.slice(0, 3);
     const firstFour = regNo.slice(0, 4);
+    const firstFive = regNo.slice(0, 5);
 
     if (firstTwo === "rc") {
       type = "RC";
@@ -106,7 +112,7 @@ export const getRegNumberInfo = (regNo: string) => {
       type = "NPO";
       number = regNo.slice(3);
       amount = 10000;
-    } else if (firstFour === "co-op") {
+    } else if (firstFive === "co-op") {
       type = "Co-op";
       number = regNo.slice(4);
       amount = 10000;
