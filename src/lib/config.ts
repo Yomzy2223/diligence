@@ -1,5 +1,6 @@
 import axios from "axios";
-import { getAllYearsUpToCurrentYear, getUserInfo } from "./globalFunctions";
+import { getAllYearsUpToCurrentYear } from "./globalFunctions";
+import { getSession } from "next-auth/react";
 
 export const allMonths = [
   {
@@ -61,8 +62,23 @@ export const client = axios.create({
       : "https://h2rwx2fbhm.us-east-1.awsapprunner.com/",
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${getUserInfo()?.data?.token}`,
   },
 });
+
+client.interceptors.request.use(
+  async (config) => {
+    const session = await getSession();
+    if (session) {
+      config.headers = {
+        ...config.headers,
+        Authorization: `Bearer ${session.token}`,
+      };
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export const itemsPerPage = 5;

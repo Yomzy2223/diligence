@@ -1,5 +1,4 @@
-import { itemsPerPage } from "@/lib/config";
-import { getUserInfo } from "@/lib/globalFunctions";
+import { useSession } from "next-auth/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 
@@ -8,7 +7,8 @@ export const useGlobalFucntions = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const userInfo = getUserInfo()?.data;
+  const { data } = useSession();
+  const userInfo = data?.user;
 
   // Get a new searchParams string by merging the current
   // searchParams with a provided key/value pair
@@ -26,30 +26,14 @@ export const useGlobalFucntions = () => {
     router.push(pathname + "?" + createQueryString(name, value));
   };
 
-  const getUserInformation = () => {
-    let userInfo;
-    let parsedUserInfo;
-
-    if (typeof window !== "undefined") {
-      userInfo = localStorage.getItem("userInfo");
-
-      if (userInfo) {
-        parsedUserInfo = JSON.parse(userInfo);
-      }
-    }
-
-    return parsedUserInfo || {};
-  };
-
   const managerId =
     userInfo?.role?.toLowerCase() === "manager"
-      ? userInfo?.managerId
-      : searchParams.get("managerId");
+      ? userInfo?.managerId || ""
+      : searchParams.get("managerId") || "";
 
   return {
     createQueryString,
     setQuery,
     managerId,
-    getUserInformation,
   };
 };

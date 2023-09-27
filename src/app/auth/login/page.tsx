@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
@@ -8,12 +8,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import InputWithLabel from "@/components/input/inputWithLabel";
 import Link from "next/link";
 import { loginSchema, loginType } from "./constants";
-import { useAuth } from "@/hooks/useAuth";
 import { Oval } from "react-loading-icons";
+import { signIn } from "next-auth/react";
+import { useResponse } from "@/hooks/useResponse";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
-  const { signInMutation } = useAuth();
-  const { mutate, isLoading } = signInMutation;
+  const [loading, setLoading] = useState(false);
+  const { handleError, handleSuccess } = useResponse();
+  const router = useRouter();
 
   // Form definition
   const form = useForm<loginType>({
@@ -26,14 +29,31 @@ const Login = () => {
 
   // Submit handler
   const onSubmit = async (values: loginType) => {
-    mutate(values);
+    // mutate(values);
+    setLoading(true);
+    const response = await signIn("signin", {
+      redirect: false,
+      email: values.email,
+      password: values.password,
+    });
+
+    if (response?.error) {
+      setLoading(false);
+      handleError({ title: "Login failed", error: response.error });
+    }
+
+    if (response?.ok && !response.error) {
+      setLoading(false);
+      handleSuccess({ data: response, title: "Login successful" });
+      router.push("/");
+    }
   };
 
   return (
     <Form {...form}>
       <h1 className="mb-6 text-2xl">Login</h1>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-16  ">
-        <div className="flex flex-col gap-6 space-y-8 py-2 bg-white rounded-lg ">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-16 ">
+        <div className="flex flex-col gap-6 py-2 space-y-8 bg-white rounded-lg ">
           <InputWithLabel
             form={form}
             name="email"
@@ -56,8 +76,8 @@ const Login = () => {
           />
         </div>
         <div className="flex flex-col items-center gap-8">
-          <Button type="submit" size="full" variant="secondary" disabled={isLoading}>
-            {isLoading ? <Oval stroke="#fff" className="w-5 h-5" /> : "Login"}
+          <Button type="submit" size="full" variant="secondary" disabled={loading}>
+            {loading ? <Oval stroke="#fff" className="w-5 h-5" /> : "Login"}
           </Button>
           <p>
             Don&#39;t have an account?{" "}

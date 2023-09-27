@@ -41,6 +41,7 @@ export const useEnterprise = () => {
     useQuery({
       queryKey: ["Enterprise", enterpriseId],
       queryFn: ({ queryKey }) => viewEnterpriseById(queryKey[1]),
+      enabled: !!enterpriseId,
     });
 
   const useViewEnterpriseByAdminEmailQuery = (adminEmail: string) =>
@@ -193,6 +194,7 @@ export const useEnterpriseStaff = () => {
     useQuery({
       queryKey: ["Staff With Requests", managerId],
       queryFn: ({ queryKey }) => viewStaffWithRequests(queryKey[1]),
+      enabled: managerId ? true : false,
     });
 
   return {

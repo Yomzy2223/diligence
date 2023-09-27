@@ -11,10 +11,18 @@ import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
 import { ToastAction } from "@/components/ui/toast";
 import { Oval } from "react-loading-icons";
+import { useState } from "react";
+import { useResponse } from "@/hooks/useResponse";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const SignUp = () => {
-  const { signUpMutation } = useAuth();
-  const { mutate, isLoading } = signUpMutation;
+  // const { signUpMutation } = useAuth();
+  // const { mutate, isLoading } = signUpMutation;
+
+  const [isLoading, setLoading] = useState(false);
+  const { handleError, handleSuccess } = useResponse();
+  const router = useRouter();
 
   // Form definition
   const form = useForm<signUpType>({
@@ -28,15 +36,34 @@ const SignUp = () => {
   });
 
   // Submit handler
-  function onSubmit(values: signUpType) {
-    mutate(values);
+  async function onSubmit(values: signUpType) {
+    // mutate(values);
+    setLoading(true);
+    const response = await signIn("signup", {
+      redirect: false,
+      email: values.email,
+      password: values.password,
+      firstName: values.firstName,
+      lastName: values.lastName,
+    });
+
+    if (response?.error) {
+      setLoading(false);
+      handleError({ title: "Sign up failed", error: response.error });
+    }
+
+    if (response?.ok && !response.error) {
+      setLoading(false);
+      handleSuccess({ data: response, title: "Sign up successful" });
+      router.push("/");
+    }
   }
 
   return (
     <Form {...form}>
       <h1 className="mb-6 text-2xl">Create account</h1>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-16  ">
-        <div className="flex flex-col gap-6 space-y-8 py-2 bg-white rounded-lg ">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-16 ">
+        <div className="flex flex-col gap-6 py-2 space-y-8 bg-white rounded-lg ">
           <InputWithLabel
             form={form}
             name="firstName"

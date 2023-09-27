@@ -4,27 +4,25 @@ import React from "react";
 import { BankSettingInfo } from "@/components/features/BankSettingInfo";
 import { SettingContext } from "@/components/features/BankSettingInfo/settingContext";
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
 import { useEnterprise } from "@/hooks/useEnterprise";
-import { getUserInfo } from "@/lib/globalFunctions";
 import imageLoading from "@/assets/images/imagePlaceholder.png";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function Settings() {
-  const router = useRouter();
+  const session = useSession();
 
-  const userToken = getUserInfo()?.data?.token;
-  if (!userToken) router.push("/auth/login");
+  if (session.status === "unauthenticated") redirect("/auth/login");
 
   const { useViewEnterpriseByIdQuery } = useEnterprise();
-  const { data } = useViewEnterpriseByIdQuery(getUserInfo()?.data?.enterpriseId);
+  const { data } = useViewEnterpriseByIdQuery(session.data?.enterprise.id!);
   const enterprise = data?.data?.data;
 
   return (
-    <main className="flex flex-col ml-4 px-6 ">
+    <main className="flex flex-col px-6 ml-4 ">
       <div className="flex items-center gap-4 py-4 ">
         <Image src={enterprise?.logo || imageLoading} width={80} height={80} alt="" />
-        <div className="flex flex-1 justify-between">
+        <div className="flex justify-between flex-1">
           <p className="text-2xl font-normal ">Settings</p>
         </div>
       </div>

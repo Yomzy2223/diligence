@@ -4,11 +4,13 @@ import TableSkeleton from "@/components/DiligenceTable/TableSkeleton";
 import CorporateRequestSkeleton from "@/components/features/corporateRequest/CorporateRequestSkeleton";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getUserInfo } from "@/lib/globalFunctions";
+import { useSession } from "next-auth/react";
 import React from "react";
 
 const Loading = () => {
-  const userRole = getUserInfo()?.data?.role?.toLowerCase();
+  const { data } = useSession();
+
+  const userRole = data?.user.role.toLowerCase();
   const show = userRole === "admin" || userRole === "manager";
 
   return (
