@@ -5,9 +5,8 @@ import { redirect } from "next/navigation";
 import React, { ReactNode } from "react";
 
 const Layout = async ({ children }: { children: ReactNode }) => {
-  // const session = await getServerSession();
-  // console.log(session);
-  // if (session) redirect("/");
+  const session = await getServerSession();
+  if (session) redirect("/");
 
   return <AuthLayout>{children}</AuthLayout>;
 };

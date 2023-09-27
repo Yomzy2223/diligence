@@ -24,7 +24,7 @@ const Sidebar = () => {
   const userRole = session.data?.user.role.toLowerCase();
 
   const handleLogout = async () => {
-    await signOut({ redirect: false });
+    await signOut({ redirect: true });
     router.push("/auth/login");
   };
 
