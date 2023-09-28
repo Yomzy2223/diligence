@@ -7,6 +7,7 @@ import React from "react";
 import { useActions } from "./useActions";
 import { useSession } from "next-auth/react";
 import { DiligenceTable } from "@/components/DiligenceTable";
+import { Button } from "@/components/ui/button";
 
 const CorporateRequestInfo = ({ status }: { status?: string }) => {
   const session = useSession();
@@ -32,10 +33,9 @@ const CorporateRequestInfo = ({ status }: { status?: string }) => {
   if (role === "admin") loading = enterprise.isLoading;
   if (role === "manager") loading = isLoading;
 
-  console.log(dataBody);
   return (
     <DoCheck isLoading={loading} isEmpty={dataBody?.length === 0} emptyTitle="No Request">
-      <DiligenceTable header={headers} body={dataBody} />
+      <DiligenceTable header={headers} body={dataBody} mobileHiddenHeaders={["action"]} />
     </DoCheck>
   );
 };

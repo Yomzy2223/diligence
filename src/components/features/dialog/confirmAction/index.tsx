@@ -55,50 +55,52 @@ const ConfirmAction = ({
   }
 
   return (
-    <Dialog open={open}>
-      {children && <DialogTrigger asChild>{children}</DialogTrigger>}
-      <DialogContent
-        className="sm:max-w-[425px] md:max-w-[570px] p-10 bg-white "
-        cancel={() => setOpen && setOpen(false)}
-      >
-        <DialogHeader className="flex flex-col items-center gap-4 m-auto mb-6 ">
-          {title && <DialogTitle>{title}</DialogTitle>}
-          {description && (
-            <DialogDescription className="text-center">{description}</DialogDescription>
+    <div className="hidden">
+      <Dialog open={open}>
+        {children && <DialogTrigger asChild>{children}</DialogTrigger>}
+        <DialogContent
+          className="sm:max-w-[425px] md:max-w-[570px] p-10 bg-white"
+          cancel={() => setOpen && setOpen(false)}
+        >
+          <DialogHeader className="flex flex-col items-center gap-4 m-auto mb-6 ">
+            {title && <DialogTitle>{title}</DialogTitle>}
+            {description && (
+              <DialogDescription className="text-center">{description}</DialogDescription>
+            )}
+          </DialogHeader>
+          {confirmText ? (
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="flex flex-col gap-10 w-[90%] m-auto "
+              >
+                <InputWithLabel
+                  form={form}
+                  name="confirm"
+                  label={`To confirm this, type "${confirmText}"`}
+                  placeholder={confirmText}
+                  tipText={tipText}
+                  textSize="text-xs"
+                />
+                <ConfirmButton
+                  action={action}
+                  actionText={actionText}
+                  loading={loading}
+                  cancelText={cancelText}
+                />
+              </form>
+            </Form>
+          ) : (
+            <ConfirmButton
+              action={action}
+              actionText={actionText}
+              loading={loading}
+              cancelText={cancelText}
+            />
           )}
-        </DialogHeader>
-        {confirmText ? (
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="flex flex-col gap-10 w-[90%] m-auto "
-            >
-              <InputWithLabel
-                form={form}
-                name="confirm"
-                label={`To confirm this, type "${confirmText}"`}
-                placeholder={confirmText}
-                tipText={tipText}
-                textSize="text-xs"
-              />
-              <ConfirmButton
-                action={action}
-                actionText={actionText}
-                loading={loading}
-                cancelText={cancelText}
-              />
-            </form>
-          </Form>
-        ) : (
-          <ConfirmButton
-            action={action}
-            actionText={actionText}
-            loading={loading}
-            cancelText={cancelText}
-          />
-        )}
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 };
 

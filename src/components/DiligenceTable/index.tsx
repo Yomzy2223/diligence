@@ -13,6 +13,7 @@ import ReactPaginate from "react-paginate";
 import { useSearchParams } from "next/navigation";
 import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 import { itemsPerPage } from "@/lib/config";
+import MobileCard from "./MobileCard";
 
 interface TableProps {
   header: string[];
@@ -20,9 +21,16 @@ interface TableProps {
   rowCursor?: boolean;
   onRowClick?: (cellData?: (string | number)[], rowIndex?: number) => void;
   onCellClick?: (cellData?: string | number, rowIndex?: number, columnIndex?: number) => void;
+  mobileHiddenHeaders?: string[];
 }
 
-export const DiligenceTable = ({ header, body, onRowClick, onCellClick }: TableProps) => {
+export const DiligenceTable = ({
+  header,
+  body,
+  onRowClick,
+  onCellClick,
+  mobileHiddenHeaders,
+}: TableProps) => {
   const handleCellClick = (
     cellData?: string | number,
     rowIndex?: number,
@@ -54,7 +62,7 @@ export const DiligenceTable = ({ header, body, onRowClick, onCellClick }: TableP
 
   return (
     <div className="border border-border">
-      <Table className="min-w-full bg-white border-spacing-0 border-b border-border ">
+      <Table className="min-w-full bg-white border-spacing-0 border-b border-border hidden md:block ">
         <TableHeader className="w-full text-base text-gray-900 bg-gray-100 border-none">
           <TableRow className="w-full">
             {header?.map((text, index) => (
@@ -92,6 +100,12 @@ export const DiligenceTable = ({ header, body, onRowClick, onCellClick }: TableP
           ))}
         </TableBody>
       </Table>
+
+      <MobileCard
+        currentItems={currentItems}
+        headers={header}
+        hiddenHeaders={mobileHiddenHeaders}
+      />
 
       {body?.length > itemsPerPage && (
         <ReactPaginate

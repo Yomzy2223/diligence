@@ -124,3 +124,5 @@ export const getRegNumberInfo = (regNo: string) => {
     amount,
   };
 };
+
+export const normalize = (text: string) => text?.toLowerCase()?.trim();

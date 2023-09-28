@@ -74,6 +74,7 @@ export const ActionCellContent = ({
         >
           Approve
         </Button>
+
         <ConfirmAction
           open={openVerifyConfirm}
           setOpen={setOpenVerifyConfirm}
@@ -86,17 +87,39 @@ export const ActionCellContent = ({
       </div>
     ) : (
       <div className="flex items-center gap-6">
-        <Button variant="ghost2" size="icon" onClick={() => handleEdit(request)}>
-          <Image src={EditIcon} alt="edit" className="w-4 h-4 cursor-pointer" />
-        </Button>
-        <Button variant="ghost2" size="icon">
-          <Image
-            src={DeleteIcon}
-            alt="delete"
-            className="w-4 h-4 cursor-pointer"
+        <div>
+          <Button variant="ghost2" size="icon" onClick={() => handleEdit(request)}>
+            <Image src={EditIcon} alt="edit" className="w-4 h-4 cursor-pointer hidden md:block" />
+          </Button>
+          <Button
+            variant="ghost2"
+            size="link"
+            className="underline text-foreground hover:text-foreground/90 md:hidden"
+            onClick={() => handleEdit(request)}
+          >
+            Edit
+          </Button>
+        </div>
+
+        <div>
+          <Button variant="ghost2" size="icon">
+            <Image
+              src={DeleteIcon}
+              alt="delete"
+              className="w-4 h-4 cursor-pointer hidden md:block"
+              onClick={handleDeleteRequestConfirm}
+            />
+          </Button>
+          <Button
+            variant="ghost2"
+            size="link"
+            className="underline text-destructive hover:text-destructive/90 md:hidden"
             onClick={handleDeleteRequestConfirm}
-          />
-        </Button>
+          >
+            Delete
+          </Button>
+        </div>
+
         <ConfirmAction
           open={openDeleteConfirm}
           setOpen={setOpenDeleteConfirm}
