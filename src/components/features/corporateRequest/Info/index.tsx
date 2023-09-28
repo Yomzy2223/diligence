@@ -7,7 +7,6 @@ import React from "react";
 import { useActions } from "./useActions";
 import { useSession } from "next-auth/react";
 import { DiligenceTable } from "@/components/DiligenceTable";
-import { Button } from "@/components/ui/button";
 
 const CorporateRequestInfo = ({ status }: { status?: string }) => {
   const session = useSession();
