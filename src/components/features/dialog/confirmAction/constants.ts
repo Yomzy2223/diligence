@@ -13,7 +13,7 @@ export interface contentPropType extends actionPropType {
   tipText?: string;
 }
 
-export interface propType extends contentPropType {
+export interface propType extends Omit<contentPropType, "matches"> {
   title?: string;
   description?: string;
   children?: string | ReactNode;

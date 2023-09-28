@@ -6,11 +6,11 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 interface propsType {
-  text: string;
-  path: string;
+  nav: { text: string; path: string }[];
+  defaultURL?: string;
 }
 
-const ActiveNav2 = ({ nav, defaultURL }: { nav: propsType[]; defaultURL?: string }) => {
+const ActiveNav2 = ({ nav, defaultURL }: propsType) => {
   const pathname = usePathname();
 
   return (
@@ -22,7 +22,7 @@ const ActiveNav2 = ({ nav, defaultURL }: { nav: propsType[]; defaultURL?: string
           <Link key={i} href={el.path}>
             <span
               className={cn(
-                "bg-transparent text-base p-3 rounded-lg border border-border",
+                "bg-transparent text-sm p-3 rounded-lg border border-border md:text-base",
                 isActive && "bg-white"
               )}
             >

@@ -10,6 +10,7 @@ import AddStaff from "@/components/features/dialog/addStaff";
 import imageLoading from "@/assets/images/imagePlaceholder.png";
 import TheInput from "./input";
 import { useSession } from "next-auth/react";
+import ActiveNav from "@/components/activeNav";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const { data } = useSession();
@@ -17,6 +18,8 @@ const Layout = ({ children }: { children: ReactNode }) => {
   let userRole = data?.user.role;
 
   let enterpriseInfo = data?.enterprise;
+
+  const matches = matchMedia("(max-width: 767px)").matches;
 
   return (
     <main className="flex flex-col px-6 pb-8">
@@ -31,8 +34,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <CorporateRequest className="my-8" />
 
       <div className="flex items-center justify-between gap-8 mb-4">
-        <ActiveNav2 nav={allStatus} defaultURL="/" />
-        <TheInput />
+        {matches ? (
+          <ActiveNav nav={allStatus} defaultURL="/" />
+        ) : (
+          <ActiveNav2 nav={allStatus} defaultURL="/" />
+        )}
+        {!matches && <TheInput />}
       </div>
       {children}
     </main>

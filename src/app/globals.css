@@ -91,6 +91,12 @@
   }
 }
 
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .corporate-background {
   background-image: url("../assets/images/corp-search-background.svg");
 }
