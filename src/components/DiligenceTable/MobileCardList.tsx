@@ -13,7 +13,7 @@ interface propType {
   hiddenHeaders?: string[];
 }
 
-const MobileCard = ({ currentItems, headers, hiddenHeaders }: propType) => {
+const MobileCardList = ({ currentItems, headers, hiddenHeaders }: propType) => {
   // Remove hidden headers
   if (hiddenHeaders) {
     headers = headers.map((header) =>
@@ -28,9 +28,14 @@ const MobileCard = ({ currentItems, headers, hiddenHeaders }: propType) => {
   });
 
   return (
-    <div className="flex flex-col gap-4 p-4 md:hidden rounded">
+    <div className="flex flex-col gap-4 p-4 md:hidden rounded overflow-auto">
       {data?.map((item, i) => (
-        <Accordion key={i} type="single" collapsible className="border-border border rounded p-4">
+        <Accordion
+          key={i}
+          type="single"
+          collapsible
+          className="border-border border rounded p-4 w-full min-w-max"
+        >
           <AccordionItem value="item-1" className="border-b-0">
             <AccordionTrigger className="hover:no-underline items-start py-0 text-sm">
               <div className="flex flex-col items-start gap-4">
@@ -63,4 +68,4 @@ const MobileCard = ({ currentItems, headers, hiddenHeaders }: propType) => {
   );
 };
 
-export default MobileCard;
+export default MobileCardList;

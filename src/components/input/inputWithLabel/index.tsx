@@ -11,9 +11,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { Info } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { BsInfoCircle } from "react-icons/bs";
 import { cmFieldPropType } from "./constants";
 
 const InputWithLabel = ({
@@ -36,10 +36,7 @@ const InputWithLabel = ({
   const fieldState = getFieldState(name, formState);
 
   const Tooltip = (
-    <CMToolTip
-      content={tipText}
-      trigger={<BsInfoCircle className={`relative text-cm-black-400 w-3 h-auto `} />}
-    />
+    <CMToolTip content={tipText} trigger={<Info color={"hsl(var(--label))"} width={16} />} />
   );
 
   const toggleType = () => setTypeM(typeM === "password" ? "text" : "password");

@@ -88,14 +88,16 @@ const CorporateRequest = ({ className }: { className?: string }) => {
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center corporate-background bg-no-repeat bg-cover w-full rounded-lg py-6 ",
+        "flex flex-col items-center justify-center corporate-background bg-no-repeat bg-cover w-full rounded-lg py-5 md:py-6",
         className
       )}
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 w-4/6 ">
-          <p className="text-white font-normal text-3xl w-max pb-5 ">Request Corporate Search</p>
-          <div className="flex flex-col py-2 bg-white rounded-lg relative ">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col w-5/6 md:w-4/6 ">
+          <p className="text-white font-normal text-xl w-max max-w-full pb-5 md:text-3xl md:pb-7">
+            Request corporate search
+          </p>
+          <div className="flex flex-col py-2 bg-white rounded-lg relative mb-4 !z-0">
             <CMField
               form={form}
               name="name"
@@ -119,19 +121,19 @@ const CorporateRequest = ({ className }: { className?: string }) => {
             />
           </div>
 
-          <div className="self-end space-x-4">
+          <div className="flex flex-col-reverse gap-4 self-end w-full md:w-max md:flex-row">
             {editMode && (
               <Button
                 type="button"
                 variant="outline"
-                className="bg-background"
+                className="bg-background w-full md:w-max"
                 loading={isLoading}
                 onClick={cancelEdit}
               >
                 Cancel
               </Button>
             )}
-            <Button type="submit" loading={isLoading}>
+            <Button type="submit" loading={isLoading} className="w-full md:w-max">
               {editMode ? "Update" : "Submit"}
             </Button>
           </div>

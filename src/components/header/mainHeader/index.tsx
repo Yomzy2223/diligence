@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { NotificationCard } from "@/components/features/Notifications/notifications";
+import React, { useState } from "react";
 import Settings from "@/stories/assets/Icons/Settings.svg";
 import Logo from "@/stories/assets/Logo.png";
 import { UserNav } from "@/components/features/user-nav";
@@ -10,8 +9,13 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { setColor } from "@/lib/globalFunctions";
 import { useSession } from "next-auth/react";
+import { Menu } from "lucide-react";
+import imageLoading from "@/assets/images/imagePlaceholder.png";
+import Sidebar from "@/components/features/sidebar";
 
 const MainHeader = () => {
+  const [openMobileSidebar, setopenMobileSidebar] = useState(false);
+
   const { data } = useSession();
 
   let enterpriseInfo = data?.enterprise;
@@ -20,7 +24,8 @@ const MainHeader = () => {
 
   return (
     <div className="border-b sticky top-0 bg-white z-10">
-      <div className="flex items-center px-6 py-2">
+      {/* Desktop header */}
+      <div className="hidden items-center px-6 py-2 md:flex">
         <div className=" flex flex-col justify-center p-23">
           <Image src={Logo} alt={"sidebrief logo"} className="h-6 w-auto" />
         </div>
@@ -31,9 +36,21 @@ const MainHeader = () => {
           >
             <Image src={Settings} alt={"Settings icon"} className="block w-8 h-8 " />
           </Link>
-          {/* <NotificationCard /> */}
           <UserNav />
         </div>
+      </div>
+
+      {/* Mobile header */}
+      <div className="flex items-center justify-between gap-6 md:hidden px-5">
+        <Image src={enterpriseInfo?.logo || imageLoading} alt="" width={60} height={60} />
+        {!openMobileSidebar && (
+          <Menu className="w-6 h-6" onClick={() => setopenMobileSidebar(true)} />
+        )}
+        <Sidebar
+          mobile={true}
+          openMobile={openMobileSidebar}
+          setOpenMobile={setopenMobileSidebar}
+        />
       </div>
     </div>
   );

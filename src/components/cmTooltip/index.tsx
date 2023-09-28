@@ -12,7 +12,9 @@ const CMToolTip = ({
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger type="button">{trigger}</TooltipTrigger>
-        <TooltipContent className="text-[12px] px-1 py-0 bg-slate-50">{content}</TooltipContent>
+        <TooltipContent className="text-xs text-label text-center px-1 py-1 bg-slate-50 max-w-[200px]">
+          {content}
+        </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );

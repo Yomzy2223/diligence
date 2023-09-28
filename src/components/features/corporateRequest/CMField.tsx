@@ -3,9 +3,9 @@ import CMToolTip from "@/components/cmTooltip";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRequestStore } from "@/store/requestStore";
+import { Info } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { BsInfoCircle } from "react-icons/bs";
 import { propType, registrationTypes } from "./constants";
 
 const CMField = ({
@@ -65,7 +65,7 @@ const CMField = ({
           {value && (
             <div className="flex justify-between items-center">
               <div
-                className={`flex justify-start align-middle gap-2 text-xs ${classNames?.formItemT} `}
+                className={`flex justify-start items-center gap-2 text-xs ${classNames?.formItemT} `}
               >
                 <FormLabel
                   className={`text-xs leading-3 font-normal text-foreground-label ${classNames?.formLabel} `}
@@ -120,8 +120,5 @@ const CMField = ({
 export default CMField;
 
 const Tooltip = ({ tipText }: { tipText: string }) => (
-  <CMToolTip
-    content={<p className={`text-xs text-muted-foreground `}>{tipText}</p>}
-    trigger={<BsInfoCircle className={`relative text-muted-foreground`} />}
-  />
+  <CMToolTip content={tipText} trigger={<Info color={"hsl(var(--label))"} width={16} />} />
 );

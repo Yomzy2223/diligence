@@ -13,7 +13,7 @@ import ReactPaginate from "react-paginate";
 import { useSearchParams } from "next/navigation";
 import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 import { itemsPerPage } from "@/lib/config";
-import MobileCard from "./MobileCard";
+import MobileCardList from "./MobileCardList";
 
 interface TableProps {
   header: string[];
@@ -61,7 +61,7 @@ export const DiligenceTable = ({
   };
 
   return (
-    <div className="border border-border">
+    <div className="border border-border overflow-auto">
       <Table className="min-w-full bg-white border-spacing-0 border-b border-border hidden md:block ">
         <TableHeader className="w-full text-base text-gray-900 bg-gray-100 border-none">
           <TableRow className="w-full">
@@ -101,7 +101,7 @@ export const DiligenceTable = ({
         </TableBody>
       </Table>
 
-      <MobileCard
+      <MobileCardList
         currentItems={currentItems}
         headers={header}
         hiddenHeaders={mobileHiddenHeaders}

@@ -19,7 +19,7 @@ import { useEnterpriseStaff } from "@/hooks/useEnterprise";
 import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 import { useSession } from "next-auth/react";
 
-const AddStaff = ({ children }: propType) => {
+const AddStaff = ({ children, className }: propType) => {
   const [open, setOpen] = useState(false);
   const [staffToDelete, setStaffToDelete] = useState({});
   const { managerId } = useGlobalFucntions();
@@ -62,7 +62,9 @@ const AddStaff = ({ children }: propType) => {
 
   return (
     <Dialog open={open}>
-      <Button onClick={() => setOpen(true)}>{children}</Button>
+      <Button onClick={() => setOpen(true)} className={className}>
+        {children}
+      </Button>
       <DialogContent
         className="sm:max-w-[425px] md:max-w-[570px] py-14 bg-white gap-0"
         cancel={() => setOpen(false)}

@@ -14,7 +14,7 @@ const ActiveNav = ({ nav, defaultURL }: propsType) => {
   const pathname = usePathname();
 
   return (
-    <div className="flex gap-2 w-max h-max py-[10px] max-w-full overflow-auto no-scrollbar">
+    <div className="flex gap-2 w-max h-max py-[10px] max-w-full overflow-auto no-scrollbar bg-background">
       {nav.map((el, i) => {
         const isActive = pathname === el.path || (i === 0 && pathname === defaultURL);
 

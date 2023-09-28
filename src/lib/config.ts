@@ -1,6 +1,16 @@
 import axios from "axios";
 import { getAllYearsUpToCurrentYear } from "./globalFunctions";
 import { getSession } from "next-auth/react";
+import HomeIcon from "@/assets/icons/homeIcon";
+import DetailsIcon from "@/assets/icons/detailsIcon";
+import SettingsIcon from "@/assets/icons/settingsIcon";
+
+//
+export const sidebarItems = [
+  { href: "/", text: "Home", icon: HomeIcon },
+  { href: "/details", text: "Details", icon: DetailsIcon },
+  { href: "/settings", text: "Settings", icon: SettingsIcon },
+];
 
 export const allMonths = [
   {

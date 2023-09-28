@@ -11,5 +11,6 @@ export type staffType = z.infer<typeof staffSchema>;
 
 export interface propType {
   children?: string | undefined;
+  className?: string;
   // size?: string;
 }
