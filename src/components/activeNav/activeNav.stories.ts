@@ -12,17 +12,11 @@ type Story = StoryObj<typeof meta>;
 
 export const ActiveTabComponent: Story = {
   args: {
-    title: "draft",
-    path: "auth/login",
-
-    length: 3,
-  },
-};
-export const ActiveTabStatusComponent: Story = {
-  args: {
-    title: "Pending",
-    status: true,
-    path: "auth/login",
-    length: 3,
+    nav: [
+      { text: "Nav1", path: "/" },
+      { text: "Nav2", path: "/nav2" },
+      { text: "Nav3", path: "/nav3" },
+    ],
+    defaultURL: "/",
   },
 };

@@ -17,12 +17,10 @@ export const Admin: Story = {
     image: Gtbank.src,
     name: "Guaranty Trust Bank",
     address: "No, 51 West side street",
-    adminName: "Mr. Oluwole",
     adminEmail: "Oluwole@gmail.com",
-    brandColor: "#DE4A09",
   },
 };
 
 export const BranchAdmin: Story = {
-  args: { ...Admin.args, branch: true },
+  args: { ...Admin.args },
 };
