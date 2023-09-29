@@ -14,7 +14,7 @@ const ActiveNav2 = ({ nav, defaultURL }: propsType) => {
   const pathname = usePathname();
 
   return (
-    <div className="flex gap-2 border border-border w-max h-max px-[1px] py-[10px] rounded-lg bg-background-grey">
+    <div className="flex gap-2 border border-border w-max h-max px-[1px] py-[10px] rounded-lg bg-background-grey overflow-auto">
       {nav.map((el, i) => {
         const isActive = pathname === el.path || (i === 0 && pathname === defaultURL);
 
@@ -22,7 +22,7 @@ const ActiveNav2 = ({ nav, defaultURL }: propsType) => {
           <Link key={i} href={el.path}>
             <span
               className={cn(
-                "bg-transparent text-sm p-3 rounded-lg border border-border md:text-base",
+                "bg-transparent text-sm p-3 rounded-lg border border-border whitespace-nowrap md:text-base",
                 isActive && "bg-white"
               )}
             >

@@ -1,3 +1,4 @@
+import { FormEventHandler, ReactNode } from "react";
 import * as z from "zod";
 
 export const staffSchema = z.object({
@@ -12,5 +13,13 @@ export type staffType = z.infer<typeof staffSchema>;
 export interface propType {
   children?: string | undefined;
   className?: string;
-  // size?: string;
+  mobile?: boolean;
+}
+
+export interface addStaffPropsType {
+  children: ReactNode;
+  className?: string;
+  form: any;
+  onSubmit: (el: any) => void;
+  isLoading: boolean;
 }

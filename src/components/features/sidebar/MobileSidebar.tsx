@@ -12,6 +12,9 @@ import AddStaff from "../dialog/addStaff";
 import BranchOnboard from "../dialog/onboardBranch";
 import imageLoading from "@/assets/images/imagePlaceholder.png";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
+import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 
 interface propsType {
   open: boolean;
@@ -22,9 +25,22 @@ interface propsType {
 }
 
 const MobileSidebar = ({ open, setOpen, sidebarList, pathname, handleLogout }: propsType) => {
+  const { setQuery } = useGlobalFucntions();
   const { data } = useSession();
   const userRole = data?.user.role.toLowerCase();
   const enterpriseInfo = data?.enterprise;
+
+  const router = useRouter();
+
+  const handleNavigate = (link: string) => {
+    router.push(link);
+    setOpen(false);
+  };
+
+  const handleTrigger = (action: string) => {
+    setQuery("action", action);
+    setOpen(false);
+  };
 
   return (
     <Drawer
@@ -35,50 +51,64 @@ const MobileSidebar = ({ open, setOpen, sidebarList, pathname, handleLogout }: p
     >
       <div className="flex flex-col justify-between h-4/5">
         <div className=" py-4">
-          <div className="flex justify-between items-center gap-4 mb-6">
+          <div className="flex justify-between items-center gap-4">
             <Image src={enterpriseInfo?.logo || imageLoading} alt="" width={60} height={60} />
             <X className="cursor-pointer" size={16} onClick={() => setOpen(false)} />
           </div>
 
-          {sidebarList.map((item, i) => {
-            const active =
-              i === 0
-                ? pathname === "/" || pathname?.startsWith("/requests")
-                : pathname?.startsWith(item.href);
-            return (
-              <Link
-                href={item.href}
-                key={i}
-                className={cn(
-                  "group flex px-4 py-3 rounded-lg ",
-                  active && "bg-background-light text-primary "
-                )}
-              >
-                <div className="flex items-center gap-2 ">
-                  <item.icon
-                    className={{
-                      path: cn("group-hover:fill-primary", active && "fill-primary"),
-                      svg: "w-4",
-                    }}
-                  />
-                  <span
-                    className={cn(
-                      "text-inherit group-hover:text-primary text-sm",
-                      active && "text-primary"
-                    )}
-                  >
-                    {item.text}
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
+          <Separator />
+
+          <div className="mt-6">
+            {sidebarList.map((item, i) => {
+              const active =
+                i === 0
+                  ? pathname === "/" || pathname?.startsWith("/requests")
+                  : pathname?.startsWith(item.href);
+              return (
+                <Button
+                  key={i}
+                  variant="ghost2"
+                  size="full"
+                  className={cn(
+                    "group flex justify-start px-4 py-3 rounded-lg ",
+                    active && "bg-background-light text-primary "
+                  )}
+                  onClick={() => handleNavigate(item.href)}
+                >
+                  <div className="flex items-center gap-2 ">
+                    <item.icon
+                      className={{
+                        path: cn("group-hover:fill-primary", active && "fill-primary"),
+                        svg: "w-4",
+                      }}
+                    />
+                    <span
+                      className={cn(
+                        "text-inherit group-hover:text-primary text-sm",
+                        active && "text-primary"
+                      )}
+                    >
+                      {item.text}
+                    </span>
+                  </div>
+                </Button>
+              );
+            })}
+          </div>
+
+          <Separator />
 
           <div className="mt-6">
             {userRole === "admin" && (
-              <BranchOnboard className="text-sm">Onboard a branch</BranchOnboard>
+              <Button className="text-sm" onClick={() => handleTrigger("onboard-branch")}>
+                Onboard a branch
+              </Button>
             )}
-            {userRole === "manager" && <AddStaff className="text-sm">Add staff</AddStaff>}
+            {userRole === "manager" && (
+              <Button className="text-sm" onClick={() => handleTrigger("add-staff")}>
+                Add staff
+              </Button>
+            )}
           </div>
         </div>
 

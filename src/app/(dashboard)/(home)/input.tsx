@@ -12,6 +12,7 @@ export default function TheInput() {
       placeholder="Search for request..."
       value={searchValue}
       onChange={(e) => setSearchValue(e.target.value)}
+      className="min-w-[150px]"
     />
   );
 }

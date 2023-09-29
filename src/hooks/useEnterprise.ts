@@ -150,6 +150,7 @@ Summnary: This code defines a custom hook named useEnterpriseStaff that provides
 */
 export const useEnterpriseStaff = () => {
   const { handleError, handleSuccess } = useResponse();
+  const queryClient = useQueryClient();
 
   const createStaffMutation = useMutation({
     mutationFn: createStaff,
@@ -158,6 +159,7 @@ export const useEnterpriseStaff = () => {
     },
     onSuccess(data, variables, context) {
       handleSuccess({ data });
+      queryClient.invalidateQueries({ queryKey: ["All Staff"] });
     },
     retry: 3,
   });
@@ -169,6 +171,7 @@ export const useEnterpriseStaff = () => {
     },
     onSuccess(data, variables, context) {
       handleSuccess({ data });
+      queryClient.invalidateQueries({ queryKey: ["All Staff"] });
     },
     retry: 3,
   });
