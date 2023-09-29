@@ -38,12 +38,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
         </div>
       </div>
       <div className="md:hidden">
-        {userRole === "admin" && <BranchOnboard>Onboard a branch</BranchOnboard>}
+        {userRole === "admin" && <BranchOnboard mobile={true} />}
         {userRole === "manager" && <AddStaff mobile={true} />}
       </div>
       <CorporateRequest className="my-4 mb-8" />
 
-      <div className="flex items-center justify-between gap-8 mb-4 sticky top-[60px]">
+      <div className="flex items-center justify-between gap-8 mb-4 sticky top-[60px] md:top-0">
         {matches ? (
           <ActiveNav nav={allStatus} defaultURL="/" />
         ) : (
