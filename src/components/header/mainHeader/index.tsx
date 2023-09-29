@@ -44,7 +44,7 @@ const MainHeader = () => {
       </div>
 
       {/* Mobile header */}
-      <div className="flex items-center justify-between gap-6 md:hidden px-5">
+      <div className="flex items-center justify-between gap-6 md:hidden px-5 py-2">
         <Image src={enterpriseInfo?.logo || imageLoading} alt="" width={60} height={60} />
         {!openMobileSidebar && (
           <Menu className="w-6 h-6" onClick={() => setopenMobileSidebar(true)} />
