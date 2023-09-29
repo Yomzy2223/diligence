@@ -124,7 +124,7 @@ export const ActionCellContent = ({
           open={openDeleteConfirm}
           setOpen={setOpenDeleteConfirm}
           title="Delete Request"
-          description={`Deleting will remove all the information from database. This cannot be undone."`}
+          description={`Deleting will remove all the information from database. This cannot be undone.`}
           actionText="Delete"
           action={() => handleDeleteRequest(clickedRequest)}
           loading={isLoading}
