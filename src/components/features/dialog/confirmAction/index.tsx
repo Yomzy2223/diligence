@@ -38,7 +38,7 @@ const ConfirmAction = ({
             open={open}
             onClose={() => setOpen(false)}
             direction="bottom"
-            className="p-5 pt-3 rounded-none rounded-t-3xl max-w-[90%] m-auto z-50"
+            className="p-5 pt-3 rounded-none rounded-t-3xl max-w-[90%] !h-max m-auto z-50"
           >
             <Separator className="w-10 h-1 m-auto bg-gray-500 rounded-lg " />
             <div className="flex justify-end">
