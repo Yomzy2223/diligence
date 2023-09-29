@@ -61,8 +61,8 @@ export const DiligenceTable = ({
   };
 
   return (
-    <div className="border border-border overflow-auto">
-      <Table className="min-w-full bg-white border-spacing-0 border-b border-border hidden md:block ">
+    <div className="border border-border overflow-auto max-w-full">
+      <Table className="min-w-full bg-white border-spacing-0 border-b border-border hidden md:table ">
         <TableHeader className="w-full text-base text-gray-900 bg-gray-100 border-none">
           <TableRow className="w-full">
             {header?.map((text, index) => (

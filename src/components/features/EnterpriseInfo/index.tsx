@@ -56,6 +56,7 @@ const EnterpriseInfo = () => {
                 variant="search"
                 placeholder="Search branch..."
                 onChange={(e) => setSearchValue(e.target.value)}
+                className="hidden md:block"
               />
             )}
           </div>
@@ -78,6 +79,7 @@ const EnterpriseInfo = () => {
                 variant="search"
                 placeholder="Search staff..."
                 onChange={(e) => setSearchValue(e.target.value)}
+                className="hidden md:block"
               />
             )}
           </div>

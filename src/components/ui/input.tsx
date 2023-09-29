@@ -45,7 +45,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <Button
             variant="ghost"
             size="icon"
-            className="absolute top-1.5 right-3 bg-primary p-1.5 rounded-full cursor-pointer hover:bg-primary/90"
+            className="absolute top-1.5 right-3 bg-primary p-1.5 rounded-full cursor-pointer hover:bg-primary/90 hidden md:block"
             onClick={onSearchClick}
           >
             <Image src={searchIcon} alt="search" width={16} height={16} />

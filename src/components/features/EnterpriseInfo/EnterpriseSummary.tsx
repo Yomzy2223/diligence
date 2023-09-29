@@ -43,12 +43,12 @@ const EnterpriseSummary = ({
           alt=""
           width={170}
           height={170}
-          className="object-contain"
+          className="object-contain hidden md:block"
         />
-        <div className="flex flex-1 gap-6 p-6 border border-border rounded">
+        <div className="flex flex-1 gap-6 rounded  w-full overflow-auto pb-2 md:p-6 md:border md:border-border">
           <div className="p-6 border border-border rounded">
             <p className="text-sm font-normal mb-6">ONBOARDED BRANCHES</p>
-            <p className="text-3xl">
+            <p className="text-2xl md:text-3xl">
               {enterpriseInfo?.diligenceManager?.length >= 0
                 ? enterpriseInfo?.diligenceManager?.length
                 : "--"}

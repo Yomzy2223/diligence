@@ -12,6 +12,8 @@ import { useSession } from "next-auth/react";
 import { Menu } from "lucide-react";
 import imageLoading from "@/assets/images/imagePlaceholder.png";
 import Sidebar from "@/components/features/sidebar";
+import BranchOnboard from "@/components/features/dialog/onboardBranch";
+import AddStaff from "@/components/features/dialog/addStaff";
 
 const MainHeader = () => {
   const [openMobileSidebar, setopenMobileSidebar] = useState(false);
@@ -19,6 +21,7 @@ const MainHeader = () => {
   const { data } = useSession();
 
   let enterpriseInfo = data?.enterprise;
+  let userRole = data?.user.role.toLowerCase();
 
   setColor(enterpriseInfo?.color);
 
@@ -51,6 +54,11 @@ const MainHeader = () => {
           openMobile={openMobileSidebar}
           setOpenMobile={setopenMobileSidebar}
         />
+      </div>
+
+      <div className="md:hidden">
+        {userRole === "admin" && <BranchOnboard mobile={true} />}
+        {userRole === "manager" && <AddStaff mobile={true} />}
       </div>
     </div>
   );

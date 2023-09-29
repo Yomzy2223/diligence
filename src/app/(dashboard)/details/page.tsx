@@ -11,13 +11,14 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useGlobalFucntions } from "@/hooks/useGlobalFunctions";
 import { useSession } from "next-auth/react";
+import { Search } from "lucide-react";
 
 const Details = () => {
   const { data } = useSession();
   const { managerId } = useGlobalFucntions();
 
   const router = useRouter();
-  
+
   const userRole = data?.user?.role?.toLowerCase();
 
   const isManager = userRole === "manager";
@@ -35,17 +36,18 @@ const Details = () => {
       )}
       <div
         className={cn(
-          "flex flex-1 justify-between items-center pt-4 pb-6 pl-10 pr-6 mb-8 border-b border-border",
+          "flex flex-1 justify-between items-center px-5 py-2 mb-4 border-b border-border md:pt-4 md:pb-6 md:pl-10 md:pr-6 md:mb-8",
           {
             "pt-6": managerId,
           }
         )}
       >
-        <p className="text-2xl font-semibold ">Details</p>
-        {!managerId && <BranchOnboard>Onboard a branch</BranchOnboard>}
-        {isManager && <AddStaff>Add staff</AddStaff>}
+        <p className="text-lg font-semibold md:text-2xl">Details</p>
+        {!managerId && <BranchOnboard className="hidden md:block">Onboard a branch</BranchOnboard>}
+        {isManager && <AddStaff className="hidden md:block">Add staff</AddStaff>}
+        <Search className="md:hidden" width={16} />
       </div>
-      <div className="pl-10 pr-6">{<EnterpriseInfo />}</div>
+      <div className="px-5 md:pl-10 md:pr-6">{<EnterpriseInfo />}</div>
     </div>
   );
 };

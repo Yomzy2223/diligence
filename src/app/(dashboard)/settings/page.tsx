@@ -16,20 +16,25 @@ export default function Settings() {
   const enterprise = data?.data?.data;
 
   return (
-    <main className="flex flex-col px-6 ml-4 ">
+    <main className="flex flex-col px-5 md:px-6 md:ml-4 ">
       <div className="flex items-center gap-4 py-4 ">
-        <Image src={enterprise?.logo || imageLoading} width={80} height={80} alt="" />
+        <Image
+          src={enterprise?.logo || imageLoading}
+          width={80}
+          height={80}
+          alt=""
+          className="hidden md:block"
+        />
         <div className="flex justify-between flex-1">
-          <p className="text-2xl font-normal ">Settings</p>
+          <p className="text-xl font-semibold md:font-normal md:text-2xl">Settings</p>
         </div>
       </div>
 
-      <div className="my-10">
+      <div className="my-2 md:my-10">
         <BankSettingInfo
           name={enterprise?.name}
           image={enterprise?.logo || imageLoading}
           address={enterprise?.address}
-          adminName={"Mr. Oluwole"}
           adminEmail={enterprise?.adminEmail}
         />
       </div>
